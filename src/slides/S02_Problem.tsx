@@ -1,10 +1,11 @@
+import { TwoWordToolCarousel } from '../components/TwoWordToolCarousel'
 import { TopNav } from '../components/TopNav'
 import { THEME } from '../lib/theme'
 import { COACH_TOOL_IMAGES, coachToolSrc } from './coachToolImages'
 
 /**
- * Problem slide: headline only + real tool screenshots, each in its own container
- * so it’s obvious these are separate disconnected systems.
+ * Problem slide: headline + tool screenshots; each card has a rotating two-word
+ * carousel to imply an endless pile of disconnected tools.
  */
 export function S02_Problem() {
   return (
@@ -26,7 +27,7 @@ export function S02_Problem() {
 
       <div className="mt-5 min-h-0 flex-1 overflow-y-auto overflow-x-hidden pr-1 [scrollbar-width:thin]">
         <ul className="grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
-          {COACH_TOOL_IMAGES.map(({ file, alt, description }) => (
+          {COACH_TOOL_IMAGES.map(({ file, alt }, index) => (
             <li
               key={file}
               className="list-none flex flex-col rounded-xl border bg-white p-3 shadow-[0_8px_30px_rgba(0,0,0,0.06)]"
@@ -40,16 +41,18 @@ export function S02_Problem() {
                   loading="lazy"
                 />
               </div>
-              <p
-                className="mt-2.5 flex-1 text-[11px] leading-[1.45] text-zinc-600"
-                style={{ fontFamily: THEME.fontSans }}
-              >
-                {description}
-              </p>
+              <TwoWordToolCarousel seed={index} />
             </li>
           ))}
         </ul>
       </div>
+
+      <p
+        className="mt-4 shrink-0 text-center text-[clamp(14px,2.2vw,17px)] font-semibold italic"
+        style={{ fontFamily: THEME.fontSerif, color: THEME.primaryDarker }}
+      >
+        That&apos;s a lot of tools!
+      </p>
     </div>
   )
 }
