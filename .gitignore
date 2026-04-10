@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+
+# Source folder — app serves copies from public/coach_tools_images
+/coach_tools_images
