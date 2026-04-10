@@ -208,22 +208,38 @@ export function IllustTrendUp({ className = '' }: { className?: string }) {
   )
 }
 
-/** Market rings */
+/** Market rings — TAM / SAM / SOM (outer → inner) with headline numbers */
 export function IllustMarketRings({ className = '' }: { className?: string }) {
-  const w = 220
-  const h = 220
-  const cx = 110
-  const cy = 110
+  const w = 260
+  const h = 252
+  const cx = 130
+  const cy = 108
+  const sub = 'rgba(255,255,255,0.45)'
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className={`w-full max-h-[240px] ${className}`} aria-hidden>
-      <circle cx={cx} cy={cy} r={98} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={1.5} />
-      <circle cx={cx} cy={cy} r={72} fill={`${THEME.primary}08`} stroke={`${THEME.primary}55`} strokeWidth={1.5} />
-      <circle cx={cx} cy={cy} r={44} fill={`${THEME.primary}16`} stroke={THEME.accent} strokeWidth={2} />
-      <text x={cx} y={cy + 6} textAnchor="middle" style={{ ...mono, fontSize: 14, fontWeight: 700, fill: '#fff' }}>
+    <svg viewBox={`0 0 ${w} ${h}`} className={`w-full max-h-[min(260px,28vh)] ${className}`} aria-hidden>
+      <text x={cx} y={22} textAnchor="middle" style={{ ...mono, fontSize: 9, fontWeight: 700, fill: 'rgba(255,255,255,0.85)' }}>
+        $4.2B+
+      </text>
+      <text x={cx} y={34} textAnchor="middle" fill={sub} style={{ ...mono, fontSize: 7.5, fontWeight: 600 }}>
+        TAM
+      </text>
+      <circle cx={cx} cy={cy} r={100} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth={1.5} />
+      <text x={cx - 108} y={cy - 2} fill={sub} style={{ ...mono, fontSize: 9, fontWeight: 700, fill: '#fff' }}>
+        $890M
+      </text>
+      <text x={cx - 108} y={cy + 10} fill={sub} style={{ ...mono, fontSize: 7, fontWeight: 600 }}>
+        SAM
+      </text>
+      <circle cx={cx} cy={cy} r={76} fill={`${THEME.primary}06`} stroke={`${THEME.primary}40`} strokeWidth={1.5} />
+      <circle cx={cx} cy={cy} r={48} fill={`${THEME.primary}14`} stroke={THEME.accent} strokeWidth={2} />
+      <text x={cx} y={cy + 5} textAnchor="middle" style={{ ...mono, fontSize: 15, fontWeight: 700, fill: '#fff' }}>
         $24M
       </text>
-      <text x={cx} y={cy + 78} textAnchor="middle" style={{ fontFamily: THEME.fontSans, fontSize: 9, fill: 'rgba(255,255,255,0.45)' }}>
-        SOM · rowing
+      <text x={cx} y={cy + 22} textAnchor="middle" style={{ ...mono, fontSize: 9, fontWeight: 600, fill: THEME.accent }}>
+        SOM
+      </text>
+      <text x={cx} y={cy + 88} textAnchor="middle" style={{ fontFamily: THEME.fontSans, fontSize: 8, fill: 'rgba(255,255,255,0.4)' }}>
+        rowing · year-one wedge
       </text>
     </svg>
   )
