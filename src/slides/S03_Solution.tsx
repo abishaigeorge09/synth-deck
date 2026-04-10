@@ -19,7 +19,7 @@ export function S03_Solution() {
       }
       secondary={
         <p className="text-[clamp(14px,2vw,17px)] leading-[1.55]" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
-          A thin base app for capture and publish — plus a synth layer that unifies every source into one roster view.
+          Base app for capture and publish · synth layer runs the agent (scrapes tools in the cloud) and the extension (in-browser) — one roster view.
         </p>
       }
     />

@@ -115,26 +115,45 @@ export function IllustDisconnectedApps({ className = '' }: { className?: string 
 /** Base layer + synth layer — solution */
 export function IllustSolutionLayers({ className = '' }: { className?: string }) {
   const w = 300
-  const h = 200
+  const h = 232
+  const logo = 44
+  const lx = (w - logo) / 2
+  const ly = 6
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className={`w-full max-h-[220px] ${className}`} aria-hidden>
-      <rect x={24} y={120} width={252} height={56} rx={10} fill={`${THEME.primary}12`} stroke={THEME.primary} strokeWidth={2} />
-      <text x={150} y={148} textAnchor="middle" style={{ ...mono, fontSize: 11, fontWeight: 700, fill: THEME.primaryDarker }}>
-        BASE APP
-      </text>
-      <text x={150} y={166} textAnchor="middle" style={{ fontFamily: THEME.fontSans, fontSize: 9, fill: THEME.textMuted }}>
-        capture · publish
-      </text>
-      <rect x={40} y={48} width={220} height={62} rx={10} fill={`${THEME.cyan}10`} stroke={THEME.cyan} strokeWidth={2} />
-      <text x={150} y={78} textAnchor="middle" style={{ ...mono, fontSize: 11, fontWeight: 700, fill: THEME.cyan }}>
+    <svg viewBox={`0 0 ${w} ${h}`} className={`w-full max-h-[260px] ${className}`} aria-hidden>
+      <title>synth stack: agent, extension, base app</title>
+      {/* Brand mark */}
+      <image href="/logos/synth-icon-green.svg" x={lx} y={ly} width={logo} height={logo} />
+      <path d={`M ${w / 2} ${ly + logo + 2} L ${w / 2} 54`} stroke={THEME.border} strokeWidth={1.5} opacity={0.85} />
+
+      {/* Synth layer — agent + extension features stay inside one block */}
+      <rect x={22} y={56} width={256} height={100} rx={10} fill={`${THEME.cyan}0d`} stroke={THEME.cyan} strokeWidth={2} />
+      <text x={w / 2} y={78} textAnchor="middle" style={{ ...mono, fontSize: 11, fontWeight: 700, fill: THEME.cyan }}>
         SYNTH LAYER
       </text>
-      <text x={150} y={96} textAnchor="middle" style={{ fontFamily: THEME.fontSans, fontSize: 9, fill: THEME.textMuted }}>
+      <text x={w / 2} y={94} textAnchor="middle" style={{ fontFamily: THEME.fontSans, fontSize: 9, fill: THEME.textMuted }}>
         sync · unify · brief
       </text>
-      <path d="M150 110 L150 118" stroke={THEME.border} strokeWidth={2} />
-      <circle cx={150} cy={32} r={18} fill={`${THEME.accent}20`} stroke={THEME.accent} strokeWidth={2} />
-      <path d="M150 22 v8 M146 26 h8" stroke={THEME.accent} strokeWidth={2} strokeLinecap="round" />
+      <line x1={36} y1={102} x2={264} y2={102} stroke={THEME.border} strokeWidth={1} opacity={0.55} />
+      <text x={w / 2} y={116} textAnchor="middle" style={{ ...mono, fontSize: 8, fontWeight: 600, fill: THEME.textSecondary }}>
+        synth agent — connects &amp; scrapes data from your tools
+      </text>
+      <text x={w / 2} y={132} textAnchor="middle" style={{ ...mono, fontSize: 8, fontWeight: 600, fill: THEME.textSecondary }}>
+        synth extension — capture &amp; pull from the browser
+      </text>
+      <text x={w / 2} y={148} textAnchor="middle" style={{ fontFamily: THEME.fontSans, fontSize: 8, fill: THEME.textMuted }}>
+        scheduled cloud pulls · no re-keying
+      </text>
+
+      <path d={`M ${w / 2} 158 L ${w / 2} 168`} stroke={THEME.border} strokeWidth={2} />
+
+      <rect x={22} y={170} width={256} height={52} rx={10} fill={`${THEME.primary}12`} stroke={THEME.primary} strokeWidth={2} />
+      <text x={w / 2} y={194} textAnchor="middle" style={{ ...mono, fontSize: 11, fontWeight: 700, fill: THEME.primaryDarker }}>
+        BASE APP
+      </text>
+      <text x={w / 2} y={210} textAnchor="middle" style={{ fontFamily: THEME.fontSans, fontSize: 9, fill: THEME.textMuted }}>
+        capture · publish
+      </text>
     </svg>
   )
 }
