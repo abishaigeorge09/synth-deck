@@ -21,10 +21,12 @@ export function TopNav({
   const textClass = tone === 'light' ? 'text-black/45' : 'text-white/55'
   return (
     <div
-      className="absolute left-0 top-0 w-full px-10 pt-7 z-40 pointer-events-none"
+      className="absolute left-0 top-0 z-40 w-full max-w-full pointer-events-none px-4 pt-[max(0.75rem,env(safe-area-inset-top,0px))] sm:px-10 sm:pt-7"
       style={{ fontFamily: THEME.fontMono }}
     >
-      <div className={`flex items-center justify-between text-[11px] tracking-[0.15em] uppercase ${textClass}`}>
+      <div
+        className={`flex flex-wrap items-center justify-between gap-x-1 gap-y-1 text-[9px] tracking-[0.1em] sm:gap-x-0 sm:gap-y-0 sm:text-[11px] sm:tracking-[0.15em] uppercase ${textClass}`}
+      >
         {omitBrand ? null : <div>{brand}</div>}
         <div>{deckName}</div>
         <div>{year}</div>

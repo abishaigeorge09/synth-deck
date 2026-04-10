@@ -16,13 +16,18 @@ export function ExportPdfButton({ tone = 'dark' }: { tone?: Tone }) {
   return (
     <button
       type="button"
+      onPointerDown={(e) => e.stopPropagation()}
       onMouseDown={(e) => e.stopPropagation()}
       onClick={(e) => {
         e.stopPropagation()
         requestPdfExport()
       }}
-      className={`pointer-events-auto absolute bottom-16 left-8 z-[60] max-w-[13rem] text-left text-[10px] uppercase tracking-[0.18em] underline-offset-4 transition hover:underline ${toneClass[tone]}`}
-      style={{ fontFamily: THEME.fontMono }}
+      className={`pointer-events-auto absolute z-[60] max-w-[min(13rem,calc(100vw-4rem))] text-left text-[9px] uppercase tracking-[0.18em] underline-offset-4 transition hover:underline sm:text-[10px] ${toneClass[tone]}`}
+      style={{
+        fontFamily: THEME.fontMono,
+        bottom: 'max(4.5rem, calc(env(safe-area-inset-bottom, 0px) + 3.5rem))',
+        left: 'max(1.25rem, env(safe-area-inset-left, 0px))',
+      }}
     >
       Export presentation as PDF
     </button>
