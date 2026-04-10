@@ -1,42 +1,113 @@
+import { useId } from 'react'
 import { THEME } from '../lib/theme'
 
 const mono = { fontFamily: THEME.fontMono } as const
 
-/** Disconnected app windows — problem / tool sprawl */
+/** Disconnected app windows — chaotic breakdown (coach POV: scary, disrupted stack) */
 export function IllustDisconnectedApps({ className = '' }: { className?: string }) {
+  const rid = useId().replace(/:/g, '')
   const w = 320
   const h = 200
-  const apps = [
-    { x: 8, y: 12, bw: 88, bh: 52, c: THEME.blue, t: 'S' },
-    { x: 108, y: 8, bw: 92, bh: 48, c: THEME.cyan, t: 'B' },
-    { x: 210, y: 20, bw: 86, bh: 56, c: THEME.purple, t: 'W' },
-    { x: 48, y: 110, bw: 96, bh: 54, c: THEME.amber, t: 'T' },
-    { x: 168, y: 118, bw: 90, bh: 50, c: THEME.red, t: '?' },
+  const blood = '#b91c1c'
+  const toxic = '#4ade80'
+  const warn = '#fbbf24'
+  const ice = '#22d3ee'
+  const voidBg = '#0a0a0b'
+  const apps: Array<{ x: number; y: number; bw: number; bh: number; c: string; t: string; rot: number }> = [
+    { x: 8, y: 14, bw: 88, bh: 52, c: '#3b82f6', t: 'S', rot: -5 },
+    { x: 106, y: 6, bw: 94, bh: 50, c: ice, t: 'B', rot: 4 },
+    { x: 208, y: 18, bw: 86, bh: 54, c: '#a855f7', t: 'W', rot: -3 },
+    { x: 44, y: 108, bw: 96, bh: 54, c: warn, t: 'T', rot: 6 },
+    { x: 166, y: 114, bw: 92, bh: 52, c: blood, t: '?', rot: -4 },
   ]
+
+  const tf = (x: number, y: number, bw: number, bh: number, rot: number) => {
+    const cx = x + bw / 2
+    const cy = y + bh / 2
+    return `translate(${cx},${cy}) rotate(${rot}) translate(${-cx},${-cy})`
+  }
+
+  const idNoise = `noiseCoach-${rid}`
+  const idScan = `scanCoach-${rid}`
+  const idVoid = `voidGrad-${rid}`
+
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className={`w-full max-h-[220px] ${className}`} aria-hidden>
+    <svg viewBox={`0 0 ${w} ${h}`} className={`w-full max-h-[220px] overflow-visible ${className}`} aria-hidden>
       <defs>
-        <filter id="sblur" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="0.5" />
+        <filter id={idNoise} x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" result="n" />
+          <feColorMatrix in="n" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.12 0" result="a" />
+          <feBlend in="a" in2="SourceGraphic" mode="overlay" />
         </filter>
+        <pattern id={idScan} width="6" height="6" patternUnits="userSpaceOnUse">
+          <rect width="6" height="1.5" fill="rgba(255,255,255,0.04)" y="0" />
+        </pattern>
+        <linearGradient id={idVoid} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#1c1917" />
+          <stop offset="100%" stopColor="#0c0a09" />
+        </linearGradient>
       </defs>
+
+      <rect x="0" y="0" width={w} height={h} rx="12" fill={`url(#${idVoid})`} />
+      <rect x="0" y="0" width={w} height={h} rx="12" fill={`url(#${idScan})`} opacity={0.85} />
+      <rect x="0" y="0" width={w} height={h} rx="12" fill="#000" opacity={0.2} filter={`url(#${idNoise})`} />
+
+      {/* Horizontal fracture */}
+      <path d="M12 96 L308 92" stroke="rgba(248,113,113,0.35)" strokeWidth={1} strokeDasharray="2 7" />
+
+      {/* Jagged severed links */}
+      <path
+        d="M48 72 L62 88 L78 74 L92 96 L108 82 L128 98 L148 88 M198 68 L212 90 L228 76 L244 100 L260 84 M88 118 L104 132 L120 118 L138 128 M218 112 L232 130 L248 118"
+        fill="none"
+        stroke={blood}
+        strokeWidth={1.8}
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+        opacity={0.9}
+      />
+      <path
+        d="M50 74 L64 90 L80 76 L94 98 L110 84"
+        fill="none"
+        stroke={toxic}
+        strokeWidth={0.8}
+        opacity={0.45}
+        transform="translate(2,0)"
+      />
+
       {apps.map((a, i) => (
-        <g key={i} opacity={0.92}>
-          <rect x={a.x} y={a.y} width={a.bw} height={a.bh} rx={8} fill="#fff" stroke={THEME.border} strokeWidth={1.5} />
-          <rect x={a.x} y={a.y} width={a.bw} height={14} rx={8} fill={`${a.c}18`} />
-          <text x={a.x + a.bw / 2} y={a.y + 36} textAnchor="middle" style={{ ...mono, fontSize: 14, fontWeight: 700, fill: a.c }}>
+        <g key={i} transform={tf(a.x, a.y, a.bw, a.bh, a.rot)}>
+          <rect x={a.x + 3} y={a.y + 2} width={a.bw} height={a.bh} rx={6} fill="none" stroke={blood} strokeWidth={1} opacity={0.4} />
+          <rect x={a.x - 1} y={a.y} width={a.bw} height={a.bh} rx={6} fill="none" stroke={ice} strokeWidth={0.8} opacity={0.3} />
+          <rect x={a.x} y={a.y} width={a.bw} height={a.bh} rx={6} fill={voidBg} stroke={a.c} strokeWidth={2} />
+          <rect x={a.x} y={a.y} width={a.bw} height={13} rx={6} fill={`${a.c}40`} opacity={0.85} />
+          <line x1={a.x + 4} y1={a.y + 22} x2={a.x + a.bw - 4} y2={a.y + 22} stroke="rgba(255,255,255,0.08)" strokeWidth={1} strokeDasharray="3 5" />
+          <text
+            x={a.x + a.bw / 2}
+            y={a.y + 38}
+            textAnchor="middle"
+            style={{
+              ...mono,
+              fontSize: 15,
+              fontWeight: 800,
+              fill: a.t === '?' ? blood : '#f4f4f5',
+              paintOrder: 'stroke',
+              stroke: '#0a0a0a',
+              strokeWidth: 3,
+            }}
+          >
             {a.t}
           </text>
         </g>
       ))}
-      <path
-        d="M52 78 Q120 95 150 70 M200 65 Q160 100 120 108 M230 78 Q200 120 168 118"
-        fill="none"
-        stroke={THEME.border}
-        strokeWidth={1.2}
-        strokeDasharray="4 6"
-        opacity={0.7}
-      />
+
+      <text
+        x={w / 2}
+        y={h - 8}
+        textAnchor="middle"
+        style={{ ...mono, fontSize: 7, fontWeight: 700, letterSpacing: '0.32em', fill: blood, opacity: 0.95 }}
+      >
+        NO SYNC · FRAGMENTED
+      </text>
     </svg>
   )
 }
