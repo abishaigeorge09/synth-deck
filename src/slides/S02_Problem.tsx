@@ -26,13 +26,13 @@ export function S02_Problem() {
 
       <div className="mt-5 min-h-0 flex-1 overflow-y-auto overflow-x-hidden pr-1 [scrollbar-width:thin]">
         <ul className="grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
-          {COACH_TOOL_IMAGES.map(({ file, alt }) => (
+          {COACH_TOOL_IMAGES.map(({ file, alt, description }) => (
             <li
               key={file}
-              className="list-none rounded-xl border bg-white p-3 shadow-[0_8px_30px_rgba(0,0,0,0.06)]"
+              className="list-none flex flex-col rounded-xl border bg-white p-3 shadow-[0_8px_30px_rgba(0,0,0,0.06)]"
               style={{ borderColor: THEME.border }}
             >
-              <div className="flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-lg bg-zinc-50">
+              <div className="flex aspect-[4/3] w-full shrink-0 items-center justify-center overflow-hidden rounded-lg bg-zinc-50">
                 <img
                   src={coachToolSrc(file)}
                   alt={alt}
@@ -40,6 +40,12 @@ export function S02_Problem() {
                   loading="lazy"
                 />
               </div>
+              <p
+                className="mt-2.5 flex-1 text-[11px] leading-[1.45] text-zinc-600"
+                style={{ fontFamily: THEME.fontSans }}
+              >
+                {description}
+              </p>
             </li>
           ))}
         </ul>
