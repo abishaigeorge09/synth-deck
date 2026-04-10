@@ -1,4 +1,5 @@
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustVisionStack } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S11_Vision() {
@@ -7,6 +8,8 @@ export function S11_Vision() {
       section="VISION"
       page="11 / 13"
       tone="light"
+      layout="stack"
+      illustration={<IllustVisionStack />}
       primary={
         <h1
           className="text-[clamp(24px,3.8vw,38px)] font-bold leading-[1.12] tracking-[-0.04em] uppercase"

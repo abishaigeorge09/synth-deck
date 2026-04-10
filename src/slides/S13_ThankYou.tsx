@@ -1,5 +1,6 @@
 import { ExportPdfButton } from '../components/ExportPdfButton'
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustThankYou } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S13_ThankYou() {
@@ -9,6 +10,8 @@ export function S13_ThankYou() {
         section="THANK YOU"
         page="13 / 13"
         tone="green"
+        illustration={<IllustThankYou />}
+        layout="stack"
         primary={
           <h1
             className="text-[clamp(40px,8vw,80px)] font-bold leading-[0.95] tracking-[-0.05em] text-white"

@@ -1,12 +1,22 @@
 import { SimpleSlide } from '../components/SimpleSlide'
 import { THEME } from '../lib/theme'
 
+const CAL_LOGO = '/logos/cal-golden-bears.svg'
+
 export function S05_Traction() {
   return (
     <SimpleSlide
       section="04 · TRACTION"
       page="5 / 13"
       tone="light"
+      illustration={
+        <div className="flex flex-col items-center gap-4 py-2">
+          <img src={CAL_LOGO} alt="California Golden Bears" className="h-[7.5rem] w-auto sm:h-32" />
+          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-400" style={{ fontFamily: THEME.fontMono }}>
+            Pilot partner
+          </span>
+        </div>
+      }
       primary={
         <h1
           className="text-[clamp(26px,4.2vw,40px)] font-bold leading-[1.08] tracking-[-0.04em]"

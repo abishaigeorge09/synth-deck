@@ -1,4 +1,5 @@
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustSolutionLayers } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S03_Solution() {
@@ -7,6 +8,7 @@ export function S03_Solution() {
       section="02 · SOLUTION"
       page="3 / 13"
       tone="light"
+      illustration={<IllustSolutionLayers />}
       primary={
         <h1
           className="text-[clamp(26px,4.2vw,40px)] font-bold leading-[1.08] tracking-[-0.04em]"

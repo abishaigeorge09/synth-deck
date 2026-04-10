@@ -1,4 +1,5 @@
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustDisconnectedApps } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S02_Problem() {
@@ -7,6 +8,7 @@ export function S02_Problem() {
       section="01 · PROBLEM"
       page="2 / 13"
       tone="light"
+      illustration={<IllustDisconnectedApps />}
       primary={
         <h1
           className="text-[clamp(26px,4.2vw,40px)] font-bold leading-[1.08] tracking-[-0.04em]"

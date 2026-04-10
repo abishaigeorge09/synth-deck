@@ -1,4 +1,5 @@
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustTeamAvatars } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S10_Team() {
@@ -7,6 +8,7 @@ export function S10_Team() {
       section="09 · TEAM"
       page="10 / 13"
       tone="dark"
+      illustration={<IllustTeamAvatars />}
       primary={
         <h1
           className="text-[clamp(26px,4.2vw,40px)] font-bold leading-[1.08] tracking-[-0.04em] text-white"

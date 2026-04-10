@@ -1,4 +1,5 @@
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustMarketRings } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S07_Market() {
@@ -7,6 +8,7 @@ export function S07_Market() {
       section="06 · MARKET"
       page="7 / 13"
       tone="dark"
+      illustration={<IllustMarketRings />}
       primary={
         <h1
           className="text-[clamp(26px,4.2vw,42px)] font-bold leading-[1.08] tracking-[-0.04em] text-white"

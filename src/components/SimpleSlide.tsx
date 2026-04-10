@@ -10,23 +10,43 @@ const surface: Record<SimpleSlideTone, string> = {
   green: THEME.primary,
 }
 
+function illustrationFrameClass(tone: SimpleSlideTone) {
+  if (tone === 'light') {
+    return 'rounded-2xl border border-zinc-200/90 bg-white/95 p-5 shadow-[0_16px_48px_rgba(0,0,0,0.07)]'
+  }
+  if (tone === 'dark') {
+    return 'rounded-2xl border border-white/[0.12] bg-white/[0.04] p-5 shadow-[0_12px_40px_rgba(0,0,0,0.35)]'
+  }
+  return 'rounded-2xl border border-white/25 bg-black/15 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.2)]'
+}
+
 /**
- * Minimal slide: deck chrome (TopNav) + exactly one primary block + optional one secondary block.
+ * Slide with optional illustration: TopNav + (illustration | text) layout.
+ * With `illustration`: split on large screens (visual left, copy right), stacked on small.
+ * Without: centered headline + subcopy (original simple deck).
  */
 export function SimpleSlide({
   section,
   page,
   tone = 'light',
+  illustration,
+  layout = 'split',
   primary,
   secondary,
 }: {
   section: string
   page: string
   tone?: SimpleSlideTone
+  /** Visual that explains the slide alongside the headline (SVG, image, etc.) */
+  illustration?: ReactNode
+  /** `split`: side-by-side on lg+. `stack`: illustration on top, text below. */
+  layout?: 'split' | 'stack'
   primary: ReactNode
   secondary?: ReactNode
 }) {
   const navTone = tone === 'light' ? 'light' : 'dark'
+  const hasVisual = illustration != null
+
   return (
     <div
       className="absolute inset-0 flex flex-col"
@@ -36,9 +56,35 @@ export function SimpleSlide({
       }}
     >
       <TopNav section={section} page={page} tone={navTone} />
-      <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-[clamp(1.25rem,4vh,2.5rem)] text-center">
-        <div className="w-full max-w-[min(920px,100%)]">{primary}</div>
-        {secondary != null ? <div className="w-full max-w-[min(720px,100%)]">{secondary}</div> : null}
+      <div
+        className={
+          hasVisual
+            ? `flex min-h-0 flex-1 flex-col ${layout === 'split' ? 'lg:flex-row lg:items-center lg:justify-center lg:gap-10 xl:gap-14' : ''} items-center justify-center gap-8`
+            : 'flex min-h-0 flex-1 flex-col items-center justify-center gap-[clamp(1.25rem,4vh,2.5rem)]'
+        }
+      >
+        {hasVisual ? (
+          <>
+            <div
+              className={`w-full shrink-0 max-w-[min(100%,420px)] lg:max-w-[min(44%,420px)] ${illustrationFrameClass(tone)}`}
+            >
+              {illustration}
+            </div>
+            <div
+              className={`flex min-w-0 flex-1 flex-col gap-[clamp(1rem,3vh,1.75rem)] ${
+                hasVisual ? (layout === 'stack' ? 'text-center' : 'text-center lg:text-left') : 'text-center'
+              } max-w-[min(920px,100%)]`}
+            >
+              {primary}
+              {secondary != null ? secondary : null}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="w-full max-w-[min(920px,100%)] text-center">{primary}</div>
+            {secondary != null ? <div className="w-full max-w-[min(720px,100%)] text-center">{secondary}</div> : null}
+          </>
+        )}
       </div>
     </div>
   )

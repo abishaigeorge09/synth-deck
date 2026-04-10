@@ -1,4 +1,5 @@
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustCompetitionMatrix } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S09_Competition() {
@@ -7,6 +8,7 @@ export function S09_Competition() {
       section="08 · COMPETITION"
       page="9 / 13"
       tone="dark"
+      illustration={<IllustCompetitionMatrix />}
       primary={
         <h1
           className="text-[clamp(26px,4.2vw,44px)] font-bold leading-[1.05] tracking-[-0.04em] text-white"

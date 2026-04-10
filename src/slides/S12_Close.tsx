@@ -1,4 +1,5 @@
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustThreePillars } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S12_Close() {
@@ -7,6 +8,7 @@ export function S12_Close() {
       section="CLOSE"
       page="12 / 13"
       tone="light"
+      illustration={<IllustThreePillars />}
       primary={
         <h1
           className="text-[clamp(28px,4.5vw,36px)] font-bold tracking-[-0.04em]"

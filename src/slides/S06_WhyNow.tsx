@@ -1,4 +1,5 @@
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustTrendUp } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S06_WhyNow() {
@@ -7,6 +8,7 @@ export function S06_WhyNow() {
       section="05 · WHY NOW"
       page="6 / 13"
       tone="light"
+      illustration={<IllustTrendUp />}
       primary={
         <h1
           className="text-[clamp(26px,4.2vw,40px)] font-bold leading-[1.08] tracking-[-0.04em]"

@@ -1,4 +1,5 @@
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustConnectorHub } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S04_Connectors() {
@@ -7,6 +8,7 @@ export function S04_Connectors() {
       section="03 · CONNECTORS"
       page="4 / 13"
       tone="light"
+      illustration={<IllustConnectorHub />}
       primary={
         <h1
           className="text-[clamp(26px,4.2vw,40px)] font-bold leading-[1.08] tracking-[-0.04em]"

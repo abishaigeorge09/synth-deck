@@ -1,4 +1,5 @@
 import { SimpleSlide } from '../components/SimpleSlide'
+import { IllustTierStairs } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
 export function S08_BusinessModel() {
@@ -7,6 +8,7 @@ export function S08_BusinessModel() {
       section="07 · BUSINESS MODEL"
       page="8 / 13"
       tone="light"
+      illustration={<IllustTierStairs />}
       primary={
         <h1
           className="text-[clamp(26px,4.2vw,40px)] font-bold leading-[1.08] tracking-[-0.04em]"
