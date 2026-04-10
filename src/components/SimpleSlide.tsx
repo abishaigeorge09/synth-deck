@@ -32,6 +32,8 @@ export function SimpleSlide({
   illustration,
   layout = 'split',
   primary,
+  /** Optional block between headline and body — e.g. feature list in its own section */
+  features,
   secondary,
 }: {
   section: string
@@ -42,6 +44,7 @@ export function SimpleSlide({
   /** `split`: side-by-side on lg+. `stack`: illustration on top, text below. */
   layout?: 'split' | 'stack'
   primary: ReactNode
+  features?: ReactNode
   secondary?: ReactNode
 }) {
   const navTone = tone === 'light' ? 'light' : 'dark'
@@ -76,12 +79,14 @@ export function SimpleSlide({
               } max-w-[min(920px,100%)]`}
             >
               {primary}
+              {features != null ? <div className="w-full max-w-[min(640px,100%)]">{features}</div> : null}
               {secondary != null ? secondary : null}
             </div>
           </>
         ) : (
           <>
             <div className="w-full max-w-[min(920px,100%)] text-center">{primary}</div>
+            {features != null ? <div className="mx-auto w-full max-w-[min(640px,100%)]">{features}</div> : null}
             {secondary != null ? <div className="w-full max-w-[min(720px,100%)] text-center">{secondary}</div> : null}
           </>
         )}

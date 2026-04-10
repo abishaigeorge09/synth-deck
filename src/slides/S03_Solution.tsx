@@ -17,9 +17,40 @@ export function S03_Solution() {
           A small door into a massive world.
         </h1>
       }
+      features={
+        <div
+          className="rounded-xl border px-4 py-3.5 sm:px-5 sm:py-4"
+          style={{ borderColor: THEME.border, background: 'rgba(255,255,255,0.75)' }}
+        >
+          <p
+            className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-400"
+            style={{ fontFamily: THEME.fontMono }}
+          >
+            Features
+          </p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+            <div className="text-left">
+              <div className="text-[11px] font-semibold" style={{ fontFamily: THEME.fontMono, color: THEME.primaryDarker }}>
+                synth agent
+              </div>
+              <p className="mt-1.5 text-[12px] leading-[1.5] text-zinc-600" style={{ fontFamily: THEME.fontSans }}>
+                Connects to your tools and scrapes data on a schedule — nothing to copy by hand.
+              </p>
+            </div>
+            <div className="text-left">
+              <div className="text-[11px] font-semibold" style={{ fontFamily: THEME.fontMono, color: THEME.cyan }}>
+                synth extension
+              </div>
+              <p className="mt-1.5 text-[12px] leading-[1.5] text-zinc-600" style={{ fontFamily: THEME.fontSans }}>
+                Works in the browser where staff already live — capture and pull without another login wall.
+              </p>
+            </div>
+          </div>
+        </div>
+      }
       secondary={
         <p className="text-[clamp(14px,2vw,17px)] leading-[1.55]" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
-          Base app for capture and publish · synth layer runs the agent (scrapes tools in the cloud) and the extension (in-browser) — one roster view.
+          One roster view on top: base app for day-to-day capture and publish, synth layer underneath doing the heavy sync.
         </p>
       }
     />
