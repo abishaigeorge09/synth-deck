@@ -3,6 +3,7 @@ import { AdvanceGateProvider } from './components/advanceGate'
 import { DeckAdvanceProvider } from './components/DeckAdvanceContext'
 import { SlideShell, type SlideDef } from './components/SlideShell'
 import { AppendixDeck } from './appendix/AppendixDeck'
+
 import { S01_Title } from './slides/S01_Title'
 import { S02_Problem } from './slides/S02_Problem'
 import { OurSolutionCover } from './slides/OurSolutionCover'
@@ -21,13 +22,6 @@ import { S12_Close } from './slides/S12_Close'
 import { S13_ThankYou } from './slides/S13_ThankYou'
 import { THEME } from './lib/theme'
 import { DeckBlurLock } from './components/DeckBlurLock'
-import { ProductPrototypeApp } from './prototype/ProductPrototypeApp'
-
-function isPrototypeHash() {
-  if (typeof window === 'undefined') return false
-  const h = window.location.hash
-  return h === '#prototype' || h.startsWith('#prototype/')
-}
 
 function MainDeck() {
   const [index, setIndex] = useState(0)
@@ -83,25 +77,15 @@ export default function App() {
   const [appendix, setAppendix] = useState(() =>
     typeof window !== 'undefined' ? window.location.hash === '#appendix' : false,
   )
-  const [prototype, setPrototype] = useState(() => isPrototypeHash())
 
   useEffect(() => {
     const sync = () => {
       setAppendix(window.location.hash === '#appendix')
-      setPrototype(isPrototypeHash())
     }
     window.addEventListener('hashchange', sync)
     sync()
     return () => window.removeEventListener('hashchange', sync)
   }, [])
-
-  if (prototype) {
-    return (
-      <AdvanceGateProvider>
-        <ProductPrototypeApp />
-      </AdvanceGateProvider>
-    )
-  }
 
   if (appendix) {
     return (
