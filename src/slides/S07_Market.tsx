@@ -2,11 +2,11 @@ import { SimpleSlide } from '../components/SimpleSlide'
 import { IllustMarketRings } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
-export function S07_Market() {
+export function S07_Market({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <SimpleSlide
-      section="06 · MARKET"
-      page="11 / 17"
+      section={sectionOverride ?? '06 · MARKET'}
+      page={pageOverride ?? '7 / 13'}
       tone="dark"
       illustration={<IllustMarketRings />}
       primary={

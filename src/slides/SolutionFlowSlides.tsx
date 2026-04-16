@@ -32,13 +32,13 @@ function BrowserFrame({ url, children }: { url: string; children: ReactNode }) {
 }
 
 /** 1 · You land on the dashboard; cursor finds Synth agent. */
-export function SF01_DashboardIntro() {
+export function SF01_DashboardIntro({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   const agentRef = useRef<HTMLButtonElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
 
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden" style={{ background: THEME.light, padding: PAD }}>
-      <TopNav section="02 · SOLUTION" page={`6 / ${DECK_SLIDE_TOTAL}`} tone="light" />
+      <TopNav section={sectionOverride ?? "02 · SOLUTION"} page={pageOverride ?? `15 / ${DECK_SLIDE_TOTAL}`} tone="light" />
       <h1
         className="shrink-0 text-[clamp(20px,3vw,30px)] font-bold leading-[1.08] tracking-[-0.04em]"
         style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}
@@ -49,7 +49,16 @@ export function SF01_DashboardIntro() {
         Core product is the synth layer — everything funnels here. Custom tools plug in after.
       </p>
       <div ref={rootRef} className="relative mt-3 min-h-0 flex-1">
-        <SynthLayerDashboardMockup agentRef={agentRef} agentHighlight showSidebarDeploy={false} />
+        <SynthLayerDashboardMockup
+          agentRef={agentRef}
+          agentHighlight
+          showSidebarDeploy={false}
+          navMode="athletes"
+          // Safety: ensure the Team Overview charts/table never appear on Slide 5.
+          hideTopCharts
+          tableMaxHeight="0px"
+          aiInsightText=""
+        />
         <SynthDemoCursor agentRef={agentRef} rootRef={rootRef} />
       </div>
     </div>
@@ -57,10 +66,10 @@ export function SF01_DashboardIntro() {
 }
 
 /** 2 · Deploy modal — extension offer. */
-export function SF02_DeployExtension() {
+export function SF02_DeployExtension({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden" style={{ background: THEME.light, padding: PAD }}>
-      <TopNav section="02 · SOLUTION" page={`7 / ${DECK_SLIDE_TOTAL}`} tone="light" />
+      <TopNav section={sectionOverride ?? "02 · SOLUTION"} page={pageOverride ?? `16 / ${DECK_SLIDE_TOTAL}`} tone="light" />
       <h1
         className="shrink-0 text-[clamp(20px,3vw,30px)] font-bold leading-[1.08] tracking-[-0.04em]"
         style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}
@@ -79,25 +88,116 @@ export function SF02_DeployExtension() {
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.35 }}
-              className="w-full max-w-[340px] rounded-2xl border bg-white p-5 shadow-[0_24px_60px_rgba(0,0,0,0.2)]"
+              className="w-full max-w-[380px] rounded-2xl border bg-white p-5 shadow-[0_24px_60px_rgba(0,0,0,0.2)]"
               style={{ borderColor: THEME.border }}
               data-no-advance
             >
-              <p className="text-[13px] font-bold leading-snug" style={{ fontFamily: THEME.fontSerif, color: THEME.textPrimary }}>
-                Hey — deploy the synth agent?
-              </p>
-              <p className="mt-2 text-[11px] leading-relaxed text-zinc-600" style={{ fontFamily: THEME.fontSans }}>
-                It&apos;s a lightweight browser extension. It opens this shell next to the tools you already use so we can read what you permit and
-                write it back into your roster view.
-              </p>
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <p className="text-[13px] font-bold leading-snug" style={{ fontFamily: THEME.fontSerif, color: THEME.textPrimary }}>
+                    Deploy agent
+                  </p>
+                  <p className="mt-1 text-[10px] leading-snug text-zinc-600" style={{ fontFamily: THEME.fontSans }}>
+                    Connect sources → scheduled sync → roster stays current.
+                  </p>
+                </div>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border" style={{ borderColor: `${THEME.primary}33`, background: `${THEME.primary}10` }} aria-hidden>
+                  <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path
+                      d="M14 4c4 1 6 5 6 5s-1 4-5 6l-3.5 1.5L9 20l1.5-3.5L12 13c1-3 5-5 5-5s-2 0-5 1l-1.5 3.5"
+                      fill="none"
+                      stroke={THEME.primary}
+                      strokeWidth="1.9"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M6.5 17.5c-1.2-.2-2.2-1.2-2.5-2.5 1.3.3 2.3 1.3 2.5 2.5z"
+                      fill="none"
+                      stroke={THEME.primary}
+                      strokeWidth="1.9"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      opacity="0.75"
+                    />
+                    <path
+                      d="M13.5 6.5l4 4"
+                      fill="none"
+                      stroke={THEME.primary}
+                      strokeWidth="1.9"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      opacity="0.6"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <div className="mt-4 rounded-xl border bg-zinc-50/60 px-3 py-3" style={{ borderColor: THEME.border }}>
+                <div className="text-[8px] font-bold uppercase tracking-[0.22em] text-zinc-400" style={{ fontFamily: THEME.fontMono }}>
+                  Sources
+                </div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {[
+                    { name: 'Google Sheets', tone: THEME.primary },
+                    { name: 'TeamWorks', tone: THEME.cyan },
+                    { name: 'Wearables', tone: THEME.purple },
+                  ].map((s) => (
+                    <span
+                      key={s.name}
+                      className="rounded-full border px-2 py-1 text-[9px] font-semibold"
+                      style={{ fontFamily: THEME.fontSans, borderColor: `${s.tone}33`, background: `${s.tone}10`, color: THEME.textSecondary }}
+                    >
+                      <span style={{ color: s.tone }}>●</span> {s.name}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-3 flex items-center justify-between gap-3 rounded-lg border bg-white px-3 py-2" style={{ borderColor: THEME.border }}>
+                  <div className="min-w-0">
+                    <div className="text-[8px] font-bold uppercase tracking-[0.18em] text-zinc-400" style={{ fontFamily: THEME.fontMono }}>
+                      Scheduled
+                    </div>
+                    <div className="mt-1 text-[10px]" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
+                      Every day at <span style={{ color: THEME.textPrimary, fontWeight: 700 }}>6:00am</span>
+                    </div>
+                  </div>
+                  <span
+                    className="shrink-0 rounded-full border px-2 py-1 text-[9px] font-bold uppercase tracking-wider"
+                    style={{ fontFamily: THEME.fontMono, borderColor: `${THEME.primary}33`, background: `${THEME.primary}10`, color: THEME.primary }}
+                  >
+                    Daily
+                  </span>
+                </div>
+              </div>
+
               <div className="mt-4 flex flex-wrap gap-2">
                 <button
                   type="button"
-                  className="rounded-lg px-4 py-2 text-[11px] font-bold uppercase tracking-wide text-white"
+                  className="flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-[11px] font-bold uppercase tracking-wide text-white"
                   style={{ fontFamily: THEME.fontMono, background: THEME.primary }}
                   onMouseDown={(e) => e.stopPropagation()}
                 >
-                  Download extension
+                  <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden>
+                    <path
+                      d="M14 4c4 1 6 5 6 5s-1 4-5 6l-3.5 1.5L9 20l1.5-3.5L12 13c1-3 5-5 5-5s-2 0-5 1l-1.5 3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M6.5 17.5c-1.2-.2-2.2-1.2-2.5-2.5 1.3.3 2.3 1.3 2.5 2.5z"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      opacity="0.8"
+                    />
+                  </svg>
+                  Deploy now
                 </button>
                 <button
                   type="button"
@@ -105,7 +205,7 @@ export function SF02_DeployExtension() {
                   style={{ borderColor: THEME.border, fontFamily: THEME.fontMono }}
                   onMouseDown={(e) => e.stopPropagation()}
                 >
-                  Not now
+                  Later
                 </button>
               </div>
             </motion.div>

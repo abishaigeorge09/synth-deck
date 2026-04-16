@@ -31,10 +31,10 @@ const ROWS: {
   },
 ]
 
-export function S12_Close() {
+export function S12_Close({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <div className="absolute inset-0 flex flex-col" style={{ padding: '44px 40px 32px', color: THEME.textPrimary, background: THEME.light }}>
-      <TopNav section="CLOSE" page="16 / 17" tone="light" />
+      <TopNav section={sectionOverride ?? 'CLOSE'} page={pageOverride ?? '12 / 13'} tone="light" />
 
       <div className="flex-1 min-h-0 flex flex-col justify-center w-full max-w-[1040px] mx-auto">
         {/* Title + subtitle sit directly on top of the table (one block, no vertical gap from justify-between) */}

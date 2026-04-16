@@ -4,6 +4,8 @@ import { DeckAdvanceProvider } from '../components/DeckAdvanceContext'
 import { SlideShell, type SlideDef } from '../components/SlideShell'
 import { DeployAgentProcessingSlide } from '../slides/DeployAgentProcessingSlide'
 import { SolutionDataHubSlide } from '../slides/SolutionDataHubSlide'
+import { S04_Connectors } from '../slides/S04_Connectors'
+import { S08_BusinessModel } from '../slides/S08_BusinessModel'
 import {
   SF03_ExtensionLive,
   SF04_ConnectSources,
@@ -40,6 +42,8 @@ export function AppendixDeck() {
       { id: 'draft-sf05', section: 'APPENDIX · DRAFTS', component: <SF05_PlayerInsights />, background: THEME.light },
       { id: 'draft-sf06', section: 'APPENDIX · DRAFTS', component: <SF06_SourceScreens />, background: THEME.light },
       { id: 'draft-sf07', section: 'APPENDIX · DRAFTS', component: <SF07_CustomTools />, background: THEME.light },
+      { id: 'backup-s09', section: 'APPENDIX · BACKUPS', component: <S04_Connectors />, background: THEME.light },
+      { id: 'backup-s13', section: 'APPENDIX · BACKUPS', component: <S08_BusinessModel />, background: THEME.light },
     ],
     [],
   )

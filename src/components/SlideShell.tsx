@@ -4,7 +4,7 @@ import { THEME } from '../lib/theme'
 import { TRANSITIONS } from '../lib/motion'
 import { useAdvanceGate } from './advanceGate'
 import { SlideDeckProvider } from './SlideDeckContext'
-import { SETUP_SLIDE_NEXT_EVENT } from '../lib/setupSlideEvents'
+import { PRODUCT_DEMO_SLIDE_NEXT_EVENT, SETUP_SLIDE_NEXT_EVENT } from '../lib/setupSlideEvents'
 
 export type SlideDef = {
   id: string
@@ -51,6 +51,11 @@ export function SlideShell({
     /** Setup slide runs a cursor → Create account sim before advancing. */
     if (slide.id === 's02-setup') {
       window.dispatchEvent(new CustomEvent(SETUP_SLIDE_NEXT_EVENT))
+      return
+    }
+    /** Product demo slide expands first, then advances only after completion. */
+    if (slide.id === 's06-product-demo') {
+      window.dispatchEvent(new CustomEvent(PRODUCT_DEMO_SLIDE_NEXT_EVENT))
       return
     }
     setIndex(index + 1)
@@ -120,7 +125,6 @@ export function SlideShell({
   }
 
   const bg = slide.background ?? THEME.darkDeep
-  const lightSurface = bg === THEME.light
   const showTopNav = slide.showTopNav ?? true
   const showProgress = slide.showProgress ?? true
   const showNavButtons = slide.showNavButtons ?? true
@@ -140,122 +144,125 @@ export function SlideShell({
       onClick={onBackdropClick}
     >
       <div className="h-full min-h-screen min-h-[100dvh] w-full flex items-center justify-center px-2 py-3 sm:px-4 sm:py-6">
-        <div
-          className="deck-aspect-wrap relative"
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-        >
-          {frame === 'deck' ? (
-            <div
-              className="pointer-events-none absolute inset-0 rounded-[15px] sm:rounded-[16px]"
-              style={{
-                boxShadow:
-                  '0 0 0 1px rgba(255,255,255,0.09), 0 2px 1px rgba(255,255,255,0.04) inset, 0 32px 64px rgba(0,0,0,0.55), 0 12px 28px rgba(0,0,0,0.35)',
-              }}
-            />
-          ) : null}
-
-          {showTopNav ? (
-            <div className="absolute left-0 top-0 w-full z-20 pointer-events-none">
-              {/* TopNav attaches itself inside slides when needed; kept reserved here */}
-            </div>
-          ) : null}
-
-          <LayoutGroup id="deck-layout">
-            <AnimatePresence mode="sync">
-              <motion.div
-                key={slide.id}
-                className="absolute inset-0 overflow-hidden"
-                initial={{ opacity: 0, y: 18, scale: 0.992 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -12, scale: 0.988 }}
-                transition={TRANSITIONS.pageCrossfade}
-              >
+        <div className="flex flex-col items-center">
+          <div
+            className="deck-aspect-wrap relative"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
+            {frame === 'deck' ? (
               <div
-                className={
-                  frame === 'deck'
-                    ? 'absolute inset-2 sm:inset-[14px] rounded-[10px] sm:rounded-[12px] overflow-hidden'
-                    : 'absolute inset-0'
-                }
-              >
-                <div className="absolute inset-0" style={{ background: bg }} />
-                <SlideDeckProvider value={{ currentIndex: index, slideCount: slides.length }}>
-                  {slide.component}
-                </SlideDeckProvider>
-              </div>
-              </motion.div>
-            </AnimatePresence>
-          </LayoutGroup>
-
-          {showNavButtons ? (
-            <div
-              className="absolute z-30 flex items-center gap-2 pointer-events-auto"
-              style={{
-                bottom: 'max(0.75rem, calc(env(safe-area-inset-bottom, 0px) + 0.25rem))',
-                right: 'max(1rem, env(safe-area-inset-right, 0px))',
-              }}
-            >
-              <button
-                type="button"
-                onPointerDown={(e) => e.stopPropagation()}
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  goPrev()
-                }}
-                disabled={!canPrev}
-                className={
-                  lightSurface
-                    ? 'flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-md sm:h-8 sm:w-8 sm:min-h-0 sm:min-w-0 bg-zinc-900/90 hover:bg-zinc-950 disabled:opacity-40 disabled:hover:bg-zinc-900/90 text-white font-medium shadow-[0_4px_20px_rgba(0,0,0,0.25)] border border-zinc-700/50 backdrop-blur-sm transition-colors'
-                    : 'flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-md sm:h-8 sm:w-8 sm:min-h-0 sm:min-w-0 bg-black/35 hover:bg-black/45 disabled:opacity-40 disabled:hover:bg-black/35 text-white font-medium border border-white/12 shadow-[0_4px_24px_rgba(0,0,0,0.35)] backdrop-blur-md transition-colors'
-                }
-                style={{ fontFamily: THEME.fontMono }}
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                onPointerDown={(e) => e.stopPropagation()}
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  goNext()
-                }}
-                disabled={!canNext || blocked}
-                className={
-                  lightSurface
-                    ? 'flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-md sm:h-8 sm:w-8 sm:min-h-0 sm:min-w-0 bg-zinc-900/90 hover:bg-zinc-950 disabled:opacity-40 disabled:hover:bg-zinc-900/90 text-white font-medium shadow-[0_4px_20px_rgba(0,0,0,0.25)] border border-zinc-700/50 backdrop-blur-sm transition-colors'
-                    : 'flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-md sm:h-8 sm:w-8 sm:min-h-0 sm:min-w-0 bg-black/35 hover:bg-black/45 disabled:opacity-40 disabled:hover:bg-black/35 text-white font-medium border border-white/12 shadow-[0_4px_24px_rgba(0,0,0,0.35)] backdrop-blur-md transition-colors'
-                }
-                style={{ fontFamily: THEME.fontMono }}
-              >
-                →
-              </button>
-              <div
-                className={`ml-1 text-[10px] sm:ml-2 sm:text-[11px] ${lightSurface ? 'text-zinc-600' : 'text-white/70'}`}
-                style={{ fontFamily: THEME.fontMono }}
-              >
-                {index + 1} / {slides.length}
-              </div>
-            </div>
-          ) : null}
-
-          {showProgress ? (
-            <div
-              className={`absolute left-3 right-3 sm:left-4 sm:right-4 h-[4px] z-30 overflow-hidden rounded-full ${lightSurface ? 'bg-zinc-300/80' : 'bg-white/[0.12]'}`}
-              style={{
-                bottom: 'max(4px, env(safe-area-inset-bottom, 0px))',
-                boxShadow: lightSurface ? 'none' : 'inset 0 1px 2px rgba(0,0,0,0.25)',
-              }}
-            >
-              <div
-                className="h-full rounded-full transition-[width] duration-300 ease-out"
+                className="pointer-events-none absolute inset-0 rounded-[15px] sm:rounded-[16px]"
                 style={{
-                  width: `${progressPct}%`,
-                  background: `linear-gradient(90deg, ${THEME.primary} 0%, ${THEME.accent} 100%)`,
-                  boxShadow: `0 0 14px ${THEME.accent}66`,
+                  boxShadow:
+                    '0 0 0 1px rgba(255,255,255,0.09), 0 2px 1px rgba(255,255,255,0.04) inset, 0 32px 64px rgba(0,0,0,0.55), 0 12px 28px rgba(0,0,0,0.35)',
                 }}
               />
+            ) : null}
+
+            {showTopNav ? (
+              <div className="absolute left-0 top-0 w-full z-20 pointer-events-none">
+                {/* TopNav attaches itself inside slides when needed; kept reserved here */}
+              </div>
+            ) : null}
+
+            <LayoutGroup id="deck-layout">
+              <AnimatePresence mode="sync">
+                <motion.div
+                  key={slide.id}
+                  className="absolute inset-0 overflow-hidden"
+                  initial={{ opacity: 0, y: 18, scale: 0.992 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -12, scale: 0.988 }}
+                  transition={TRANSITIONS.pageCrossfade}
+                >
+                  <div
+                    className={
+                      frame === 'deck'
+                        ? 'absolute inset-2 sm:inset-[14px] rounded-[10px] sm:rounded-[12px] overflow-hidden'
+                        : 'absolute inset-0'
+                    }
+                  >
+                    <div className="absolute inset-0" style={{ background: bg }} />
+                    <SlideDeckProvider value={{ currentIndex: index, slideCount: slides.length }}>
+                      {slide.component}
+                    </SlideDeckProvider>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </LayoutGroup>
+          </div>
+
+          {(showNavButtons || showProgress) ? (
+            <div
+              className="mt-3 flex w-full max-w-[min(92vw,1040px)] items-center justify-between gap-3 pointer-events-auto"
+              onPointerDown={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                paddingBottom: 'max(0px, env(safe-area-inset-bottom, 0px))',
+              }}
+            >
+              {showProgress ? (
+                <div
+                  className="h-[6px] flex-1 overflow-hidden rounded-full"
+                  style={{
+                    background: 'rgba(255,255,255,0.18)',
+                    boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.35)',
+                  }}
+                >
+                  <div
+                    className="h-full rounded-full transition-[width] duration-300 ease-out"
+                    style={{
+                      width: `${progressPct}%`,
+                      background: `linear-gradient(90deg, ${THEME.primary} 0%, ${THEME.accent} 100%)`,
+                      boxShadow: `0 0 14px ${THEME.accent}66`,
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="flex-1" />
+              )}
+
+              {showNavButtons ? (
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      goPrev()
+                    }}
+                    disabled={!canPrev}
+                    className="flex h-10 w-10 items-center justify-center rounded-lg border text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] backdrop-blur-md transition-colors disabled:opacity-40"
+                    style={{
+                      fontFamily: THEME.fontMono,
+                      background: 'rgba(255,255,255,0.10)',
+                      borderColor: 'rgba(255,255,255,0.22)',
+                    }}
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      goNext()
+                    }}
+                    disabled={!canNext || blocked}
+                    className="flex h-10 w-10 items-center justify-center rounded-lg border text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] backdrop-blur-md transition-colors disabled:opacity-40"
+                    style={{
+                      fontFamily: THEME.fontMono,
+                      background: 'rgba(255,255,255,0.10)',
+                      borderColor: 'rgba(255,255,255,0.22)',
+                    }}
+                  >
+                    →
+                  </button>
+                  <div className="ml-2 text-[11px] text-white/85 tabular-nums" style={{ fontFamily: THEME.fontMono }}>
+                    {index + 1} / {slides.length}
+                  </div>
+                </div>
+              ) : null}
             </div>
           ) : null}
         </div>

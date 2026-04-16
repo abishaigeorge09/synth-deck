@@ -76,7 +76,7 @@ function ArrMixDonut() {
   )
 }
 
-export function S08_BusinessModel() {
+export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   const upsellSteps = [
     { tier: 'Starter', desc: 'Daily use → proof the surface saves time', color: THEME.primary },
     { tier: 'Pro', desc: 'More connectors + synthesis → fewer tabs', color: THEME.cyan },
@@ -86,7 +86,7 @@ export function S08_BusinessModel() {
 
   return (
     <div className="absolute inset-0 flex flex-col" style={{ padding: '48px 44px 32px', color: THEME.textPrimary }}>
-      <TopNav section="07 · BUSINESS MODEL" page="12 / 17" tone="light" />
+      <TopNav section={sectionOverride ?? '07 · BUSINESS MODEL'} page={pageOverride ?? '8 / 13'} tone="light" />
       <PaperTexture strength={0.75} tint="rgba(244, 243, 236, 0.95)" />
 
       <SectionLabel text="07 · BUSINESS MODEL" />

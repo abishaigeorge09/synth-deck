@@ -2,11 +2,11 @@ import { SimpleSlide } from '../components/SimpleSlide'
 import { IllustConnectorHub } from '../components/simpleIllustrations'
 import { THEME } from '../lib/theme'
 
-export function S04_Connectors() {
+export function S04_Connectors({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <SimpleSlide
-      section="03 · CONNECTORS"
-      page="8 / 17"
+      section={sectionOverride ?? "03 · CONNECTORS"}
+      page={pageOverride ?? "10 / 12"}
       tone="light"
       illustration={<IllustConnectorHub />}
       primary={

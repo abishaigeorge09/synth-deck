@@ -193,7 +193,7 @@ function SetupAccountModal({
 }
 
 /** Deck “next” triggers a cursor → Create account → loading → one line toast → auto-advance. */
-export function SetupAccountSlide() {
+export function SetupAccountSlide({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   const advance = useDeckAdvance()
   const [sources, setSources] = useState<string[]>(() => [...DEFAULT_SOURCES])
   const [phase, setPhase] = useState<Phase>('idle')
@@ -275,7 +275,7 @@ export function SetupAccountSlide() {
       className="absolute inset-0 flex flex-col overflow-hidden"
       style={{ background: THEME.light, padding: 'clamp(24px, 3.5vw, 40px) clamp(20px, 3.5vw, 48px) clamp(20px, 3.5vw, 32px)' }}
     >
-      <TopNav section="02 · SOLUTION" page={`4 / ${DECK_SLIDE_TOTAL}`} tone="light" />
+      <TopNav section={sectionOverride ?? "02 · SOLUTION"} page={pageOverride ?? `14 / ${DECK_SLIDE_TOTAL}`} tone="light" />
       <h1
         className="shrink-0 text-[clamp(20px,3vw,30px)] font-bold leading-[1.08] tracking-[-0.04em]"
         style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}

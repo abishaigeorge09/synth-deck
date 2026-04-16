@@ -3,7 +3,7 @@ import { TopNav } from '../components/TopNav'
 import { THEME } from '../lib/theme'
 
 /** Problem slide: headline + carousel centered as a block below the nav. */
-export function S02_Problem() {
+export function S02_Problem({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <div
       className="absolute inset-0 flex flex-col overflow-hidden"
@@ -12,7 +12,7 @@ export function S02_Problem() {
         padding: 'clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px) clamp(24px, 4vw, 40px)',
       }}
     >
-      <TopNav section="01 · PROBLEM" page="2 / 17" tone="light" />
+      <TopNav section={sectionOverride ?? '01 · PROBLEM'} page={pageOverride ?? '3 / 13'} tone="light" />
 
       <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-4">
         <h1

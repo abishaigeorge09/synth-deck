@@ -6,8 +6,9 @@ import { THEME } from '../lib/theme'
 import { DECK_UNLOCK_PASSWORD } from '../lib/deckLock'
 
 export function DeckBlurLock({ children, printSlides }: { children: React.ReactNode; printSlides: SlideDef[] }) {
-  // Dev: always unlocked (no gate). Production / preview: locked on every full reload.
-  const [unlocked, setUnlocked] = useState(() => import.meta.env.DEV)
+  // Temporary override: keep the deck open without a password barrier.
+  // Re-enable later by switching this back to `() => import.meta.env.DEV`.
+  const [unlocked, setUnlocked] = useState(true)
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState(false)

@@ -24,11 +24,11 @@ function CompetitorRow({ name, desc, checks }: { name: string; desc: string; che
   )
 }
 
-export function S09_Competition() {
+export function S09_Competition({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <div className="absolute inset-0 flex flex-col text-white" style={{ padding: '52px 48px 36px' }}>
       <PixelArt pattern="scatter" seed={93} color="#000000" opacity={0.08} />
-      <TopNav section="08 · COMPETITION" page="13 / 17" />
+      <TopNav section={sectionOverride ?? '08 · COMPETITION'} page={pageOverride ?? '9 / 13'} />
 
       <div className="text-[48px] leading-[1.02] font-bold" style={{ fontFamily: THEME.fontMono, letterSpacing: '-0.06em' }}>
         No one connects it all.

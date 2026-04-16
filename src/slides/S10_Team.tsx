@@ -59,10 +59,10 @@ function TeamMember({
   )
 }
 
-export function S10_Team() {
+export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <div className="absolute inset-0 flex flex-col" style={{ padding: '44px 44px 32px', color: THEME.textPrimary, background: THEME.light }}>
-      <TopNav section="09 · TEAM" page="14 / 17" tone="light" />
+      <TopNav section={sectionOverride ?? '09 · TEAM'} page={pageOverride ?? '10 / 13'} tone="light" />
       <PaperTexture strength={0.65} tint="rgba(255,255,255,0.97)" />
 
       <div className="flex-1 flex flex-col items-center min-h-0 w-full">
