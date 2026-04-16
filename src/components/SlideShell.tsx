@@ -195,7 +195,7 @@ export function SlideShell({
 
           {(showNavButtons || showProgress) ? (
             <div
-              className="mt-3 flex w-full max-w-[min(92vw,1040px)] items-center justify-between gap-3 pointer-events-auto"
+              className="mt-3 flex w-full max-w-[min(96vw,1380px)] items-center justify-between gap-3 pointer-events-auto"
               onPointerDown={(e) => e.stopPropagation()}
               onMouseDown={(e) => e.stopPropagation()}
               onClick={(e) => e.stopPropagation()}
@@ -258,9 +258,6 @@ export function SlideShell({
                   >
                     →
                   </button>
-                  <div className="ml-2 text-[11px] text-white/85 tabular-nums" style={{ fontFamily: THEME.fontMono }}>
-                    {index + 1} / {slides.length}
-                  </div>
                 </div>
               ) : null}
             </div>

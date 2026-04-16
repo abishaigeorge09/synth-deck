@@ -127,13 +127,6 @@ export function S12_Close({ pageOverride, sectionOverride }: { pageOverride?: st
           <p className="text-[12px] italic" style={{ fontFamily: THEME.fontSerif, color: THEME.textMuted }}>
             Built for rowing. Built to synthesize everything.
           </p>
-          <div className="mt-2.5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[10px] tracking-[0.14em] uppercase" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-            <span>synthsports.com</span>
-            <span style={{ color: THEME.border }} aria-hidden>
-              ·
-            </span>
-            <span>supportsynth@gmail.com</span>
-          </div>
         </div>
       </div>
     </div>

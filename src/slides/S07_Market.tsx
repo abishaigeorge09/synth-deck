@@ -23,7 +23,7 @@ export function S07_Market({ pageOverride, sectionOverride }: { pageOverride?: s
           style={{ fontFamily: THEME.fontSans, color: 'rgba(255,255,255,0.72)' }}
         >
           <p>
-            One synthesis engine. Each sport gets a thin base app; we widen the wedge before we blanket collegiate and pro.
+            Start with rowing, prove the synthesis workflow, then expand into every program dealing with fragmented athlete data and disconnected operations.
           </p>
           <div className="space-y-2.5 text-left text-[clamp(13px,1.85vw,16px)]">
             <p>
@@ -36,7 +36,7 @@ export function S07_Market({ pageOverride, sectionOverride }: { pageOverride?: s
               <span className="font-semibold text-white/90" style={{ fontFamily: THEME.fontMono }}>
                 SAM · $890M
               </span>{' '}
-              — US collegiate: 12K+ programs, 3+ tools each.
+              — US collegiate programs running fragmented performance, operations, and athlete-data workflows.
             </p>
             <p>
               <span className="font-semibold" style={{ fontFamily: THEME.fontMono, color: THEME.primaryLight }}>

@@ -50,11 +50,8 @@ export function S13_ThankYou({ pageOverride, sectionOverride }: { pageOverride?:
           Questions welcome, we&apos;d love to keep the conversation going.
         </motion.p>
         <motion.div variants={item} className="mt-10 flex flex-col items-center gap-3">
-          <div className="text-[11px] uppercase tracking-[0.16em] text-white/55" style={{ fontFamily: THEME.fontMono }}>
-            synthsports.com · supportsynth@gmail.com
-          </div>
           <motion.div
-            className="mt-2 text-[36px] font-bold leading-none"
+            className="text-[36px] font-bold leading-none"
             style={{ fontFamily: THEME.logoFont, fontWeight: THEME.logoWeight }}
             animate={{ opacity: [0.92, 1, 0.92] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
