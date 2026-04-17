@@ -95,8 +95,8 @@ export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: str
             name="Star Rose"
             title="Co-founder"
             accent={THEME.cyan}
-            photoSrc="/team/star-rose.png"
-            photoObjectPosition="center top"
+            photoSrc="/team/star-rose_rowing.png"
+            photoObjectPosition="center 45%"
             bullets={[
               'Cal Women’s Rowing',
               'Australian U23 Women’s Eight · 2024 World Rowing U23 Championships',
@@ -107,8 +107,8 @@ export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: str
             name="Lily Pember"
             title="Co-founder"
             accent={THEME.purple}
-            photoSrc="/team/lily-pember.png"
-            photoObjectPosition="center top"
+            photoSrc="/team/lily-pember_rowing.png"
+            photoObjectPosition="center 42%"
             bullets={[
               'Cal Women’s Rowing',
               'Gold medalist · Junior World Rowing Championships (USA)',
@@ -119,8 +119,8 @@ export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: str
             name="Matthew Waddell"
             title="Co-founder"
             accent={THEME.amber}
-            photoSrc="/team/matthew-waddell.png"
-            photoObjectPosition="center top"
+            photoSrc="/team/matthew-waddell_rowing.png"
+            photoObjectPosition="32% 48%"
             bullets={[
               'Cal Men’s Rowing',
               'Silver medalist · U23 World Rowing Championships (New Zealand)',

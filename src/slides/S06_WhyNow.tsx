@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { TopNav } from '../components/TopNav'
 import { THEME } from '../lib/theme'
 
 const YEARS = [2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028] as const
@@ -79,15 +80,10 @@ export function S06_WhyNow({ pageOverride, sectionOverride }: { pageOverride?: s
         padding: '44px 44px 34px',
       }}
     >
-      <div
-        className="text-[11px] uppercase tracking-[0.18em]"
-        style={{ fontFamily: THEME.fontMono, color: '#71717A' }}
-      >
-        {sectionOverride ?? '05 · WHY NOW'} · {pageOverride ?? '12 / 19'}
-      </div>
+      <TopNav section={sectionOverride ?? '05 · WHY NOW'} page={pageOverride ?? '12 / 19'} tone="dark" />
 
       <h1
-        className="mt-8 text-[clamp(34px,4.4vw,56px)] font-bold leading-[1.02] tracking-[-0.05em]"
+        className="mt-16 text-[clamp(34px,4.4vw,56px)] font-bold leading-[1.02] tracking-[-0.05em]"
         style={{ fontFamily: THEME.fontMono, color: THEME.white }}
       >
         Three forces. One moment.

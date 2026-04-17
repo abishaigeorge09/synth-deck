@@ -45,16 +45,32 @@ body {
 }
 
 /* 16:9 slide box — use dvh on supporting browsers so mobile browser chrome doesn’t clip the deck */
+.deck-shell-stack {
+  --deck-viewport-height: 100vh;
+  --deck-controls-reserve: 86px;
+  --deck-available-height: calc(var(--deck-viewport-height) - var(--deck-controls-reserve));
+}
+
 .deck-aspect-wrap {
-  width: min(100vw, calc(100vh * 16 / 9));
-  height: min(100vh, calc(100vw * 9 / 16));
+  width: min(100vw, calc(var(--deck-available-height) * 16 / 9));
+  height: min(var(--deck-available-height), calc(100vw * 9 / 16));
   aspect-ratio: 16 / 9;
 }
 
 @supports (height: 100dvh) {
+  .deck-shell-stack {
+    --deck-viewport-height: 100dvh;
+  }
+
   .deck-aspect-wrap {
-    width: min(100vw, calc(100dvh * 16 / 9));
-    height: min(100dvh, calc(100vw * 9 / 16));
+    width: min(100vw, calc(var(--deck-available-height) * 16 / 9));
+    height: min(var(--deck-available-height), calc(100vw * 9 / 16));
+  }
+}
+
+@media (min-width: 640px) {
+  .deck-shell-stack {
+    --deck-controls-reserve: 104px;
   }
 }
 

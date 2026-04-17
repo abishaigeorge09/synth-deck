@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AdvanceGateProvider } from './components/advanceGate'
 import { DeckAdvanceProvider } from './components/DeckAdvanceContext'
+import { MobileLandscapeGate } from './components/MobileLandscapeGate'
 import { SlideShell, type SlideDef } from './components/SlideShell'
 import { AppendixDeck } from './appendix/AppendixDeck'
 
@@ -92,16 +93,20 @@ export default function App() {
   if (appendix) {
     return (
       <AdvanceGateProvider>
-        <div className="deck-print-hide h-full w-full min-h-0">
-          <AppendixDeck />
-        </div>
+        <MobileLandscapeGate>
+          <div className="deck-print-hide h-full w-full min-h-0">
+            <AppendixDeck />
+          </div>
+        </MobileLandscapeGate>
       </AdvanceGateProvider>
     )
   }
 
   return (
     <AdvanceGateProvider>
-      <MainDeck />
+      <MobileLandscapeGate>
+        <MainDeck />
+      </MobileLandscapeGate>
     </AdvanceGateProvider>
   )
 }

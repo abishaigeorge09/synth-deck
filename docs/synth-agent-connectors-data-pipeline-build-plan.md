@@ -281,20 +281,20 @@ Same but from the athlete's app. Athlete screenshots their Bridge Athletics work
 3. Audio goes to Whisper API → transcription
 4. Transcription goes to Claude → structured extraction
 5. synth. shows parsed result:
-   ```
+  ```
    Session: Varsity 8, 3 pieces
    Splits: 1:42.0, 1:40.0, 1:39.0
    Notes:
      - Phelps: "looked strong at stroke"
      - Gold: "catch was late on third piece"
    Conditions: choppy water, headwind west
-   ```
+  ```
 6. Coach sees action options:
-   - "Add splits to Session Timer history" ✓
-   - "Add notes to Phelps profile" ✓
-   - "Add notes to Gold profile" ✓
-   - "Write splits to Google Sheet" ✓
-   - "Save conditions as session note" ✓
+  - "Add splits to Session Timer history" ✓
+  - "Add notes to Phelps profile" ✓
+  - "Add notes to Gold profile" ✓
+  - "Write splits to Google Sheet" ✓
+  - "Save conditions as session note" ✓
 7. Coach confirms — all data flows to the right places
 
 **Athlete flow:**
@@ -315,25 +315,29 @@ Athlete records a voice note: "Did front squats today, 4 sets of 6 at 225. Then 
 
 ### Coach Inputs
 
-| Input Method | What They Add | Where It Goes |
-|---|---|---|
-| Session Timer | Piece splits, video + markers | Athlete profiles, Google Sheet, Dashboard |
-| Lineup Builder | Boat assignments | Athletes (notification), Google Sheet, Dashboard |
-| Voice note | Splits, observations, conditions | Session data, athlete notes, Google Sheet |
-| Photo | Whiteboard splits, erg screen photos | Session data, athlete profiles |
-| Manual entry | Any data via forms | Wherever coach specifies |
-| synth. AI chat | "Add a note on Phelps: catch timing improved" | Athlete profile notes |
+
+| Input Method   | What They Add                                 | Where It Goes                                    |
+| -------------- | --------------------------------------------- | ------------------------------------------------ |
+| Session Timer  | Piece splits, video + markers                 | Athlete profiles, Google Sheet, Dashboard        |
+| Lineup Builder | Boat assignments                              | Athletes (notification), Google Sheet, Dashboard |
+| Voice note     | Splits, observations, conditions              | Session data, athlete notes, Google Sheet        |
+| Photo          | Whiteboard splits, erg screen photos          | Session data, athlete profiles                   |
+| Manual entry   | Any data via forms                            | Wherever coach specifies                         |
+| synth. AI chat | "Add a note on Phelps: catch timing improved" | Athlete profile notes                            |
+
 
 ### Athlete Inputs
 
-| Input Method | What They Add | Where It Goes |
-|---|---|---|
-| Screenshot upload | Bridge Athletics workout, any app screenshot | Their gym data, profile |
-| Voice note | "Did squats 4x6 at 225 today" | Their gym session, profile |
-| Wellness check-in | Sleep, soreness, energy, mood | Coach dashboard, wellness tool |
-| CSV upload | Bridge Athletics export | Their gym history |
-| Connected apps | Concept2, Strava, Apple Health, Whoop | Automatic — flows to profile |
-| Photo | Erg screen, workout sheet | Parsed → profile |
+
+| Input Method      | What They Add                                | Where It Goes                  |
+| ----------------- | -------------------------------------------- | ------------------------------ |
+| Screenshot upload | Bridge Athletics workout, any app screenshot | Their gym data, profile        |
+| Voice note        | "Did squats 4x6 at 225 today"                | Their gym session, profile     |
+| Wellness check-in | Sleep, soreness, energy, mood                | Coach dashboard, wellness tool |
+| CSV upload        | Bridge Athletics export                      | Their gym history              |
+| Connected apps    | Concept2, Strava, Apple Health, Whoop        | Automatic — flows to profile   |
+| Photo             | Erg screen, workout sheet                    | Parsed → profile               |
+
 
 ### The Agentic Part
 
@@ -492,33 +496,33 @@ This captures demand (email waitlist) while directing users to the AI Import pip
 
 ### Sprint 2 — Athlete Connectors (Week 3)
 
-8. Concept2 Logbook API
-9. Strava API with webhooks
-10. Apple HealthKit / Google Health Connect
-11. CSV/Excel upload with flexible parser
+1. Concept2 Logbook API
+2. Strava API with webhooks
+3. Apple HealthKit / Google Health Connect
+4. CSV/Excel upload with flexible parser
 
 ### Sprint 3 — Wearables & Wellness (Week 4)
 
-12. Whoop API
-13. Garmin Connect API (if approved)
-14. Oura API
-15. Wellness dashboard panel with fatigue flags
-16. Training load calculation (cross-source: erg + gym + water + sleep)
+1. Whoop API
+2. Garmin Connect API (if approved)
+3. Oura API
+4. Wellness dashboard panel with fatigue flags
+5. Training load calculation (cross-source: erg + gym + water + sleep)
 
 ### Sprint 4 — Survey Scraping & Write-Back (Week 5)
 
-17. Email forwarding parser (import@synth.app)
-18. Firecrawl integration for Bridge/TeamWorks page reading
-19. Google Sheets write-back (sessions, lineups, wellness)
-20. Slack bot for channel monitoring
+1. Email forwarding parser ([import@synth.app](mailto:import@synth.app))
+2. Firecrawl integration for Bridge/TeamWorks page reading
+3. Google Sheets write-back (sessions, lineups, wellness)
+4. Slack bot for channel monitoring
 
 ### Sprint 5 — Polish & Agentic Behavior (Week 6)
 
-21. Smart routing: voice/photo input → synth. suggests where to save + asks coach to confirm
-22. "Write to Google Sheet?" option on every data input
-23. Fatigue correlation engine: cross-reference wellness + training load + sleep + HRV
-24. Automated alerts: "3 athletes flagged — view details"
-25. Weekly digest email to coach with synthesized summary
+1. Smart routing: voice/photo input → synth. suggests where to save + asks coach to confirm
+2. "Write to Google Sheet?" option on every data input
+3. Fatigue correlation engine: cross-reference wellness + training load + sleep + HRV
+4. Automated alerts: "3 athletes flagged — view details"
+5. Weekly digest email to coach with synthesized summary
 
 ---
 
@@ -529,4 +533,3 @@ Before: "We have an extension that scrapes any web app on schedule."
 After: "We have 10+ official connectors — Google Sheets, Concept2, Strava, Apple Health, Whoop, TrainingPeaks — plus an AI pipeline that reads any screenshot, voice note, or text. Take a photo of anything. synth. reads it. And everything writes back to your Google Sheet automatically."
 
 The second version is more honest, more impressive, and already works.
-

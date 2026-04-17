@@ -1,5 +1,5 @@
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, type CSSProperties } from 'react'
 import { THEME } from '../lib/theme'
 import { TRANSITIONS } from '../lib/motion'
 import { useAdvanceGate } from './advanceGate'
@@ -129,6 +129,14 @@ export function SlideShell({
   const showProgress = slide.showProgress ?? true
   const showNavButtons = slide.showNavButtons ?? true
   const frame = slide.frame ?? 'deck'
+  const rightsTone =
+    bg === THEME.light || bg === THEME.white
+      ? {
+          color: 'rgba(24,24,27,0.48)',
+        }
+      : {
+          color: 'rgba(255,255,255,0.72)',
+        }
 
   const progressPct = useMemo(() => {
     if (slides.length <= 1) return 0
@@ -143,13 +151,29 @@ export function SlideShell({
       }}
       onClick={onBackdropClick}
     >
-      <div className="h-full min-h-screen min-h-[100dvh] w-full flex items-center justify-center px-2 py-3 sm:px-4 sm:py-6">
-        <div className="flex flex-col items-center">
+      <div className="h-full min-h-screen min-h-[100dvh] w-full flex items-center justify-center px-2 py-2 sm:px-4 sm:py-4">
+        <div
+          className="deck-shell-stack flex flex-col items-center"
+          style={
+            {
+              '--deck-controls-reserve': showNavButtons || showProgress ? '86px' : '28px',
+            } as CSSProperties
+          }
+        >
           <div
             className="deck-aspect-wrap relative"
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
+            <div
+              className="pointer-events-none absolute bottom-3 right-4 z-30 text-[8px] tracking-[0.08em] sm:bottom-5 sm:right-7 sm:text-[9px]"
+              style={{
+                fontFamily: THEME.fontMono,
+                ...rightsTone,
+              }}
+            >
+              © 2026 Synth Sports. All rights reserved.
+            </div>
             {frame === 'deck' ? (
               <div
                 className="pointer-events-none absolute inset-0 rounded-[15px] sm:rounded-[16px]"

@@ -2,9 +2,11 @@
 
 ## Synth Sports — Unified Coach Data Platform
 
-| Document | Version | Date |
-|----------|---------|------|
-| SRS | 0.1 | 2026-04-10 |
+
+| Document | Version | Date       |
+| -------- | ------- | ---------- |
+| SRS      | 0.1     | 2026-04-10 |
+
 
 **Status:** Draft — aligned with pitch narrative and product mockups in this repository.
 
@@ -36,13 +38,15 @@ It also summarizes **recommended architecture** and **design principles** for im
 
 ### 1.3 Definitions
 
-| Term | Definition |
-|------|------------|
-| **Connector** | Integration that reads and/or writes a class of external data (Sheets, TeamWorks, wearable vendor, etc.). |
-| **Coach connectors** | Systems owned or operated at the program level (roster sheets, calendar, email digests, broadcast tools). |
-| **Athlete feeds** | Data tied to individual athletes, often from devices/apps and per-athlete tool usage. |
-| **Synth layer** | The unified logical layer where normalized entities and metrics are stored and served to the UI. |
-| **Synth agent** | Lightweight client (e.g. extension) that runs in the coach’s browser context to scrape, assist auth, or trigger sync beside native UIs. |
+
+| Term                 | Definition                                                                                                                              |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **Connector**        | Integration that reads and/or writes a class of external data (Sheets, TeamWorks, wearable vendor, etc.).                               |
+| **Coach connectors** | Systems owned or operated at the program level (roster sheets, calendar, email digests, broadcast tools).                               |
+| **Athlete feeds**    | Data tied to individual athletes, often from devices/apps and per-athlete tool usage.                                                   |
+| **Synth layer**      | The unified logical layer where normalized entities and metrics are stored and served to the UI.                                        |
+| **Synth agent**      | Lightweight client (e.g. extension) that runs in the coach’s browser context to scrape, assist auth, or trigger sync beside native UIs. |
+
 
 ### 1.4 References
 
@@ -59,12 +63,14 @@ Synth sits **between** existing SaaS and files and the **coach’s mental model*
 
 ### 2.2 User Classes
 
-| User class | Goals |
-|------------|--------|
-| **Head / assistant coach** | See roster health, compliance, load vs. recovery, intervene on risk. |
-| **Strength / performance staff** | Erg, lift, wearable trends aligned to roster rows. |
-| **Ops / admin** | Roster source of truth hooks (CSV upload, email lists), connector health. |
-| **Athlete (indirect)** | Does not need to log into Synth if data arrives via connectors; optional athlete-facing surfaces are out of scope for v1 unless specified later. |
+
+| User class                       | Goals                                                                                                                                            |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Head / assistant coach**       | See roster health, compliance, load vs. recovery, intervene on risk.                                                                             |
+| **Strength / performance staff** | Erg, lift, wearable trends aligned to roster rows.                                                                                               |
+| **Ops / admin**                  | Roster source of truth hooks (CSV upload, email lists), connector health.                                                                        |
+| **Athlete (indirect)**           | Does not need to log into Synth if data arrives via connectors; optional athlete-facing surfaces are out of scope for v1 unless specified later. |
+
 
 ### 2.3 Operating Constraints
 
@@ -84,58 +90,70 @@ Synth sits **between** existing SaaS and files and the **coach’s mental model*
 
 ### 3.1 Authentication and Team Context
 
-| ID | Requirement |
-|----|-------------|
+
+| ID        | Requirement                                                                                                  |
+| --------- | ------------------------------------------------------------------------------------------------------------ |
 | FR-AUTH-1 | A signed-in user shall have a **coach profile** associated with one or more **teams** (e.g. program, squad). |
-| FR-AUTH-2 | The UI shall display **team scope** in overview (e.g. roster count, team name). |
-| FR-AUTH-3 | Session shall expire per security policy; extension shall not store long-lived secrets in plain text. |
+| FR-AUTH-2 | The UI shall display **team scope** in overview (e.g. roster count, team name).                              |
+| FR-AUTH-3 | Session shall expire per security policy; extension shall not store long-lived secrets in plain text.        |
+
 
 ### 3.2 Dashboard — Team Overview
 
-| ID | Requirement |
-|----|-------------|
-| FR-DASH-1 | Present a **Team Overview** with subtitle showing team identity and **ingestion summary** (e.g. N sources ingesting). |
-| FR-DASH-2 | Show **connector status chips** per source type (e.g. Sheets synced, TeamWorks last sync, wearable live). |
-| FR-DASH-3 | Provide **signal visualizations** (e.g. weekly source signal bars, compliance vs. load) when enabled. |
+
+| ID        | Requirement                                                                                                                                                             |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-DASH-1 | Present a **Team Overview** with subtitle showing team identity and **ingestion summary** (e.g. N sources ingesting).                                                   |
+| FR-DASH-2 | Show **connector status chips** per source type (e.g. Sheets synced, TeamWorks last sync, wearable live).                                                               |
+| FR-DASH-3 | Provide **signal visualizations** (e.g. weekly source signal bars, compliance vs. load) when enabled.                                                                   |
 | FR-DASH-4 | Render an **athlete table** with core columns: name/position, key performance fields (e.g. erg, split, squat, load, sleep, compliance), **status** (e.g. OK / at risk). |
-| FR-DASH-5 | Display an **AI insight** region summarizing cross-signal patterns (fatigue, compliance drops) with references to ingested sources. |
-| FR-DASH-6 | Support navigation placeholders: Dashboard, Lineups, Athletes, Sources (exact IA may evolve). |
+| FR-DASH-5 | Display an **AI insight** region summarizing cross-signal patterns (fatigue, compliance drops) with references to ingested sources.                                     |
+| FR-DASH-6 | Support navigation placeholders: Dashboard, Lineups, Athletes, Sources (exact IA may evolve).                                                                           |
+
 
 ### 3.3 Connectors and Ingestion
 
-| ID | Requirement |
-|----|-------------|
-| FR-CONN-1 | Support configurable **coach connectors** (e.g. Google Sheets, TeamWorks, calendar, email digests). |
-| FR-CONN-2 | Support **per-athlete** tagged feeds where metadata allows (device/app/wearable pipelines). |
-| FR-CONN-3 | Ingestion jobs shall record **last success time** and surface **stale** or **error** states in the UI. |
+
+| ID        | Requirement                                                                                                       |
+| --------- | ----------------------------------------------------------------------------------------------------------------- |
+| FR-CONN-1 | Support configurable **coach connectors** (e.g. Google Sheets, TeamWorks, calendar, email digests).               |
+| FR-CONN-2 | Support **per-athlete** tagged feeds where metadata allows (device/app/wearable pipelines).                       |
+| FR-CONN-3 | Ingestion jobs shall record **last success time** and surface **stale** or **error** states in the UI.            |
 | FR-CONN-4 | Initial onboarding shall allow **CSV + athlete emails** and **connector selection** (as in setup flow narrative). |
+
 
 ### 3.4 Synth Agent (Browser Extension)
 
-| ID | Requirement |
-|----|-------------|
-| FR-AGENT-1 | Offer installation/discovery from the dashboard (“Deploy agent” narrative). |
+
+| ID         | Requirement                                                                                                                                  |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-AGENT-1 | Offer installation/discovery from the dashboard (“Deploy agent” narrative).                                                                  |
 | FR-AGENT-2 | Operate in the browser context to **assist** data capture (e.g. following coach actions on supported sites) without duplicating full app UX. |
-| FR-AGENT-3 | Communicate securely with Synth backend using scoped tokens. |
+| FR-AGENT-3 | Communicate securely with Synth backend using scoped tokens.                                                                                 |
+
 
 ### 3.5 Workflow Concept (Product Story)
 
-| ID | Requirement |
-|----|-------------|
+
+| ID        | Requirement                                                                                                                                       |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | FR-FLOW-1 | The system shall conceptually separate **athlete-layer** streams from **coach-layer** streams while merging them in the **same dashboard model**. |
-| FR-FLOW-2 | Merged outputs shall map to concrete UI blocks: **roster table**, **signal charts**, **compliance**, **AI insight**. |
+| FR-FLOW-2 | Merged outputs shall map to concrete UI blocks: **roster table**, **signal charts**, **compliance**, **AI insight**.                              |
+
 
 ---
 
 ## 4. Non-Functional Requirements
 
-| ID | Category | Requirement |
-|----|----------|-------------|
-| NFR-PERF-1 | Performance | Dashboard initial load under agreed p95 target on broadband; table virtualized if roster > 100 rows. |
-| NFR-SEC-1 | Security | TLS everywhere; secrets in vault; principle of least privilege for connector tokens. |
-| NFR-REL-1 | Reliability | Ingestion retries with backoff; idempotent writes to internal store. |
-| NFR-ACC-1 | Accessibility | WCAG 2.1 AA target for web dashboard; keyboard operable core flows. |
-| NFR-OBS-1 | Observability | Structured logs for sync jobs; metrics for connector success rates. |
+
+| ID         | Category      | Requirement                                                                                          |
+| ---------- | ------------- | ---------------------------------------------------------------------------------------------------- |
+| NFR-PERF-1 | Performance   | Dashboard initial load under agreed p95 target on broadband; table virtualized if roster > 100 rows. |
+| NFR-SEC-1  | Security      | TLS everywhere; secrets in vault; principle of least privilege for connector tokens.                 |
+| NFR-REL-1  | Reliability   | Ingestion retries with backoff; idempotent writes to internal store.                                 |
+| NFR-ACC-1  | Accessibility | WCAG 2.1 AA target for web dashboard; keyboard operable core flows.                                  |
+| NFR-OBS-1  | Observability | Structured logs for sync jobs; metrics for connector success rates.                                  |
+
 
 ---
 
@@ -187,11 +205,13 @@ Synth sits **between** existing SaaS and files and the **coach’s mental model*
 
 ### 6.3 Phased Delivery
 
-| Phase | Deliverable |
-|-------|-------------|
-| **P0** | Auth, team, CSV onboarding, 1–2 connectors, read-only dashboard + table. |
+
+| Phase  | Deliverable                                                                       |
+| ------ | --------------------------------------------------------------------------------- |
+| **P0** | Auth, team, CSV onboarding, 1–2 connectors, read-only dashboard + table.          |
 | **P1** | Additional connectors, agent MVP, AI insight from templated rules + optional LLM. |
-| **P2** | Enterprise SSO, advanced permissions, mobile-friendly views. |
+| **P2** | Enterprise SSO, advanced permissions, mobile-friendly views.                      |
+
 
 ---
 
@@ -221,13 +241,15 @@ Synth sits **between** existing SaaS and files and the **coach’s mental model*
 
 ## 8. Traceability (Deck ↔ Requirements)
 
-| Deck concept | SRS coverage |
-|--------------|----------------|
-| Setup account + connectors | FR-CONN-4, FR-DASH-1 |
+
+| Deck concept                 | SRS coverage                     |
+| ---------------------------- | -------------------------------- |
+| Setup account + connectors   | FR-CONN-4, FR-DASH-1             |
 | Synth agent workflow diagram | FR-FLOW-1, FR-FLOW-2, FR-AGENT-* |
-| Team Overview table + charts | FR-DASH-2 — FR-DASH-4 |
-| AI insight copy | FR-DASH-5 |
-| Deploy / extension | FR-AGENT-1, FR-AGENT-2 |
+| Team Overview table + charts | FR-DASH-2 — FR-DASH-4            |
+| AI insight copy              | FR-DASH-5                        |
+| Deploy / extension           | FR-AGENT-1, FR-AGENT-2           |
+
 
 ---
 

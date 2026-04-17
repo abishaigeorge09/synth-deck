@@ -9,16 +9,18 @@ This document ties **demo datasets** to the **live site theme** (colors, type, s
 ### Interactive prototype — login
 
 1. Run `npm run dev` in `synth-deck`.
-2. Open **`http://localhost:5173/#prototype`** (hash must be `#prototype`).
+2. Open `**http://localhost:5173/#prototype`** (hash must be `#prototype`).
 3. Click **Enter demo dashboard** — no typing required (local-only session).
 4. Optional: use **Sign in** with the demo IDs below (password is **not** validated).
 
-| Field | Value |
-|--------|--------|
-| Email | `coach@berkeley.edu` |
-| Password | `demo` (any string works) |
-| Team ID | `cal-womens-rowing-demo` |
-| Org ID | `demo-org-berkeley-athletics` |
+
+| Field    | Value                         |
+| -------- | ----------------------------- |
+| Email    | `coach@berkeley.edu`          |
+| Password | `demo` (any string works)     |
+| Team ID  | `cal-womens-rowing-demo`      |
+| Org ID   | `demo-org-berkeley-athletics` |
+
 
 If inputs don’t accept keystrokes in a nested browser, use **Enter demo dashboard** or paste into fields; fields use controlled state and `select-text`.
 
