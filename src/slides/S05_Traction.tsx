@@ -28,7 +28,7 @@ export function S05_Traction({ pageOverride, sectionOverride }: { pageOverride?:
               className="mt-5 text-center text-[11px] font-semibold tracking-[0.18em] text-zinc-500/80"
               style={{ fontFamily: THEME.fontMono }}
             >
-              Ranked #2 &amp; 8th in the country
+              Ranked #2 &amp; 8th in the U.S.A.
             </div>
           </div>
 
