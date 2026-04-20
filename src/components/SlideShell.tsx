@@ -1,8 +1,10 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import React, { useEffect, useMemo, useRef } from 'react'
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
+import React, { useEffect, useMemo, useRef, type CSSProperties } from 'react'
 import { THEME } from '../lib/theme'
 import { TRANSITIONS } from '../lib/motion'
 import { useAdvanceGate } from './advanceGate'
+import { SlideDeckProvider } from './SlideDeckContext'
+import { PRODUCT_DEMO_SLIDE_NEXT_EVENT, SETUP_SLIDE_NEXT_EVENT } from '../lib/setupSlideEvents'
 
 export type SlideDef = {
   id: string
@@ -14,6 +16,14 @@ export type SlideDef = {
   showTopNav?: boolean
   showProgress?: boolean
   showNavButtons?: boolean
+}
+
+function isTypingInField(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false
+  const t = target.tagName
+  if (t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT') return true
+  if (target.isContentEditable) return true
+  return false
 }
 
 export function SlideShell({
@@ -38,12 +48,23 @@ export function SlideShell({
   const goNext = () => {
     if (!canNext) return
     if (blocked) return
+    /** Setup slide runs a cursor → Create account sim before advancing. */
+    if (slide.id === 's02-setup') {
+      window.dispatchEvent(new CustomEvent(SETUP_SLIDE_NEXT_EVENT))
+      return
+    }
+    /** Product demo slide expands first, then advances only after completion. */
+    if (slide.id === 's06-product-demo') {
+      window.dispatchEvent(new CustomEvent(PRODUCT_DEMO_SLIDE_NEXT_EVENT))
+      return
+    }
     setIndex(index + 1)
   }
 
-  // Keyboard nav
+  // Keyboard nav (skip when typing in inputs — e.g. deck password, so Backspace edits text)
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
+      if (isTypingInField(e.target)) return
       if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
         e.preventDefault()
         goPrev()
@@ -58,21 +79,64 @@ export function SlideShell({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, blocked])
 
-  // Click anywhere to advance (except when blocked)
+  // Tap / click to advance (pointer + mouse); swipe left/right on touch; guard doubles + interactive UI
   const clickGuardRef = useRef(0)
-  const onBackdropClick = () => {
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+  const suppressNextClickRef = useRef(false)
+
+  const isInteractiveTarget = (el: EventTarget | null) => {
+    if (!(el instanceof HTMLElement)) return false
+    return !!el.closest(
+      'button, a, input, textarea, select, label, [role="dialog"], [data-no-advance]',
+    )
+  }
+
+  const onBackdropClick = (e: React.MouseEvent) => {
+    if (suppressNextClickRef.current) {
+      suppressNextClickRef.current = false
+      return
+    }
+    if (isInteractiveTarget(e.target)) return
     const now = Date.now()
     if (now - clickGuardRef.current < 150) return
     clickGuardRef.current = now
     goNext()
   }
 
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0]
+    if (!t) return
+    touchStartRef.current = { x: t.clientX, y: t.clientY }
+  }
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStartRef.current) return
+    const t = e.changedTouches[0]
+    if (!t) return
+    const dx = t.clientX - touchStartRef.current.x
+    const dy = t.clientY - touchStartRef.current.y
+    touchStartRef.current = null
+    const absX = Math.abs(dx)
+    const absY = Math.abs(dy)
+    if (absX < 48 || absX < absY) return
+    suppressNextClickRef.current = true
+    if (dx < 0) goNext()
+    else goPrev()
+  }
+
   const bg = slide.background ?? THEME.darkDeep
-  const lightSurface = bg === THEME.light
   const showTopNav = slide.showTopNav ?? true
   const showProgress = slide.showProgress ?? true
   const showNavButtons = slide.showNavButtons ?? true
   const frame = slide.frame ?? 'deck'
+  const rightsTone =
+    bg === THEME.light || bg === THEME.white
+      ? {
+          color: 'rgba(24,24,27,0.48)',
+        }
+      : {
+          color: 'rgba(255,255,255,0.72)',
+        }
 
   const progressPct = useMemo(() => {
     if (slides.length <= 1) return 0
@@ -81,107 +145,145 @@ export function SlideShell({
 
   return (
     <div
-      className="h-full w-full select-none"
-      style={{ background: THEME.darkDeep }}
-      onMouseDown={onBackdropClick}
+      className="h-full min-h-screen min-h-[100dvh] w-full select-none deck-backdrop"
+      style={{
+        background: `radial-gradient(ellipse 85% 75% at 50% 42%, ${THEME.darkMid} 0%, ${THEME.darkDeep} 48%, #030201 100%)`,
+      }}
+      onClick={onBackdropClick}
     >
-      <div className="h-full w-full flex items-center justify-center">
+      <div className="h-full min-h-screen min-h-[100dvh] w-full flex items-center justify-center px-2 py-2 sm:px-4 sm:py-4">
         <div
-          className="relative"
-          style={{
-            width: '100vw',
-            height: '100vh',
-            maxWidth: 'calc(100vh * 16 / 9)',
-            maxHeight: 'calc(100vw * 9 / 16)',
-            aspectRatio: '16 / 9',
-          }}
+          className="deck-shell-stack flex flex-col items-center"
+          style={
+            {
+              '--deck-controls-reserve': showNavButtons || showProgress ? '86px' : '28px',
+            } as CSSProperties
+          }
         >
-          {frame === 'deck' ? (
+          <div
+            className="deck-aspect-wrap relative"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
             <div
-              className="absolute inset-0 rounded-[14px]"
+              className="pointer-events-none absolute bottom-3 right-4 z-30 text-[8px] tracking-[0.08em] sm:bottom-5 sm:right-7 sm:text-[9px]"
               style={{
-                boxShadow: '0 24px 60px rgba(0,0,0,0.55)',
-                border: '1px solid rgba(255,255,255,0.10)',
+                fontFamily: THEME.fontMono,
+                ...rightsTone,
               }}
-            />
-          ) : null}
-
-          {showTopNav ? (
-            <div className="absolute left-0 top-0 w-full z-20 pointer-events-none">
-              {/* TopNav attaches itself inside slides when needed; kept reserved here */}
-            </div>
-          ) : null}
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={slide.id}
-              className="absolute inset-0 overflow-hidden"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={TRANSITIONS.page}
             >
-              <div className={frame === 'deck' ? 'absolute inset-[14px] rounded-[12px] overflow-hidden' : 'absolute inset-0'}>
-                <div className="absolute inset-0" style={{ background: bg }} />
-                {slide.component}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {showNavButtons ? (
-            <div className="absolute bottom-5 right-8 z-30 flex items-center gap-2 pointer-events-auto">
-              <button
-                type="button"
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  goPrev()
-                }}
-                disabled={!canPrev}
-                className={
-                  lightSurface
-                    ? 'h-8 w-8 rounded bg-zinc-900/85 hover:bg-zinc-900 disabled:opacity-40 disabled:hover:bg-zinc-900/85 text-white font-medium shadow-sm border border-zinc-800/40'
-                    : 'h-8 w-8 rounded bg-white/10 hover:bg-white/15 disabled:opacity-40 disabled:hover:bg-white/10 text-white font-medium'
-                }
-                style={{ fontFamily: THEME.fontMono }}
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  goNext()
-                }}
-                disabled={!canNext || blocked}
-                className={
-                  lightSurface
-                    ? 'h-8 w-8 rounded bg-zinc-900/85 hover:bg-zinc-900 disabled:opacity-40 disabled:hover:bg-zinc-900/85 text-white font-medium shadow-sm border border-zinc-800/40'
-                    : 'h-8 w-8 rounded bg-white/10 hover:bg-white/15 disabled:opacity-40 disabled:hover:bg-white/10 text-white font-medium'
-                }
-                style={{ fontFamily: THEME.fontMono }}
-              >
-                →
-              </button>
-              <div
-                className={`ml-2 text-[11px] ${lightSurface ? 'text-zinc-600' : 'text-white/70'}`}
-                style={{ fontFamily: THEME.fontMono }}
-              >
-                {index + 1} / {slides.length}
-              </div>
+              © 2026 Synth Sports. All rights reserved.
             </div>
-          ) : null}
-
-          {showProgress ? (
-            <div className={`absolute bottom-0 left-0 w-full h-[3px] z-30 ${lightSurface ? 'bg-zinc-200/90' : 'bg-white/10'}`}>
+            {frame === 'deck' ? (
               <div
-                className="h-full"
+                className="pointer-events-none absolute inset-0 rounded-[15px] sm:rounded-[16px]"
                 style={{
-                  width: `${progressPct}%`,
-                  background: THEME.accent,
+                  boxShadow:
+                    '0 0 0 1px rgba(255,255,255,0.09), 0 2px 1px rgba(255,255,255,0.04) inset, 0 32px 64px rgba(0,0,0,0.55), 0 12px 28px rgba(0,0,0,0.35)',
                 }}
               />
+            ) : null}
+
+            {showTopNav ? (
+              <div className="absolute left-0 top-0 w-full z-20 pointer-events-none">
+                {/* TopNav attaches itself inside slides when needed; kept reserved here */}
+              </div>
+            ) : null}
+
+            <LayoutGroup id="deck-layout">
+              <AnimatePresence mode="sync">
+                <motion.div
+                  key={slide.id}
+                  className="absolute inset-0 overflow-hidden"
+                  initial={{ opacity: 0, y: 18, scale: 0.992 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -12, scale: 0.988 }}
+                  transition={TRANSITIONS.pageCrossfade}
+                >
+                  <div
+                    className={
+                      frame === 'deck'
+                        ? 'absolute inset-2 sm:inset-[14px] rounded-[10px] sm:rounded-[12px] overflow-hidden'
+                        : 'absolute inset-0'
+                    }
+                  >
+                    <div className="absolute inset-0" style={{ background: bg }} />
+                    <SlideDeckProvider value={{ currentIndex: index, slideCount: slides.length }}>
+                      {slide.component}
+                    </SlideDeckProvider>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </LayoutGroup>
+          </div>
+
+          {(showNavButtons || showProgress) ? (
+            <div
+              className="mt-3 flex w-full max-w-[min(96vw,1380px)] items-center justify-between gap-3 pointer-events-auto"
+              onPointerDown={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                paddingBottom: 'max(0px, env(safe-area-inset-bottom, 0px))',
+              }}
+            >
+              {showProgress ? (
+                <div
+                  className="h-[6px] flex-1 overflow-hidden rounded-full"
+                  style={{
+                    background: 'rgba(255,255,255,0.18)',
+                    boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.35)',
+                  }}
+                >
+                  <div
+                    className="h-full rounded-full transition-[width] duration-300 ease-out"
+                    style={{
+                      width: `${progressPct}%`,
+                      background: `linear-gradient(90deg, ${THEME.primary} 0%, ${THEME.accent} 100%)`,
+                      boxShadow: `0 0 14px ${THEME.accent}66`,
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="flex-1" />
+              )}
+
+              {showNavButtons ? (
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      goPrev()
+                    }}
+                    disabled={!canPrev}
+                    className="flex h-10 w-10 items-center justify-center rounded-lg border text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] backdrop-blur-md transition-colors disabled:opacity-40"
+                    style={{
+                      fontFamily: THEME.fontMono,
+                      background: 'rgba(255,255,255,0.10)',
+                      borderColor: 'rgba(255,255,255,0.22)',
+                    }}
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      goNext()
+                    }}
+                    disabled={!canNext || blocked}
+                    className="flex h-10 w-10 items-center justify-center rounded-lg border text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] backdrop-blur-md transition-colors disabled:opacity-40"
+                    style={{
+                      fontFamily: THEME.fontMono,
+                      background: 'rgba(255,255,255,0.10)',
+                      borderColor: 'rgba(255,255,255,0.22)',
+                    }}
+                  >
+                    →
+                  </button>
+                </div>
+              ) : null}
             </div>
           ) : null}
         </div>

@@ -31,45 +31,44 @@ const ROWS: {
   },
 ]
 
-export function S12_Close() {
+export function S12_Close({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <div className="absolute inset-0 flex flex-col" style={{ padding: '44px 40px 32px', color: THEME.textPrimary, background: THEME.light }}>
-      <TopNav section="CLOSE" page="12 / 13" tone="light" />
+      <TopNav section={sectionOverride ?? 'CLOSE'} page={pageOverride ?? '12 / 13'} tone="light" />
 
-      <div className="flex-1 min-h-0 flex flex-col justify-center w-full max-w-[1040px] mx-auto">
-        {/* Title + subtitle sit directly on top of the table (one block, no vertical gap from justify-between) */}
+      <div className="flex-1 min-h-0 flex flex-col justify-center w-full max-w-[1200px] mx-auto">
         <div className="w-full min-h-0 flex flex-col">
           <h2
-            className="text-[24px] font-bold tracking-[-0.04em] text-center"
+            className="text-[30px] font-bold tracking-[-0.04em] text-center"
             style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}
           >
             Our ask
           </h2>
-          <p className="mt-1 text-center text-[11px] uppercase tracking-[0.14em] font-semibold" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
+          <p className="mt-1.5 text-center text-[12px] uppercase tracking-[0.16em] font-semibold" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
             Three ways to plug in
           </p>
 
-          <div className="mt-3 rounded-xl overflow-hidden w-full" style={{ border: `1px solid ${THEME.border}`, boxShadow: '0 4px 24px rgba(24,24,27,0.06)' }}>
+          <div className="mt-5 rounded-2xl overflow-hidden w-full" style={{ border: `1px solid ${THEME.border}`, boxShadow: '0 8px 32px rgba(24,24,27,0.08)' }}>
             <table className="w-full border-collapse text-left" style={{ fontFamily: THEME.fontSans }}>
               <thead>
                 <tr style={{ background: `${THEME.primary}10` }}>
                   <th
                     scope="col"
-                    className="py-2.5 px-3 w-[52px] text-[10px] tracking-[0.12em] uppercase font-bold border-b"
+                    className="py-3.5 px-4 w-[68px] text-[11px] tracking-[0.14em] uppercase font-bold border-b"
                     style={{ fontFamily: THEME.fontMono, color: THEME.primaryDarker, borderColor: THEME.border }}
                   >
                     #
                   </th>
                   <th
                     scope="col"
-                    className="py-2.5 px-3 w-[min(28%,200px)] text-[10px] tracking-[0.12em] uppercase font-bold border-b"
+                    className="py-3.5 px-4 w-[min(30%,260px)] text-[11px] tracking-[0.14em] uppercase font-bold border-b"
                     style={{ fontFamily: THEME.fontMono, color: THEME.primaryDarker, borderColor: THEME.border }}
                   >
                     Ask
                   </th>
                   <th
                     scope="col"
-                    className="py-2.5 px-4 text-[10px] tracking-[0.12em] uppercase font-bold border-b"
+                    className="py-3.5 px-5 text-[11px] tracking-[0.14em] uppercase font-bold border-b"
                     style={{ fontFamily: THEME.fontMono, color: THEME.primaryDarker, borderColor: THEME.border }}
                   >
                     What we&apos;re looking for
@@ -80,7 +79,7 @@ export function S12_Close() {
                 {ROWS.map((row) => (
                   <tr key={row.num} style={{ background: THEME.white }}>
                     <td
-                      className="align-top py-4 px-3 border-b font-bold text-[12px]"
+                      className="align-top py-5 px-4 border-b font-bold text-[14px]"
                       style={{
                         fontFamily: THEME.fontMono,
                         color: row.accent,
@@ -91,21 +90,21 @@ export function S12_Close() {
                       {row.num}
                     </td>
                     <td
-                      className="align-top py-4 px-3 border-b text-[14px] font-semibold leading-snug"
+                      className="align-top py-5 px-4 border-b text-[18px] font-semibold leading-snug"
                       style={{ fontFamily: THEME.fontSerif, color: THEME.textPrimary, borderColor: THEME.border }}
                     >
                       {row.ask}
                     </td>
-                    <td className="align-top py-4 px-4 border-b" style={{ borderColor: THEME.border }}>
-                      <p className="text-[12px] leading-[1.55]" style={{ color: THEME.textSecondary }}>
+                    <td className="align-top py-5 px-5 border-b" style={{ borderColor: THEME.border }}>
+                      <p className="text-[15px] leading-[1.62]" style={{ color: THEME.textSecondary }}>
                         {row.summary}
                       </p>
                       {row.funds ? (
-                        <div className="mt-3 pt-3" style={{ borderTop: `1px dashed ${THEME.border}` }}>
-                          <div className="text-[10px] font-bold uppercase tracking-[0.1em] mb-1.5" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
+                        <div className="mt-4 pt-4" style={{ borderTop: `1px dashed ${THEME.border}` }}>
+                          <div className="mb-2 text-[11px] font-bold uppercase tracking-[0.12em]" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
                             Use of funds
                           </div>
-                          <ul className="space-y-1 text-[11px] leading-[1.4]" style={{ fontFamily: THEME.fontMono, color: THEME.textSecondary }}>
+                          <ul className="space-y-1.5 text-[13px] leading-[1.45]" style={{ fontFamily: THEME.fontMono, color: THEME.textSecondary }}>
                             {row.funds.map((f) => (
                               <li key={f} className="flex gap-2">
                                 <span style={{ color: row.accent }}>·</span>
@@ -120,19 +119,6 @@ export function S12_Close() {
                 ))}
               </tbody>
             </table>
-          </div>
-        </div>
-
-        <div className="mt-6 flex flex-col items-center text-center shrink-0">
-          <p className="text-[12px] italic" style={{ fontFamily: THEME.fontSerif, color: THEME.textMuted }}>
-            Built for rowing. Built to synthesize everything.
-          </p>
-          <div className="mt-2.5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[10px] tracking-[0.14em] uppercase" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-            <span>synthsports.com</span>
-            <span style={{ color: THEME.border }} aria-hidden>
-              ·
-            </span>
-            <span>supportsynth@gmail.com</span>
           </div>
         </div>
       </div>

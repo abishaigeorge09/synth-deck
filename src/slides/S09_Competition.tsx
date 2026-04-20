@@ -2,97 +2,162 @@ import { PixelArt } from '../components/PixelArt'
 import { TopNav } from '../components/TopNav'
 import { THEME } from '../lib/theme'
 
-function CompetitorRow({ name, desc, checks }: { name: string; desc: string; checks: Array<boolean | string> }) {
+const SYNTH_LOGO_SRC = '/logos/synth-icon-green.svg'
+
+/** Top padding clears TopNav; horizontal gutter matches `TopNav` GUTTER_X. */
+const PAD = 'clamp(52px, 6.5vh, 76px) clamp(24px, 4vw, 56px) clamp(18px, 2.8vh, 36px)'
+
+const PANEL = {
+  border: 'rgba(255,255,255,0.11)',
+  bg: 'rgba(255,255,255,0.035)',
+  rowLine: 'rgba(255,255,255,0.07)',
+} as const
+
+/** Set `logoSrc` when you add files under `public/logos/competition/`. */
+export type CompetitorRowDef = {
+  name: string
+  desc: string
+  logoSrc?: string
+  checks: Array<boolean | string>
+}
+
+function CompetitorCell({ row }: { row: CompetitorRowDef }) {
   return (
-    <tr style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-      <td className="px-4 py-3">
-        <div className="text-[13px] text-white/90 font-semibold" style={{ fontFamily: THEME.fontSans }}>{name}</div>
-        <div className="text-[10px] text-white/45 mt-0.5" style={{ fontFamily: THEME.fontSans }}>{desc}</div>
-      </td>
-      {checks.map((c, i) => (
-        <td key={i} className="px-3 py-3 text-center text-[14px]" style={{ fontFamily: THEME.fontMono }}>
-          {c === true ? (
-            <span style={{ color: THEME.accent }}>✓</span>
-          ) : c === false ? (
-            <span className="text-white/25">✗</span>
-          ) : (
-            <span className="text-white/50 text-[11px]">{c}</span>
-          )}
-        </td>
-      ))}
-    </tr>
+    <td className="align-middle px-4 py-4 sm:px-5 sm:py-[1.125rem]">
+      <div className="flex items-start gap-3">
+        {row.logoSrc ? (
+          <img src={row.logoSrc} alt="" className="mt-0.5 h-8 w-auto max-w-[100px] shrink-0 object-contain opacity-95" />
+        ) : null}
+        <div className="min-w-0 pr-2">
+          <div className="text-[13px] font-semibold leading-snug text-white/92" style={{ fontFamily: THEME.fontSans }}>
+            {row.name}
+          </div>
+          <div className="mt-1 text-[10px] leading-[1.45] text-white/48" style={{ fontFamily: THEME.fontSans }}>
+            {row.desc}
+          </div>
+        </div>
+      </div>
+    </td>
   )
 }
 
-export function S09_Competition() {
+function CheckCell({ c }: { c: boolean | string }) {
   return (
-    <div className="absolute inset-0 flex flex-col text-white" style={{ padding: '52px 48px 36px' }}>
+    <td className="align-middle px-2 py-4 text-center sm:px-3 sm:py-[1.125rem]" style={{ fontFamily: THEME.fontMono }}>
+      {c === true ? (
+        <span className="text-[15px]" style={{ color: THEME.accent }}>
+          ✓
+        </span>
+      ) : c === false ? (
+        <span className="text-[14px] text-white/22">✗</span>
+      ) : (
+        <span className="text-[11px] leading-tight text-white/55">{c}</span>
+      )}
+    </td>
+  )
+}
+
+const COMPETITORS: CompetitorRowDef[] = [
+  { name: 'TeamWorks', desc: 'Team communication & scheduling', checks: [false, false, false, false] },
+  { name: 'Hudl', desc: 'Video analysis (football, basketball)', checks: [false, false, 'Partial', false] },
+  { name: 'Bridge Athletics', desc: 'Gym & strength tracking', checks: [false, false, false, false] },
+  { name: 'TrainingPeaks', desc: 'Endurance training plans', checks: ['Endurance', false, 'Partial', false] },
+  { name: 'Catapult / STATSports', desc: 'GPS wearables for team sports', checks: [false, false, false, false] },
+  { name: 'Sheets + GroupMe', desc: 'The actual incumbent', checks: [false, false, false, false] },
+]
+
+export function S09_Competition({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
+  return (
+    <div className="absolute inset-0 flex flex-col overflow-hidden text-white" style={{ padding: PAD }}>
       <PixelArt pattern="scatter" seed={93} color="#000000" opacity={0.08} />
-      <TopNav section="08 · COMPETITION" page="9 / 13" />
+      <TopNav section={sectionOverride ?? '08 · COMPETITION'} page={pageOverride ?? '9 / 13'} />
 
-      <div className="text-[48px] leading-[1.02] font-bold" style={{ fontFamily: THEME.fontMono, letterSpacing: '-0.06em' }}>
-        No one connects it all.
-      </div>
-
-      {/* Main content · flex-grows to fill */}
-      <div className="mt-5 flex-1 min-h-0 flex gap-6">
-        {/* Table */}
-        <div
-          className="flex-1 rounded-xl overflow-hidden border flex flex-col"
-          style={{ borderColor: 'rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.03)' }}
+      <header className="shrink-0 pt-1">
+        <h1
+          className="text-[clamp(32px,min(8vw,9vh),68px)] font-bold uppercase leading-[0.96] tracking-[-0.04em]"
+          style={{ fontFamily: THEME.fontMono, color: THEME.white }}
         >
-          <table className="w-full border-collapse flex-1">
-            <thead>
-              <tr className="text-[10px] tracking-[0.16em] uppercase" style={{ fontFamily: THEME.fontMono }}>
-                <th className="px-4 py-3 text-left text-white/45">Competitor</th>
-                <th className="px-3 py-3 text-center text-white/45">Sport-specific</th>
-                <th className="px-3 py-3 text-center text-white/45">Connects tools</th>
-                <th className="px-3 py-3 text-center text-white/45">One view</th>
-                <th className="px-3 py-3 text-center text-white/45">Auto-updates</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style={{ borderTop: '1px solid rgba(255,255,255,0.08)', background: `${THEME.accent}08` }}>
-                <td className="px-4 py-3">
-                  <div className="text-[14px] font-bold" style={{ fontFamily: THEME.fontMono, color: THEME.accent }}>synth.</div>
-                  <div className="text-[10px] text-white/55 mt-0.5" style={{ fontFamily: THEME.fontSans }}>Purpose-built synthesis</div>
-                </td>
-                <td className="px-3 py-3 text-center text-[14px]" style={{ fontFamily: THEME.fontMono, color: THEME.accent }}>✓</td>
-                <td className="px-3 py-3 text-center text-[14px]" style={{ fontFamily: THEME.fontMono, color: THEME.accent }}>✓</td>
-                <td className="px-3 py-3 text-center text-[14px]" style={{ fontFamily: THEME.fontMono, color: THEME.accent }}>✓</td>
-                <td className="px-3 py-3 text-center text-[14px]" style={{ fontFamily: THEME.fontMono, color: THEME.accent }}>✓</td>
-              </tr>
-              <CompetitorRow name="TeamWorks" desc="Team communication & scheduling" checks={[false, false, false, false]} />
-              <CompetitorRow name="Hudl" desc="Video analysis (football, basketball)" checks={[false, false, 'Partial', false]} />
-              <CompetitorRow name="Bridge Athletics" desc="Gym & strength tracking" checks={[false, false, false, false]} />
-              <CompetitorRow name="TrainingPeaks" desc="Endurance training plans" checks={['Endurance', false, 'Partial', false]} />
-              <CompetitorRow name="Catapult / STATSports" desc="GPS wearables for team sports" checks={[false, false, false, false]} />
-              <CompetitorRow name="Sheets + GroupMe" desc="The actual incumbent" checks={[false, false, false, false]} />
-            </tbody>
-          </table>
-        </div>
+          COMPETITION
+        </h1>
+        <p
+          className="mt-3 max-w-[40rem] text-[clamp(18px,2.6vw,28px)] font-semibold leading-[1.2] tracking-[-0.02em] text-white/88 sm:mt-4"
+          style={{ fontFamily: THEME.fontSerif, fontStyle: 'italic' }}
+        >
+          No one connects it all.
+        </p>
+      </header>
 
-        {/* Key differentiators */}
-        <div className="flex flex-col gap-4" style={{ width: 320 }}>
-          {[
-            { num: '01', title: 'Built for the sport', body: 'synth. is sport-specific. Everyone else is generic or built for football.', color: THEME.accent },
-            { num: '02', title: 'Connects all tools', body: 'synth. reads data from ANY tool via connectors. Nobody else does this.', color: THEME.cyan },
-            { num: '03', title: 'One athlete view', body: 'Gym + water + schedule + compliance in one profile. Elsewhere: 4 apps.', color: THEME.purple },
-            { num: '04', title: 'Automated updates', body: 'Cloud scraping on schedule. Everything else requires manual entry.', color: THEME.amber },
-          ].map(d => (
-            <div key={d.num} className="flex-1 rounded-xl border px-5 py-4 flex flex-col justify-center" style={{ borderColor: 'rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', borderLeft: `4px solid ${d.color}` }}>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold" style={{ fontFamily: THEME.fontMono, color: d.color }}>{d.num}</span>
-                <span className="text-[13px] font-semibold" style={{ fontFamily: THEME.fontSans }}>{d.title}</span>
+      {/* min-h-full + justify-center vertically balances the table when the viewport is tall */}
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden pt-5">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain">
+          <div className="flex min-h-full w-full flex-col justify-center py-2">
+            <div
+              className="mx-auto w-full max-w-[1080px] rounded-2xl border"
+              style={{
+                borderColor: PANEL.border,
+                background: PANEL.bg,
+                boxShadow: '0 24px 48px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06)',
+              }}
+            >
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[640px] table-fixed border-collapse">
+                  <colgroup>
+                    <col style={{ width: '36%' }} />
+                    <col style={{ width: '16%' }} />
+                    <col style={{ width: '16%' }} />
+                    <col style={{ width: '16%' }} />
+                    <col style={{ width: '16%' }} />
+                  </colgroup>
+                  <thead>
+                    <tr
+                      className="text-[10px] uppercase tracking-[0.18em] text-white/50"
+                      style={{ fontFamily: THEME.fontMono, borderBottom: `1px solid ${PANEL.rowLine}` }}
+                    >
+                      <th className="px-4 py-3.5 text-left sm:px-5">Competitor</th>
+                      <th className="px-2 py-3.5 text-center sm:px-3">Sport-specific</th>
+                      <th className="px-2 py-3.5 text-center sm:px-3">Connects tools</th>
+                      <th className="px-2 py-3.5 text-center sm:px-3">One view</th>
+                      <th className="px-2 py-3.5 text-center sm:px-3">Auto-updates</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      style={{
+                        borderTop: `1px solid ${PANEL.rowLine}`,
+                        background: `linear-gradient(90deg, ${THEME.accent}14 0%, rgba(255,255,255,0.02) 55%)`,
+                      }}
+                    >
+                      <td className="align-middle px-4 py-4 sm:px-5 sm:py-[1.125rem]">
+                        <div className="flex items-center gap-3">
+                          <img src={SYNTH_LOGO_SRC} alt="" className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10" />
+                          <div className="min-w-0">
+                            <div className="text-[15px] font-bold sm:text-[16px]" style={{ fontFamily: THEME.fontMono, color: THEME.accent }}>
+                              synth.
+                            </div>
+                            <div className="mt-1 text-[10px] leading-snug text-white/58" style={{ fontFamily: THEME.fontSans }}>
+                              Purpose-built synthesis
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      {[true, true, true, true].map((_, i) => (
+                        <CheckCell key={i} c={true} />
+                      ))}
+                    </tr>
+                    {COMPETITORS.map((row) => (
+                      <tr key={row.name} style={{ borderTop: `1px solid ${PANEL.rowLine}` }}>
+                        <CompetitorCell row={row} />
+                        {row.checks.map((c, i) => (
+                          <CheckCell key={i} c={c} />
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-              <div className="mt-1.5 text-[12px] text-white/65 leading-[1.5]" style={{ fontFamily: THEME.fontSans }}>{d.body}</div>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-
-      <div className="mt-3 text-white/60 italic text-[13px]" style={{ fontFamily: THEME.fontSerif }}>
-        The switching cost is low because there is nothing to switch from.
       </div>
     </div>
   )

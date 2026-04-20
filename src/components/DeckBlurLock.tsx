@@ -6,8 +6,9 @@ import { THEME } from '../lib/theme'
 import { DECK_UNLOCK_PASSWORD } from '../lib/deckLock'
 
 export function DeckBlurLock({ children, printSlides }: { children: React.ReactNode; printSlides: SlideDef[] }) {
-  // Dev: always unlocked (no gate). Production / preview: locked on every full reload.
-  const [unlocked, setUnlocked] = useState(() => import.meta.env.DEV)
+  // Temporary override: keep the deck open without a password barrier.
+  // Re-enable later by switching this back to `() => import.meta.env.DEV`.
+  const [unlocked, setUnlocked] = useState(true)
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState(false)
@@ -70,14 +71,20 @@ export function DeckBlurLock({ children, printSlides }: { children: React.ReactN
 
         {!unlocked ? (
           <div
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 p-6 backdrop-blur-md"
+            className="fixed inset-0 z-[200] flex items-center justify-center overflow-y-auto bg-black/50 p-4 backdrop-blur-md sm:p-6"
+            style={{
+              paddingTop: 'max(1rem, env(safe-area-inset-top, 0px))',
+              paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 0px))',
+              paddingLeft: 'max(1rem, env(safe-area-inset-left, 0px))',
+              paddingRight: 'max(1rem, env(safe-area-inset-right, 0px))',
+            }}
             role="dialog"
             aria-modal="true"
             aria-labelledby="deck-lock-title"
           >
             <form
               onSubmit={tryUnlock}
-              className="w-full max-w-[380px] rounded-2xl border border-white/10 bg-zinc-950/95 p-8 shadow-2xl"
+              className="my-auto w-full max-h-[min(90dvh,560px)] max-w-[380px] overflow-y-auto rounded-2xl border border-white/10 bg-zinc-950/95 p-6 shadow-2xl sm:p-8"
               style={{ fontFamily: THEME.fontSans }}
             >
               <h2 id="deck-lock-title" className="text-lg font-semibold text-white" style={{ fontFamily: THEME.fontMono }}>

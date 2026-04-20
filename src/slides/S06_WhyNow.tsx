@@ -1,352 +1,266 @@
-import type { ReactNode } from 'react'
-import { motion } from 'framer-motion'
-import { PaperTexture } from '../components/PaperTexture'
-import { SectionLabel } from '../components/SectionLabel'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { TopNav } from '../components/TopNav'
 import { THEME } from '../lib/theme'
-import { TRANSITIONS } from '../lib/motion'
 
-const GRID = THEME.border
+const YEARS = [2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028] as const
 
-/** Line chart with horizontal grid, x-axis year labels, area fill. */
-function ChartLineIndexed({
-  values,
-  xLabels,
-  yFormat,
-  color,
-}: {
-  values: number[]
-  xLabels: string[]
-  yFormat: (n: number) => string
-  color: string
-}) {
-  const w = 320
-  const h = 96
-  const padL = 38
-  const padR = 10
-  const padT = 12
-  const padB = 20
-  const plotBottom = h - padB
-  const chartW = w - padL - padR
-  const plotH = plotBottom - padT
-  const max = Math.max(...values)
-  const min = Math.min(...values)
-  const range = max - min || 1
-  const pts = values.map((v, i) => {
-    const x = padL + (i / (values.length - 1)) * chartW
-    const y = plotBottom - ((v - min) / range) * plotH
-    return [x, y] as const
-  })
-  const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ')
-  const areaD = `${d} L ${pts[pts.length - 1][0]} ${plotBottom} L ${pts[0][0]} ${plotBottom} Z`
-  const gridYs = [0.25, 0.5, 0.75].map((t) => padT + plotH * (1 - t))
+const SERIES = [
+  {
+    key: 'data',
+    label: 'Data per athlete',
+    color: '#10B981',
+    values: [5, 8, 15, 30, 60, 100, 180, 320, 500],
+  },
+  {
+    key: 'spend',
+    label: 'Athlete spend per program',
+    color: '#06B6D4',
+    values: [50, 60, 75, 95, 120, 450, 850, 1200, 1500],
+  },
+  {
+    key: 'tools',
+    label: 'Disconnected tools per staff',
+    color: '#F59E0B',
+    values: [2, 3, 4, 5, 5, 6, 8, 10, 12],
+  },
+] as const
 
-  return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-auto block" aria-hidden>
-      {gridYs.map((gy, i) => (
-        <line key={i} x1={padL} y1={gy} x2={w - padR} y2={gy} stroke={GRID} strokeWidth={1} opacity={0.4} />
-      ))}
-      <line x1={padL} y1={plotBottom} x2={w - padR} y2={plotBottom} stroke={GRID} strokeWidth={1.2} opacity={0.65} />
-      <text x={2} y={padT + 8} style={{ fontFamily: THEME.fontMono, fontSize: 8, fill: THEME.textMuted }}>
-        {yFormat(max)}
-      </text>
-      <text x={2} y={plotBottom - 2} style={{ fontFamily: THEME.fontMono, fontSize: 8, fill: THEME.textMuted }}>
-        {yFormat(min)}
-      </text>
-      <path d={areaD} fill={color} fillOpacity={0.12} />
-      <path d={d} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-      {xLabels.map((lab, i) => {
-        const x = padL + (i / (xLabels.length - 1)) * chartW
-        return (
-          <text key={`${lab}-${i}`} x={x} y={h - 4} textAnchor="middle" style={{ fontFamily: THEME.fontMono, fontSize: 8, fill: THEME.textMuted }}>
-            {lab}
-          </text>
-        )
-      })}
-    </svg>
-  )
+const SVG_W = 1100
+const SVG_H = 520
+const PAD_L = 96
+const PAD_R = 36
+const PAD_T = 50
+const PAD_B = 126
+const PLOT_W = SVG_W - PAD_L - PAD_R
+const PLOT_H = SVG_H - PAD_T - PAD_B
+
+function normalize(values: readonly number[]) {
+  const base = values[0] || 1
+  const indexed = values.map((v) => v / base)
+  const max = Math.max(...indexed)
+  return indexed.map((v) => (v / max) * 100)
 }
 
-function ChartHBarLabeled({
-  rows,
-  color,
-}: {
-  rows: Array<{ label: string; value: number }>
-  color: string
-}) {
-  const max = Math.max(...rows.map((r) => r.value), 1)
-  const w = 320
-  const rowH = 14
-  const gap = 5
-  const labelW = 78
-  const barW = w - labelW - 28
-  const h = rows.length * (rowH + gap) + 4
-
-  return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-auto block" aria-hidden>
-      {rows.map((r, i) => {
-        const y = i * (rowH + gap) + 2
-        const bw = (r.value / max) * barW
-        return (
-          <g key={r.label}>
-            <text x={0} y={y + 11} style={{ fontFamily: THEME.fontSans, fontSize: 9, fill: THEME.textSecondary }}>
-              {r.label}
-            </text>
-            <rect x={labelW} y={y + 2} width={barW} height={rowH - 4} rx={2} fill={`${THEME.textMuted}12`} />
-            <motion.rect
-              x={labelW}
-              y={y + 2}
-              width={bw}
-              height={rowH - 4}
-              rx={2}
-              fill={color}
-              initial={{ width: 0 }}
-              animate={{ width: bw }}
-              transition={{ ...TRANSITIONS.smooth, delay: 0.04 + i * 0.05 }}
-            />
-            <text x={labelW + barW + 4} y={y + 11} style={{ fontFamily: THEME.fontMono, fontSize: 9, fill: THEME.textMuted }}>
-              {r.value}%
-            </text>
-          </g>
-        )
-      })}
-    </svg>
-  )
+function buildPath(points: Array<{ x: number; y: number }>) {
+  return points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ')
 }
 
-function ChartVBarLabeled({
-  years,
-  values,
-  unit,
-  color,
-}: {
-  years: string[]
-  values: number[]
-  unit: string
-  color: string
-}) {
-  const max = Math.max(...values)
-  const w = 320
-  const h = 88
-  const padL = 28
-  const padB = 18
-  const plotH = h - padB - 8
-  const n = values.length
-  const gap = 14
-  const colW = (w - padL - 16 - gap * (n - 1)) / n
+export function S06_WhyNow({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
+  const [mounted, setMounted] = useState(false)
 
-  return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-auto block" aria-hidden>
-      {[0.33, 0.66].map((t, i) => {
-        const gy = 6 + (plotH - 6) * (1 - t)
-        return <line key={i} x1={padL} y1={gy} x2={w - 8} y2={gy} stroke={GRID} strokeWidth={1} opacity={0.4} />
-      })}
-      <line x1={padL} y1={plotH} x2={w - 8} y2={plotH} stroke={GRID} strokeWidth={1.2} opacity={0.65} />
-      <text x={4} y={12} style={{ fontFamily: THEME.fontMono, fontSize: 8, fill: THEME.textMuted }}>
-        ${max}M
-      </text>
-      {values.map((v, i) => {
-        const bh = Math.max(12, (v / max) * (plotH - 14))
-        const x = padL + i * (colW + gap)
-        return (
-          <g key={years[i]}>
-            <motion.rect
-              x={x}
-              y={plotH - bh}
-              width={colW}
-              height={bh}
-              rx={2}
-              fill={color}
-              initial={{ height: 0, y: plotH }}
-              animate={{ height: bh, y: plotH - bh }}
-              transition={{ ...TRANSITIONS.smooth, delay: 0.05 + i * 0.06 }}
-            />
-            <text
-              x={x + colW / 2}
-              y={h - 4}
-              textAnchor="middle"
-              style={{ fontFamily: THEME.fontMono, fontSize: 8, fill: THEME.textMuted }}
-            >
-              {years[i]}
-            </text>
-            <text
-              x={x + colW / 2}
-              y={plotH - bh - 4}
-              textAnchor="middle"
-              style={{ fontFamily: THEME.fontMono, fontSize: 9, fontWeight: 600, fill: THEME.textSecondary }}
-            >
-              {v}
-              {unit}
-            </text>
-          </g>
-        )
-      })}
-    </svg>
-  )
-}
+  useEffect(() => {
+    const id = window.setTimeout(() => setMounted(true), 80)
+    return () => window.clearTimeout(id)
+  }, [])
 
-function ChartPanel({
-  title,
-  stat,
-  statNote,
-  caption,
-  children,
-}: {
-  title: string
-  stat: string
-  statNote?: string
-  caption: string
-  children: ReactNode
-}) {
+  const chart = useMemo(() => {
+    return SERIES.map((series) => {
+      const normalized = normalize(series.values)
+      const points = normalized.map((value, idx) => {
+        const x = PAD_L + (idx / (YEARS.length - 1)) * PLOT_W
+        const y = PAD_T + ((100 - value) / 100) * PLOT_H
+        return { x, y, value }
+      })
+      return {
+        ...series,
+        points,
+        d: buildPath(points),
+      }
+    })
+  }, [])
+
+  const windowStartX = PAD_L + (5 / (YEARS.length - 1)) * PLOT_W
+  const windowEndX = PAD_L + (6 / (YEARS.length - 1)) * PLOT_W
+
   return (
     <div
-      className="rounded-xl border p-4 flex flex-col h-full min-h-0"
-      style={{ borderColor: THEME.border, background: 'rgba(255,255,255,0.85)', boxShadow: '0 8px 24px rgba(0,0,0,0.04)' }}
+      className="absolute inset-0 flex flex-col overflow-hidden"
+      style={{
+        background: '#050505',
+        padding: '44px 44px 34px',
+      }}
     >
-      <div className="text-[9px] tracking-[0.14em] uppercase font-bold" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-        {title}
-      </div>
-      <div className="mt-1 flex items-baseline gap-2 flex-wrap">
-        <span className="text-[36px] font-bold tabular-nums leading-none tracking-tight" style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}>
-          {stat}
-        </span>
-        {statNote ? (
-          <span className="text-[11px]" style={{ fontFamily: THEME.fontSans, color: THEME.textMuted }}>
-            {statNote}
-          </span>
-        ) : null}
-      </div>
-      <div className="mt-2 flex-1 min-h-0 flex flex-col justify-end">{children}</div>
-      <p className="mt-2 text-[11px] leading-[1.45]" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
-        {caption}
-      </p>
-    </div>
-  )
-}
+      <TopNav section={sectionOverride ?? '05 · WHY NOW'} page={pageOverride ?? '12 / 19'} tone="dark" />
 
-export function S06_WhyNow() {
-  const marketSeries = [100, 108, 118, 128, 138, 152, 168]
-  const athleteSeries = [472, 485, 498, 508, 518, 526]
-  const years7 = ['\'19', '\'20', '\'21', '\'22', '\'23', '\'24', '\'25']
-  const years6 = ['\'19', '\'20', '\'21', '\'22', '\'23', '\'24']
+      <h1
+        className="mt-16 text-[clamp(34px,4.4vw,56px)] font-bold leading-[1.02] tracking-[-0.05em]"
+        style={{ fontFamily: THEME.fontMono, color: THEME.white }}
+      >
+        Three forces. One moment.
+      </h1>
 
-  const whyPoints = [
-    {
-      title: 'Demand & expectations',
-      body: 'Audiences and rights spend are up; programs are expected to look as pro as the leagues they feed. Cheap software moved the bottleneck to integration, not features.',
-    },
-    {
-      title: 'Tool sprawl',
-      body: 'Staff already juggle six to eight systems. Pilots keep asking for one place that honors fatigue, lineups, and load, without re-keying the same fields.',
-    },
-    {
-      title: 'Athlete parity',
-      body: 'Athletes track sleep and strain on their wrists. Coaches need the same visibility so roster and compliance decisions stay defensible.',
-    },
-    {
-      title: 'Spend vs. insight',
-      body: 'Athletic budgets keep climbing, but insight stays fragmented. The opening is when spend is rising and the workflow is still broken.',
-    },
-  ]
-
-  return (
-    <div className="absolute inset-0 flex flex-col" style={{ padding: '40px 44px 28px', color: THEME.textPrimary }}>
-      <TopNav section="05 · WHY NOW" page="6 / 13" tone="light" />
-      <PaperTexture strength={0.72} tint="rgba(244, 243, 236, 0.95)" />
-
-      <SectionLabel text="05 · WHY NOW" />
-      <div className="mt-2 text-[36px] leading-[1.08] font-bold max-w-[800px]" style={{ fontFamily: THEME.fontMono, letterSpacing: '-0.05em' }}>
-        The world changed. Coaching hasn&apos;t.
-      </div>
-      <p className="mt-2 max-w-[640px] text-[13px] leading-[1.45]" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
-        Demand, spend, and athlete literacy crossed a line, building a unified surface is less a bet on novelty than on timing.
+      <p
+        className="mt-4 max-w-[62rem] text-[16px] leading-[1.55]"
+        style={{ fontFamily: THEME.fontSans, color: '#A1A1AA' }}
+      >
+        Athlete data, program spending, and coaching tool count all hit their inflection point in 2025. The synthesis layer doesn&apos;t exist yet.
       </p>
 
-      {/* Upper: charts */}
-      <div className="mt-5 flex-1 min-h-0 grid grid-cols-2 gap-4 content-stretch" style={{ minHeight: 0 }}>
-        <ChartPanel
-          title="Market · live sports viewership"
-          stat="+38%"
-          statNote="vs 2019 (indexed)"
-          caption="More screens, more leagues, more pressure for programs to present like pros, not more spreadsheets."
-        >
-          <ChartLineIndexed
-            values={marketSeries}
-            xLabels={years7}
-            yFormat={(n) => `${Math.round(n)}`}
-            color={THEME.primary}
-          />
-        </ChartPanel>
+      <div className="mt-10 flex min-h-0 flex-1 items-center justify-center">
+        <div className="w-full max-w-[1180px]">
+          <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} className="h-auto w-full overflow-visible">
+            <style>{`
+              .trend-line {
+                transition: filter 180ms ease;
+              }
+              .trend-series:hover .trend-line {
+                filter: var(--hover-filter);
+              }
+            `}</style>
+            <defs>
+              {chart.map((series) => (
+                <filter key={series.key} id={`glow-${series.key}`} x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor={series.color} floodOpacity="0.3" />
+                </filter>
+              ))}
+            </defs>
 
-        <ChartPanel
-          title="Stack depth · tools in play"
-          stat="7+"
-          statNote="systems / staff (D-I median)"
-          caption="Wearables, S&C, ops, each with its own login. The pain isn’t data collection; it’s stitching it."
-        >
-          <ChartHBarLabeled
-            color={THEME.primary}
-            rows={[
-              { label: 'Wearables', value: 81 },
-              { label: 'S&C / Bridge', value: 74 },
-              { label: 'Whoop', value: 69 },
-              { label: 'Ops / TW', value: 56 },
-            ]}
-          />
-        </ChartPanel>
+            {[0, 25, 50, 75, 100].map((tick) => {
+              const y = PAD_T + ((100 - tick) / 100) * PLOT_H
+              return (
+                <g key={tick}>
+                  <line x1={PAD_L} x2={SVG_W - PAD_R} y1={y} y2={y} stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+                  <text
+                    x={PAD_L - 14}
+                    y={y + 4}
+                    textAnchor="end"
+                    style={{ fontFamily: THEME.fontMono, fontSize: 11, fill: 'rgba(255,255,255,0.42)' }}
+                  >
+                    {tick}
+                  </text>
+                </g>
+              )
+            })}
 
-        <ChartPanel
-          title="Participation · NCAA athletes"
-          stat="530K"
-          statNote="and climbing"
-          caption="Full rosters and quota pressure mean ‘see load in one place’ is no longer optional."
-        >
-          <ChartLineIndexed
-            values={athleteSeries}
-            xLabels={years6}
-            yFormat={(n) => `${n}`}
-            color={THEME.primary}
-          />
-        </ChartPanel>
+            {YEARS.map((year, idx) => {
+              const x = PAD_L + (idx / (YEARS.length - 1)) * PLOT_W
+              return (
+                <g key={year}>
+                  <line x1={x} x2={x} y1={PAD_T} y2={PAD_T + PLOT_H} stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+                  <text
+                    x={x}
+                    y={SVG_H - 66}
+                    textAnchor="middle"
+                    style={{ fontFamily: THEME.fontMono, fontSize: 11, fill: 'rgba(255,255,255,0.55)' }}
+                  >
+                    {year}
+                  </text>
+                </g>
+              )
+            })}
 
-        <ChartPanel
-          title="Spend · avg FBS athletic budget"
-          stat="$127M"
-          statNote="'24 average"
-          caption="Money is there; what’s missing is a single layer that turns spend into coordinated action."
-        >
-          <ChartVBarLabeled years={['\'20', '\'22', '\'24']} values={[98, 112, 127]} unit="M" color={THEME.primary} />
-        </ChartPanel>
-      </div>
-
-      {/* Lower: full-width horizontal strip · same copy as before */}
-      <div className="mt-4 pt-4 shrink-0 border-t" style={{ borderColor: THEME.border }}>
-        <div
-          className="text-[10px] tracking-[0.2em] uppercase font-bold mb-3"
-          style={{ fontFamily: THEME.fontMono, color: THEME.primary }}
-        >
-          Why build now
-        </div>
-        <div className="grid grid-cols-4 gap-0">
-          {whyPoints.map((item, i) => (
-            <div
-              key={item.title}
-              className="min-w-0 px-4 first:pl-0 border-l first:border-l-0"
-              style={{ borderColor: THEME.border }}
+            <text
+              x={18}
+              y={PAD_T - 14}
+              style={{ fontFamily: THEME.fontMono, fontSize: 11, fill: 'rgba(255,255,255,0.55)' }}
             >
-              <div className="flex items-baseline gap-2">
-                <span className="text-[10px] font-bold tabular-nums" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div className="text-[12px] font-semibold leading-tight" style={{ fontFamily: THEME.fontSans, color: THEME.textPrimary }}>
-                  {item.title}
-                </div>
-              </div>
-              <p className="mt-2 text-[11px] leading-[1.5]" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
-                {item.body}
-              </p>
-            </div>
-          ))}
+              Growth index · 2020 = baseline
+            </text>
+
+            <g
+              style={{
+                opacity: mounted ? 1 : 0,
+                transition: 'opacity 500ms ease 2600ms',
+              }}
+            >
+              <rect
+                x={windowStartX}
+                y={PAD_T}
+                width={windowEndX - windowStartX}
+                height={PLOT_H}
+                fill="rgba(255,255,255,0.08)"
+              />
+              <text
+                x={(windowStartX + windowEndX) / 2}
+                y={PAD_T - 16}
+                textAnchor="middle"
+                style={{ fontFamily: THEME.fontMono, fontSize: 11, fill: '#10B981', letterSpacing: '0.12em' }}
+              >
+                THE SYNTH. WINDOW
+              </text>
+            </g>
+
+            {chart.map((series, idx) => {
+              const lineLength = 1600
+              return (
+                <g
+                  key={series.key}
+                  className="trend-series cursor-default"
+                  style={{ '--hover-filter': `url(#glow-${series.key})` } as CSSProperties}
+                >
+                  <path
+                    d={series.d}
+                    className="trend-line"
+                    fill="none"
+                    stroke={series.color}
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      strokeDasharray: lineLength,
+                      strokeDashoffset: mounted ? 0 : lineLength,
+                      transition: `stroke-dashoffset 2000ms cubic-bezier(0.22,1,0.36,1) ${idx * 200}ms`,
+                    }}
+                  />
+                  {series.points.map((point, pointIdx) => (
+                    <circle
+                      key={pointIdx}
+                      cx={point.x}
+                      cy={point.y}
+                      r="3"
+                      fill={series.color}
+                      style={{
+                        opacity: mounted ? 1 : 0,
+                        transition: `opacity 300ms ease ${700 + idx * 200 + pointIdx * 60}ms`,
+                      }}
+                    />
+                  ))}
+                </g>
+              )
+            })}
+
+            <g transform={`translate(${PAD_L}, ${SVG_H - 34})`}>
+              <g transform="translate(0, 0)">
+                <circle cx="0" cy="0" r="4" fill={chart[0].color} />
+                <text
+                  x="12"
+                  y="4"
+                  style={{ fontFamily: THEME.fontMono, fontSize: 11, fill: 'rgba(255,255,255,0.78)' }}
+                >
+                  {chart[0].label}
+                </text>
+              </g>
+              <g transform="translate(255, 0)">
+                <circle cx="0" cy="0" r="4" fill={chart[1].color} />
+                <text
+                  x="12"
+                  y="4"
+                  style={{ fontFamily: THEME.fontMono, fontSize: 11, fill: 'rgba(255,255,255,0.78)' }}
+                >
+                  {chart[1].label}
+                </text>
+              </g>
+              <g transform="translate(510, 0)">
+                <circle cx="0" cy="0" r="4" fill={chart[2].color} />
+                <text
+                  x="12"
+                  y="4"
+                  style={{ fontFamily: THEME.fontMono, fontSize: 11, fill: 'rgba(255,255,255,0.78)' }}
+                >
+                  {chart[2].label}
+                </text>
+              </g>
+            </g>
+
+            <text
+              x={SVG_W - PAD_R}
+              y={SVG_H - 8}
+              textAnchor="end"
+              style={{ fontFamily: THEME.fontMono, fontSize: 10, fill: 'rgba(255,255,255,0.28)' }}
+            >
+              Sources: WHOOP, Catapult, Concept2, House v. NCAA, Teamworks · 2025
+            </text>
+          </svg>
         </div>
       </div>
     </div>

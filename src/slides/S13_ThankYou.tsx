@@ -18,7 +18,7 @@ const item = {
   visible: { opacity: 1, y: 0, transition: TRANSITIONS.smooth },
 }
 
-export function S13_ThankYou() {
+export function S13_ThankYou({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden text-white" style={{ padding: '52px 48px 40px' }}>
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -27,7 +27,7 @@ export function S13_ThankYou() {
 
       <SynthAgentVisual />
 
-      <TopNav section="THANK YOU" page="13 / 13" tone="dark" />
+      <TopNav section={sectionOverride ?? 'THANK YOU'} page={pageOverride ?? '13 / 13'} tone="dark" />
 
       <motion.div
         className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 text-center"
@@ -50,11 +50,8 @@ export function S13_ThankYou() {
           Questions welcome, we&apos;d love to keep the conversation going.
         </motion.p>
         <motion.div variants={item} className="mt-10 flex flex-col items-center gap-3">
-          <div className="text-[11px] uppercase tracking-[0.16em] text-white/55" style={{ fontFamily: THEME.fontMono }}>
-            synthsports.com · supportsynth@gmail.com
-          </div>
           <motion.div
-            className="mt-2 text-[36px] font-bold leading-none"
+            className="text-[36px] font-bold leading-none"
             style={{ fontFamily: THEME.logoFont, fontWeight: THEME.logoWeight }}
             animate={{ opacity: [0.92, 1, 0.92] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}

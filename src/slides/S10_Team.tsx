@@ -59,10 +59,10 @@ function TeamMember({
   )
 }
 
-export function S10_Team() {
+export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <div className="absolute inset-0 flex flex-col" style={{ padding: '44px 44px 32px', color: THEME.textPrimary, background: THEME.light }}>
-      <TopNav section="09 · TEAM" page="10 / 13" tone="light" />
+      <TopNav section={sectionOverride ?? '09 · TEAM'} page={pageOverride ?? '10 / 13'} tone="light" />
       <PaperTexture strength={0.65} tint="rgba(255,255,255,0.97)" />
 
       <div className="flex-1 flex flex-col items-center min-h-0 w-full">
@@ -95,8 +95,8 @@ export function S10_Team() {
             name="Star Rose"
             title="Co-founder"
             accent={THEME.cyan}
-            photoSrc="/team/star-rose.png"
-            photoObjectPosition="center top"
+            photoSrc="/team/star-rose_rowing.png"
+            photoObjectPosition="center 45%"
             bullets={[
               'Cal Women’s Rowing',
               'Australian U23 Women’s Eight · 2024 World Rowing U23 Championships',
@@ -107,8 +107,8 @@ export function S10_Team() {
             name="Lily Pember"
             title="Co-founder"
             accent={THEME.purple}
-            photoSrc="/team/lily-pember.png"
-            photoObjectPosition="center top"
+            photoSrc="/team/lily-pember_rowing.png"
+            photoObjectPosition="center 42%"
             bullets={[
               'Cal Women’s Rowing',
               'Gold medalist · Junior World Rowing Championships (USA)',
@@ -119,8 +119,8 @@ export function S10_Team() {
             name="Matthew Waddell"
             title="Co-founder"
             accent={THEME.amber}
-            photoSrc="/team/matthew-waddell.png"
-            photoObjectPosition="center top"
+            photoSrc="/team/matthew-waddell_rowing.png"
+            photoObjectPosition="32% 48%"
             bullets={[
               'Cal Men’s Rowing',
               'Silver medalist · U23 World Rowing Championships (New Zealand)',
