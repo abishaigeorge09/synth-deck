@@ -207,12 +207,13 @@ function AthleteMiniApp({ scrollOffset }: { scrollOffset: number }) {
               Lead athlete card
             </div>
             <div className="mt-2 flex items-center gap-3 rounded-lg border p-2.5" style={{ borderColor: THEME.border, background: THEME.light }}>
-              <div className="flex h-14 w-14 items-center justify-center rounded-lg border" style={{ borderColor: `${THEME.primary}44`, background: '#fff' }}>
-                <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden>
-                  <circle cx="12" cy="8" r="3.2" fill="none" stroke={THEME.primary} strokeWidth="1.6" />
-                  <path d="M6.5 19c1.5-2.7 3.3-4.1 5.5-4.1s4 .9 5.5 4.1" fill="none" stroke={THEME.primary} strokeWidth="1.6" strokeLinecap="round" />
-                  <path d="M4 20h16" fill="none" stroke={THEME.border} strokeWidth="1.2" />
-                </svg>
+              <div className="h-14 w-14 overflow-hidden rounded-lg border" style={{ borderColor: `${THEME.primary}44`, background: '#fff' }}>
+                <img
+                  src="/team/matthew-waddell_rowing.png"
+                  alt="Matthew rowing"
+                  className="h-full w-full object-cover object-center"
+                  loading="lazy"
+                />
               </div>
               <div className="min-w-0">
                 <div className="text-[10px] font-semibold" style={{ color: THEME.textPrimary }}>
