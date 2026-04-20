@@ -208,38 +208,429 @@ export function IllustTrendUp({ className = '' }: { className?: string }) {
   )
 }
 
-/** Market rings — TAM / SAM / SOM (outer → inner) with headline numbers */
-export function IllustMarketRings({ className = '' }: { className?: string }) {
-  const w = 260
-  const h = 252
-  const cx = 130
-  const cy = 108
-  const sub = 'rgba(255,255,255,0.45)'
+/**
+ * TAM / SAM / SOM as nested circles sharing a bottom baseline (reference: proportional “wedge” viz).
+ * Tuned for dark slides — charcoal outer, emerald mid, bright SOM core.
+ */
+export function IllustMarketNestedBottom({ className = '' }: { className?: string }) {
+  const rid = useId().replace(/:/g, '')
+  const w = 420
+  const h = 300
+  const vbPadTop = 22
+  const cx = 165
+  const bottom = 268
+  const rTam = 138
+  const rSam = 76
+  const rSom = 30
+  const cyTam = bottom - rTam
+  const cySam = bottom - rSam
+  const cySom = bottom - rSom
+  const monoStyle = { fontFamily: THEME.fontMono } as const
+  const idGlow = `marketGlow-${rid}`
+  const idGlowStrong = `marketGlowStrong-${rid}`
+
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className={`w-full max-h-[min(260px,28vh)] ${className}`} aria-hidden>
-      <text x={cx} y={22} textAnchor="middle" style={{ ...mono, fontSize: 9, fontWeight: 700, fill: 'rgba(255,255,255,0.85)' }}>
-        $4.2B+
-      </text>
-      <text x={cx} y={34} textAnchor="middle" fill={sub} style={{ ...mono, fontSize: 7.5, fontWeight: 600 }}>
+    <svg
+      viewBox={`0 ${-vbPadTop} ${w} ${h + vbPadTop}`}
+      className={`w-full max-w-[420px] max-h-[min(280px,38vh)] ${className}`}
+      aria-hidden
+    >
+      <defs>
+        <filter id={idGlow} x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="2.2" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id={idGlowStrong} x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="4.2" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      {/* TAM — largest; slight left bleed reads like reference crop */}
+      <circle
+        cx={cx}
+        cy={cyTam}
+        r={rTam}
+        fill="rgba(255,255,255,0.04)"
+        stroke="rgba(255,255,255,0.40)"
+        strokeWidth={2.5}
+      />
+      <text
+        x={cx}
+        y={cyTam - rTam * 0.35 + 10}
+        textAnchor="middle"
+        style={{ ...monoStyle, fontSize: 12, fontWeight: 700, fill: 'rgba(255,255,255,0.55)', letterSpacing: '0.32em' }}
+      >
         TAM
       </text>
-      <circle cx={cx} cy={cy} r={100} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth={1.5} />
-      <text x={cx - 108} y={cy - 2} fill={sub} style={{ ...mono, fontSize: 9, fontWeight: 700, fill: '#fff' }}>
-        $890M
-      </text>
-      <text x={cx - 108} y={cy + 10} fill={sub} style={{ ...mono, fontSize: 7, fontWeight: 600 }}>
+
+      {/* SAM */}
+      <circle
+        cx={cx}
+        cy={cySam}
+        r={rSam}
+        fill={`${THEME.primary}20`}
+        stroke={`${THEME.primaryLight}cc`}
+        strokeWidth={2.5}
+        filter={`url(#${idGlow})`}
+      />
+      <text
+        x={cx}
+        y={cySam - 6}
+        textAnchor="middle"
+        style={{ ...monoStyle, fontSize: 11, fontWeight: 700, fill: 'rgba(255,255,255,0.58)', letterSpacing: '0.28em' }}
+      >
         SAM
       </text>
-      <circle cx={cx} cy={cy} r={76} fill={`${THEME.primary}06`} stroke={`${THEME.primary}40`} strokeWidth={1.5} />
-      <circle cx={cx} cy={cy} r={48} fill={`${THEME.primary}14`} stroke={THEME.accent} strokeWidth={2} />
-      <text x={cx} y={cy + 5} textAnchor="middle" style={{ ...mono, fontSize: 15, fontWeight: 700, fill: '#fff' }}>
-        $24M
-      </text>
-      <text x={cx} y={cy + 22} textAnchor="middle" style={{ ...mono, fontSize: 9, fontWeight: 600, fill: THEME.accent }}>
+
+      {/* SOM — focal */}
+      {/* Lift slightly so bottom tangency doesn't muddy the baseline */}
+      <circle cx={cx} cy={cySom - 2} r={rSom + 3} fill="none" stroke={THEME.accent} strokeWidth={1.25} opacity={0.55} filter={`url(#${idGlow})`} />
+      <circle
+        cx={cx}
+        cy={cySom - 2}
+        r={rSom}
+        fill="rgba(16,185,129,0.16)"
+        stroke={THEME.accent}
+        strokeWidth={3}
+        filter={`url(#${idGlowStrong})`}
+      />
+      <text
+        x={cx}
+        y={cySom - 2}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        style={{ ...monoStyle, fontSize: 10, fontWeight: 800, fill: THEME.accent, letterSpacing: '0.32em' }}
+      >
         SOM
       </text>
-      <text x={cx} y={cy + 88} textAnchor="middle" style={{ fontFamily: THEME.fontSans, fontSize: 8, fill: 'rgba(255,255,255,0.4)' }}>
-        rowing · year-one wedge
+    </svg>
+  )
+}
+
+/**
+ * Hero-scale nested TAM/SAM/SOM for split Market slide: geometry biased so circles read as
+ * emerging from the left (wide radii, center offset).
+ */
+export function IllustMarketBleedLeft({ className = '' }: { className?: string }) {
+  const vbX = -260
+  const vbY = 0
+  const vbW = 620
+  const vbH = 380
+  const cx = 95
+  const bottom = 348
+  const rTam = 228
+  const rSam = 128
+  const rSom = 52
+  const cyTam = bottom - rTam
+  const cySam = bottom - rSam
+  const cySom = bottom - rSom
+  const monoStyle = { fontFamily: THEME.fontMono } as const
+
+  return (
+    <svg
+      viewBox={`${vbX} ${vbY} ${vbW} ${vbH}`}
+      className={`h-[min(78vh,620px)] w-auto min-h-[min(52vh,420px)] max-w-none ${className}`}
+      preserveAspectRatio="xMinYMid meet"
+      aria-hidden
+    >
+      <circle
+        cx={cx}
+        cy={cyTam}
+        r={rTam}
+        fill="rgba(255,255,255,0.045)"
+        stroke="rgba(255,255,255,0.2)"
+        strokeWidth={2.5}
+      />
+      <text
+        x={cx + 28}
+        y={cyTam - rTam * 0.22}
+        textAnchor="middle"
+        style={{ ...monoStyle, fontSize: 32, fontWeight: 700, fill: 'rgba(255,255,255,0.94)', letterSpacing: '-0.04em' }}
+      >
+        $4.2B+
+      </text>
+      <text
+        x={cx + 28}
+        y={cyTam - rTam * 0.22 + 22}
+        textAnchor="middle"
+        style={{ ...monoStyle, fontSize: 12, fontWeight: 600, fill: 'rgba(255,255,255,0.42)', letterSpacing: '0.22em' }}
+      >
+        TAM
+      </text>
+
+      <circle
+        cx={cx}
+        cy={cySam}
+        r={rSam}
+        fill={`${THEME.primary}28`}
+        stroke={`${THEME.primary}90`}
+        strokeWidth={2.5}
+      />
+      <text
+        x={cx + 12}
+        y={cySam - 2}
+        textAnchor="middle"
+        style={{ ...monoStyle, fontSize: 22, fontWeight: 700, fill: '#fff', letterSpacing: '-0.03em' }}
+      >
+        $890M
+      </text>
+      <text
+        x={cx + 12}
+        y={cySam + 22}
+        textAnchor="middle"
+        style={{ fontFamily: THEME.fontSans, fontSize: 11, fill: 'rgba(255,255,255,0.52)' }}
+      >
+        US collegiate
+      </text>
+
+      <circle cx={cx} cy={cySom} r={rSom + 3} fill="none" stroke={THEME.accent} strokeWidth={1.5} opacity={0.4} />
+      <circle cx={cx} cy={cySom} r={rSom} fill="rgba(16,185,129,0.22)" stroke={THEME.accent} strokeWidth={3} />
+      <text
+        x={cx}
+        y={cySom + 7}
+        textAnchor="middle"
+        style={{ ...monoStyle, fontSize: 20, fontWeight: 700, fill: '#fff', letterSpacing: '-0.04em' }}
+      >
+        $24M
+      </text>
+      <text
+        x={cx}
+        y={cySom + 30}
+        textAnchor="middle"
+        style={{ ...monoStyle, fontSize: 11, fontWeight: 700, fill: THEME.accent, letterSpacing: '0.2em' }}
+      >
+        SOM
+      </text>
+    </svg>
+  )
+}
+
+/**
+ * Airbnb-style stacked bullseye (concentric filled disks) for Market slide: reads as thick
+ * outer band → emerald mid → bright core. Biased left so it bleeds off the slide edge.
+ */
+export function IllustMarketBullseyeBleedLeft({ className = '' }: { className?: string }) {
+  const rid = useId().replace(/:/g, '')
+  // Keep the full outer disk visible in the slide column.
+  const cx = 210
+  const cy = 230
+  const rTam = 236
+  const rSam = 142
+  const rSom = 68
+  const vbX = -10
+  const vbY = -80
+  const vbW = 560
+  const vbH = 560
+  const idTam = `bull-tam-${rid}`
+  const idSam = `bull-sam-${rid}`
+  const idSom = `bull-som-${rid}`
+  const idSpec = `bull-spec-${rid}`
+  const idVig = `bull-vig-${rid}`
+  const idTamRim = `bull-tam-rim-${rid}`
+  const idSamRim = `bull-sam-rim-${rid}`
+  const idInnerWall = `bull-innerwall-${rid}`
+  const idInnerShadow = `bull-innershadow-${rid}`
+  const idSoft = `bull-soft-${rid}`
+  const dx = 18
+  const dy = 16
+
+  return (
+    <svg
+      viewBox={`${vbX} ${vbY} ${vbW} ${vbH}`}
+      className={`h-[min(84vh,700px)] w-auto min-h-[min(46vh,360px)] max-w-none ${className}`}
+      preserveAspectRatio="xMinYMid meet"
+      aria-hidden
+    >
+      <defs>
+        {/* Outer charcoal disk */}
+        <radialGradient id={idTam} cx="30%" cy="24%" r="78%">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.14)" />
+          <stop offset="18%" stopColor={THEME.darkMid} />
+          <stop offset="62%" stopColor={THEME.dark} />
+          <stop offset="100%" stopColor={THEME.darkDeep} />
+        </radialGradient>
+
+        {/* Mid emerald disk */}
+        <radialGradient id={idSam} cx="30%" cy="26%" r="74%">
+          <stop offset="0%" stopColor={THEME.primaryLight} stopOpacity={0.55} />
+          <stop offset="26%" stopColor={THEME.primary} stopOpacity={0.98} />
+          <stop offset="78%" stopColor={THEME.primaryDark} stopOpacity={1} />
+          <stop offset="100%" stopColor={THEME.primaryDarker} stopOpacity={1} />
+        </radialGradient>
+
+        {/* Core (brighter) */}
+        <radialGradient id={idSom} cx="28%" cy="24%" r="70%">
+          <stop offset="0%" stopColor={THEME.white} stopOpacity={0.95} />
+          <stop offset="34%" stopColor={THEME.primaryLight} stopOpacity={0.96} />
+          <stop offset="100%" stopColor={THEME.accent} stopOpacity={0.95} />
+        </radialGradient>
+
+        {/* Specular highlight (top-left) */}
+        <radialGradient id={idSpec} cx="26%" cy="22%" r="48%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity={0.65} />
+          <stop offset="35%" stopColor="#ffffff" stopOpacity={0.16} />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+        </radialGradient>
+
+        {/* Vignette for depth */}
+        <radialGradient id={idVig} cx="55%" cy="55%" r="70%">
+          <stop offset="0%" stopColor="#000000" stopOpacity={0} />
+          <stop offset="72%" stopColor="#000000" stopOpacity={0.18} />
+          <stop offset="100%" stopColor="#000000" stopOpacity={0.38} />
+        </radialGradient>
+
+        {/* Rim highlights to mimic a beveled edge */}
+        <radialGradient id={idTamRim} cx="28%" cy="24%" r="82%">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.10)" />
+          <stop offset="55%" stopColor="rgba(255,255,255,0.02)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+        </radialGradient>
+        <radialGradient id={idSamRim} cx="30%" cy="26%" r="78%">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.14)" />
+          <stop offset="42%" stopColor="rgba(255,255,255,0.06)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+        </radialGradient>
+
+        {/* Inner wall light + shadow for the donut cavity */}
+        <radialGradient id={idInnerWall} cx="40%" cy="32%" r="72%">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.10)" />
+          <stop offset="45%" stopColor="rgba(0,0,0,0.10)" />
+          <stop offset="100%" stopColor="rgba(0,0,0,0.42)" />
+        </radialGradient>
+        <radialGradient id={idInnerShadow} cx="55%" cy="58%" r="74%">
+          <stop offset="0%" stopColor="rgba(0,0,0,0)" />
+          <stop offset="55%" stopColor="rgba(0,0,0,0.22)" />
+          <stop offset="100%" stopColor="rgba(0,0,0,0.55)" />
+        </radialGradient>
+
+        <filter id={idSoft} x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="1.4" />
+        </filter>
+      </defs>
+
+      {/* Ground shadow */}
+      <ellipse cx={cx} cy={cy + rTam * 0.86} rx={rTam * 0.86} ry={rTam * 0.11} fill={THEME.darkDeep} opacity={0.55} />
+
+      {/* Back "thickness" layers (offset down-right) */}
+      <circle cx={cx + dx} cy={cy + dy} r={rTam} fill="rgba(0,0,0,0.55)" />
+      <circle cx={cx + dx} cy={cy + dy} r={rSam} fill="rgba(0,0,0,0.35)" />
+
+      {/* Front faces */}
+      <circle cx={cx} cy={cy} r={rTam} fill={`url(#${idTam})`} />
+      <circle cx={cx} cy={cy} r={rSam} fill={`url(#${idSam})`} />
+
+      {/* Donut cavity for the mid ring (cutout + inner wall shading) */}
+      <path
+        d={[
+          `M ${cx + rSam} ${cy}`,
+          `A ${rSam} ${rSam} 0 1 0 ${cx - rSam} ${cy}`,
+          `A ${rSam} ${rSam} 0 1 0 ${cx + rSam} ${cy}`,
+          `M ${cx + rSom} ${cy}`,
+          `A ${rSom} ${rSom} 0 1 1 ${cx - rSom} ${cy}`,
+          `A ${rSom} ${rSom} 0 1 1 ${cx + rSom} ${cy}`,
+        ].join(' ')}
+        fill={`url(#${idInnerWall})`}
+        fillRule="evenodd"
+        opacity={0.95}
+      />
+
+      {/* Core sphere */}
+      <circle cx={cx} cy={cy} r={rSom} fill={`url(#${idSom})`} />
+
+      {/* Lighting overlays */}
+      <circle cx={cx} cy={cy} r={rTam} fill={`url(#${idVig})`} opacity={0.9} />
+      <circle cx={cx - rTam * 0.14} cy={cy - rTam * 0.18} r={rTam * 0.72} fill={`url(#${idSpec})`} />
+      <circle cx={cx} cy={cy} r={rTam} fill={`url(#${idTamRim})`} opacity={0.9} />
+      <circle cx={cx} cy={cy} r={rSam} fill={`url(#${idSamRim})`} opacity={0.9} />
+      <circle cx={cx} cy={cy} r={rSam} fill={`url(#${idInnerShadow})`} opacity={0.55} />
+      <circle cx={cx - rSom * 0.22} cy={cy - rSom * 0.26} r={rSom * 0.62} fill="rgba(255,255,255,0.22)" filter={`url(#${idSoft})`} />
+
+      {/* Ring edges */}
+      <circle cx={cx} cy={cy} r={rTam} fill="none" stroke="rgba(255,255,255,0.09)" strokeWidth={1} />
+      <circle cx={cx} cy={cy} r={rSam} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth={1} />
+      <circle cx={cx} cy={cy} r={rSom} fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth={1} />
+
+      {/* Small anchor dots where leader lines land (right side of each ring) */}
+      <circle cx={cx + rTam} cy={cy - rTam * 0.22} r={3} fill="rgba(255,255,255,0.55)" />
+      <circle cx={cx + rSam} cy={cy + 4} r={3} fill={THEME.primaryLight} />
+      <circle cx={cx + rSom} cy={cy + rSom * 0.18} r={3} fill={THEME.accent} />
+    </svg>
+  )
+}
+
+/** Market rings — TAM / SAM / SOM (outer → inner); larger canvas for slide prominence */
+export function IllustMarketRings({ className = '' }: { className?: string }) {
+  const rid = useId().replace(/:/g, '')
+  const w = 380
+  const h = 340
+  const cx = w / 2
+  const cy = 158
+  const rTam = 132
+  const rSam = 96
+  const rSom = 58
+  const sub = 'rgba(255,255,255,0.5)'
+  const idGlow = `somGlow-${rid}`
+  const idSomFill = `somFill-${rid}`
+
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className={`w-full max-h-[min(360px,42vh)] min-h-[200px] ${className}`} aria-hidden>
+      <defs>
+        <radialGradient id={idSomFill} cx="50%" cy="45%" r="65%">
+          <stop offset="0%" stopColor={THEME.accent} stopOpacity={0.22} />
+          <stop offset="55%" stopColor={THEME.primary} stopOpacity={0.12} />
+          <stop offset="100%" stopColor="#0c0a09" stopOpacity={0} />
+        </radialGradient>
+        <filter id={idGlow} x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="3" result="b" />
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      {/* TAM — outer */}
+      <circle cx={cx} cy={cy} r={rTam} fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth={2} />
+      <text x={cx} y={cy - rTam - 14} textAnchor="middle" style={{ ...mono, fontSize: 13, fontWeight: 700, fill: '#fff', letterSpacing: '-0.03em' }}>
+        $4.2B+
+      </text>
+      <text x={cx} y={cy - rTam + 2} textAnchor="middle" style={{ ...mono, fontSize: 10, fontWeight: 600, fill: sub, letterSpacing: '0.14em' }}>
+        TAM
+      </text>
+
+      {/* SAM — middle */}
+      <circle cx={cx} cy={cy} r={rSam} fill={`${THEME.primary}08`} stroke={`${THEME.primary}55`} strokeWidth={2} />
+      <text x={cx - rSam - 10} y={cy - 6} textAnchor="end" style={{ ...mono, fontSize: 12, fontWeight: 700, fill: '#fff' }}>
+        $890M
+      </text>
+      <text x={cx - rSam - 10} y={cy + 10} textAnchor="end" style={{ ...mono, fontSize: 9, fontWeight: 600, fill: sub, letterSpacing: '0.12em' }}>
+        SAM
+      </text>
+
+      {/* SOM — inner focus */}
+      <circle cx={cx} cy={cy} r={rSom + 6} fill="none" stroke={THEME.accent} strokeWidth={1} opacity={0.35} filter={`url(#${idGlow})`} />
+      <circle cx={cx} cy={cy} r={rSom} fill={`url(#${idSomFill})`} stroke={THEME.accent} strokeWidth={3.5} filter={`url(#${idGlow})`} />
+      <text x={cx} y={cy + 2} textAnchor="middle" style={{ ...mono, fontSize: 22, fontWeight: 700, fill: '#fff', letterSpacing: '-0.04em' }}>
+        $24M
+      </text>
+      <text x={cx} y={cy + 22} textAnchor="middle" style={{ ...mono, fontSize: 11, fontWeight: 700, fill: THEME.accent, letterSpacing: '0.16em' }}>
+        SOM
+      </text>
+
+      <text
+        x={cx}
+        y={h - 18}
+        textAnchor="middle"
+        style={{ ...mono, fontSize: 9, fontWeight: 600, letterSpacing: '0.12em', fill: 'rgba(255,255,255,0.38)' }}
+      >
+        ROWING · YEAR-ONE WEDGE
       </text>
     </svg>
   )

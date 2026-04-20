@@ -12,6 +12,7 @@ import { S05_Traction } from '../slides/S05_Traction'
 import { S07_Market } from '../slides/S07_Market'
 import { S08_BusinessModel } from '../slides/S08_BusinessModel'
 import { S09_Competition } from '../slides/S09_Competition'
+import { OurAdvantage } from '../slides/OurAdvantage'
 import { S10_Team } from '../slides/S10_Team'
 import { S11_Vision } from '../slides/S11_Vision'
 import { S12_Close } from '../slides/S12_Close'
@@ -71,6 +72,7 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
   { id: 's06', section: '05 · WHY NOW', background: THEME.light, render: (nav) => <S06_WhyNow {...nav} /> },
   { id: 's07', section: '06 · MARKET', background: THEME.darkDeep, render: (nav) => <S07_Market {...nav} /> },
   { id: 's09', section: '08 · COMPETITION', background: THEME.darkDeep, render: (nav) => <S09_Competition {...nav} /> },
+  { id: 's09a', section: '09 · OUR ADVANTAGE', background: THEME.darkDeep, render: (nav) => <OurAdvantage {...nav} /> },
   { id: 's13', section: 'THANK YOU', background: THEME.primary, render: (nav) => <S13_ThankYou {...nav} /> },
 ]
 

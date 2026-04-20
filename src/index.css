@@ -68,6 +68,13 @@ body {
   }
 }
 
+/* When supported, cap height with small viewport so Chrome tab strip + toolbars don’t clip the deck. */
+@supports (height: 100dvh) and (height: 100svh) {
+  .deck-shell-stack {
+    --deck-viewport-height: min(100dvh, 100svh);
+  }
+}
+
 @media (min-width: 640px) {
   .deck-shell-stack {
     --deck-controls-reserve: 104px;

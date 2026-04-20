@@ -12,12 +12,12 @@ const surface: Record<SimpleSlideTone, string> = {
 
 function illustrationFrameClass(tone: SimpleSlideTone) {
   if (tone === 'light') {
-    return 'rounded-2xl border border-zinc-200/90 bg-white/95 p-5 shadow-[0_16px_48px_rgba(0,0,0,0.07)]'
+    return 'rounded-2xl border border-zinc-200/90 bg-white/95 shadow-[0_16px_48px_rgba(0,0,0,0.07)]'
   }
   if (tone === 'dark') {
-    return 'rounded-2xl border border-white/[0.12] bg-white/[0.04] p-5 shadow-[0_12px_40px_rgba(0,0,0,0.35)]'
+    return 'rounded-2xl border border-white/[0.12] bg-white/[0.04] shadow-[0_12px_40px_rgba(0,0,0,0.35)]'
   }
-  return 'rounded-2xl border border-white/25 bg-black/15 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.2)]'
+  return 'rounded-2xl border border-white/25 bg-black/15 shadow-[0_12px_40px_rgba(0,0,0,0.2)]'
 }
 
 /**
@@ -31,6 +31,8 @@ export function SimpleSlide({
   tone = 'light',
   illustration,
   layout = 'split',
+  /** Wider illustration panel (e.g. market rings). */
+  illustrationProminence = 'default',
   primary,
   /** Optional block between headline and body — e.g. feature list in its own section */
   features,
@@ -43,12 +45,19 @@ export function SimpleSlide({
   illustration?: ReactNode
   /** `split`: side-by-side on lg+. `stack`: illustration on top, text below. */
   layout?: 'split' | 'stack'
+  /** `prominent`: larger max-width and padding for the illustration frame. */
+  illustrationProminence?: 'default' | 'prominent'
   primary: ReactNode
   features?: ReactNode
   secondary?: ReactNode
 }) {
   const navTone = tone === 'light' ? 'light' : 'dark'
   const hasVisual = illustration != null
+  const illustWrap =
+    illustrationProminence === 'prominent'
+      ? 'w-full shrink-0 max-w-[min(100%,560px)] lg:max-w-[min(54%,600px)]'
+      : 'w-full shrink-0 max-w-[min(100%,420px)] lg:max-w-[min(44%,420px)]'
+  const illustPad = illustrationProminence === 'prominent' ? 'p-6 sm:p-8' : 'p-5'
 
   return (
     <div
@@ -68,14 +77,16 @@ export function SimpleSlide({
       >
         {hasVisual ? (
           <>
-            <div
-              className={`w-full shrink-0 max-w-[min(100%,420px)] lg:max-w-[min(44%,420px)] ${illustrationFrameClass(tone)}`}
-            >
+            <div className={`${illustWrap} ${illustrationFrameClass(tone)} ${illustPad}`}>
               {illustration}
             </div>
             <div
               className={`flex min-w-0 flex-1 flex-col gap-[clamp(1rem,3vh,1.75rem)] ${
-                hasVisual ? (layout === 'stack' ? 'text-center' : 'text-center lg:text-left') : 'text-center'
+                hasVisual
+                  ? layout === 'stack'
+                    ? 'items-center text-center'
+                    : 'text-center lg:items-start lg:text-left'
+                  : 'text-center'
               } max-w-[min(920px,100%)]`}
             >
               {primary}

@@ -258,15 +258,15 @@ function SidebarNav({
         className="text-[10px] font-semibold"
         style={{ fontFamily: THEME.fontSans, color: active ? THEME.primary : THEME.textSecondary }}
       >
-        {label}
-      </span>
+          {label}
+        </span>
       {rightMark ? (
         <span className="ml-auto h-3 w-[2px] rounded-full" style={{ background: THEME.primary }} aria-hidden />
       ) : null}
     </div>
   )
 
-  return (
+    return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="px-2 pb-2 pt-1.5">
         <div
@@ -300,12 +300,12 @@ function SidebarNav({
         </div>
 
         <div className="mt-4 text-[8px] font-bold uppercase tracking-[0.26em] text-zinc-400" style={{ fontFamily: THEME.fontMono }}>
-          Custom tools
-        </div>
+            Custom tools
+          </div>
         <div ref={customToolsGroupRef as any} className="mt-2 space-y-1">
           <div ref={lineupsNavRef as any}>
             <NavItem label="Lineups" icon="eye" active={selected.lineups} />
-          </div>
+        </div>
           <NavItem label="Session Timer" icon="timer" active={selected.sessions} />
           <NavItem label="Add tool" icon="plus" active={selected.addTool} rightMark={selected.addTool} />
         </div>
@@ -339,7 +339,7 @@ function SidebarNav({
           </div>
           <div className="mt-0.5 text-[9px] text-white/75" style={{ fontFamily: THEME.fontSans }}>
             Connectors • scans • reports
-          </div>
+        </div>
         </motion.button>
 
         <div className="mt-3 border-t pt-3" style={{ borderColor: THEME.border }}>
@@ -740,49 +740,49 @@ export function SynthLayerDashboardMockup({
               {navMode === 'athletes' ? (
                 <AthletesPage rows={athleteRows ?? DEFAULT_ATHLETES} replaceSummary={replaceAthletesSummary} />
               ) : (
-              <div className="flex shrink-0 flex-wrap items-start justify-between gap-x-5 gap-y-3 pb-1">
-                  <div className="min-w-0 max-w-[min(100%,44rem)] space-y-2 pr-2">
-                    <div
-                      className={embeddedApp ? 'text-[18px] font-bold leading-snug sm:text-[20px]' : 'text-[13px] font-bold leading-tight'}
-                      style={{ fontFamily: THEME.fontSerif, color: THEME.textPrimary }}
-                    >
-                      Team Overview
-                    </div>
-                    <div
-                      className={embeddedApp ? 'text-[10px] leading-relaxed sm:text-[11px]' : 'text-[8px]'}
-                      style={{ fontFamily: THEME.fontSans, color: THEME.textMuted }}
-                    >
-                      {teamSubtitle ? (
-                        workflowDetail ? (
-                          <>
-                            {teamSubtitle}{' '}
-                            · <span style={{ color: THEME.textPrimary }}>Athlete + coach streams merged below</span>
-                          </>
-                        ) : (
-                          teamSubtitle
-                        )
-                      ) : (
-                        <>
-                          Cal Men&apos;s 1V + 2V · 18 athletes
-                          {workflowDetail ? (
-                            <>
-                              {' '}
-                              · <span style={{ color: THEME.textPrimary }}>Athlete + coach streams merged below</span>
-                            </>
-                          ) : (
-                            <> · {sourcesIngestSuffix ?? '6 sources ingesting'}</>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  <div className={`shrink-0 pt-0.5 ${workflowDetail ? 'flex flex-col items-end gap-1' : 'flex flex-col items-end gap-1.5'}`}>
+          <div className="flex shrink-0 flex-wrap items-start justify-between gap-x-5 gap-y-3 pb-1">
+            <div className="min-w-0 max-w-[min(100%,44rem)] space-y-2 pr-2">
+              <div
+                className={embeddedApp ? 'text-[18px] font-bold leading-snug sm:text-[20px]' : 'text-[13px] font-bold leading-tight'}
+                style={{ fontFamily: THEME.fontSerif, color: THEME.textPrimary }}
+              >
+                Team Overview
+              </div>
+              <div
+                className={embeddedApp ? 'text-[10px] leading-relaxed sm:text-[11px]' : 'text-[8px]'}
+                style={{ fontFamily: THEME.fontSans, color: THEME.textMuted }}
+              >
+                {teamSubtitle ? (
+                  workflowDetail ? (
+                    <>
+                      {teamSubtitle}{' '}
+                      · <span style={{ color: THEME.textPrimary }}>Athlete + coach streams merged below</span>
+                    </>
+                  ) : (
+                    teamSubtitle
+                  )
+                ) : (
+                  <>
+                    Cal Men&apos;s 1V + 2V · 18 athletes
                     {workflowDetail ? (
+                      <>
+                        {' '}
+                        · <span style={{ color: THEME.textPrimary }}>Athlete + coach streams merged below</span>
+                      </>
+                    ) : (
+                      <> · {sourcesIngestSuffix ?? '6 sources ingesting'}</>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+            <div className={`shrink-0 pt-0.5 ${workflowDetail ? 'flex flex-col items-end gap-1' : 'flex flex-col items-end gap-1.5'}`}>
+              {workflowDetail ? (
                       <span className="text-[6px] font-bold uppercase tracking-wider text-zinc-400" style={{ fontFamily: THEME.fontMono }}>
-                        Coach connectors
-                      </span>
-                    ) : null}
-                    <div className="flex flex-wrap justify-end gap-1.5 sm:gap-2">
+                  Coach connectors
+                </span>
+              ) : null}
+              <div className="flex flex-wrap justify-end gap-1.5 sm:gap-2">
                       {connectorChips.map((b) => {
                         const c =
                           b.colorKey === 'primary'
@@ -793,18 +793,18 @@ export function SynthLayerDashboardMockup({
                                 ? THEME.purple
                                 : THEME.amber
                         return (
-                          <span
+                  <span
                             key={b.name}
                             className={embeddedApp ? 'rounded-md border px-2 py-1 text-[8px] font-semibold sm:text-[9px]' : 'rounded border px-1.5 py-0.5 text-[7px] font-semibold'}
                             style={{ fontFamily: THEME.fontMono, borderColor: `${c}35`, background: `${c}10`, color: c }}
                           >
                             {b.name}: {b.status}
-                          </span>
+                  </span>
                         )
                       })}
-                    </div>
-                  </div>
-                </div>
+              </div>
+            </div>
+          </div>
               )}
 
           {workflowDetail ? (
@@ -1017,30 +1017,30 @@ export function SynthLayerDashboardMockup({
           {aiInsightText === '' ? null : replaceInsight ? (
             <>{replaceInsight}</>
           ) : (
-            <div
-              className={`shrink-0 rounded-lg border ${embeddedApp ? 'px-3 py-3 sm:px-4 sm:py-3.5' : 'px-2 py-2'}`}
-              style={{ borderColor: `${THEME.amber}35`, background: `${THEME.amber}08` }}
-            >
-              <div className={`flex items-start ${embeddedApp ? 'gap-3' : 'gap-2'}`}>
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded" style={{ background: `${THEME.amber}22` }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill={THEME.amber}>
-                    <path d="M12 2L1 21h22L12 2zm0 4l7.53 13H4.47L12 6zm-1 5v4h2v-4h-2zm0 6v2h2v-2h-2z" />
-                  </svg>
+          <div
+            className={`shrink-0 rounded-lg border ${embeddedApp ? 'px-3 py-3 sm:px-4 sm:py-3.5' : 'px-2 py-2'}`}
+            style={{ borderColor: `${THEME.amber}35`, background: `${THEME.amber}08` }}
+          >
+            <div className={`flex items-start ${embeddedApp ? 'gap-3' : 'gap-2'}`}>
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded" style={{ background: `${THEME.amber}22` }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill={THEME.amber}>
+                  <path d="M12 2L1 21h22L12 2zm0 4l7.53 13H4.47L12 6zm-1 5v4h2v-4h-2zm0 6v2h2v-2h-2z" />
+                </svg>
+              </div>
+              <div className="min-w-0">
+                <div className="text-[8px] font-bold" style={{ fontFamily: THEME.fontMono, color: THEME.amber }}>
+                  AI INSIGHT
                 </div>
-                <div className="min-w-0">
-                  <div className="text-[8px] font-bold" style={{ fontFamily: THEME.fontMono, color: THEME.amber }}>
-                    AI INSIGHT
-                  </div>
-                  <p
-                    className={embeddedApp ? 'mt-1 text-[10px] leading-relaxed sm:text-[11px]' : 'mt-0.5 text-[9px] leading-snug'}
-                    style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}
-                  >
-                    {aiInsightText ??
-                      'Matthew: 1:32.6 split + 4×3 Front Squat this week + Tuesday 6hr day. Fatigue risk flagged. Torres: sleep dropping 3 nights, compliance 88%. Monitor closely. Ingest matched rows from Sheets + TeamWorks compliance.'}
-                  </p>
-                </div>
+                <p
+                  className={embeddedApp ? 'mt-1 text-[10px] leading-relaxed sm:text-[11px]' : 'mt-0.5 text-[9px] leading-snug'}
+                  style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}
+                >
+                  {aiInsightText ??
+                    'Matthew: 1:32.6 split + 4×3 Front Squat this week + Tuesday 6hr day. Fatigue risk flagged. Torres: sleep dropping 3 nights, compliance 88%. Monitor closely. Ingest matched rows from Sheets + TeamWorks compliance.'}
+                </p>
               </div>
             </div>
+          </div>
           )}
             </>
           )}

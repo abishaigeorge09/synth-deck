@@ -1,5 +1,8 @@
 import { THEME } from '../lib/theme'
 
+/** Matches main slide horizontal padding so brand/titles align with body copy. */
+const GUTTER_X = 'clamp(24px, 4vw, 56px)'
+
 export function TopNav({
   brand = THEME.name,
   deckName = THEME.deckName,
@@ -20,29 +23,36 @@ export function TopNav({
 }) {
   const textClass = tone === 'light' ? 'text-zinc-600/90' : 'text-white/70'
   const shadow = tone === 'dark' ? '0 1px 14px rgba(0,0,0,0.35)' : 'none'
+  const strong = tone === 'light' ? 'text-zinc-900/95' : 'text-white/95'
+
   return (
     <div
-      className="absolute left-0 top-0 z-40 w-full max-w-full pointer-events-none px-4 pt-[max(0.75rem,env(safe-area-inset-top,0px))] sm:px-10 sm:pt-7"
-      style={{ fontFamily: THEME.fontMono }}
+      className="pointer-events-none absolute left-0 top-0 z-40 w-full max-w-full pb-1 pt-[max(0.75rem,env(safe-area-inset-top,0px))] sm:pt-7"
+      style={{
+        fontFamily: THEME.fontMono,
+        paddingLeft: GUTTER_X,
+        paddingRight: GUTTER_X,
+      }}
     >
       <div
-        className={`flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5 text-[9px] tracking-[0.12em] sm:gap-x-3 sm:text-[11px] sm:tracking-[0.16em] uppercase ${textClass}`}
+        className={`grid w-full grid-cols-3 items-baseline gap-x-2 text-[9px] tracking-[0.12em] sm:gap-x-4 sm:text-[11px] sm:tracking-[0.16em] ${textClass} uppercase`}
         style={{ textShadow: shadow }}
       >
-        {omitBrand ? null : (
-          <div
-            className={`font-semibold tracking-[0.18em] ${tone === 'light' ? 'text-zinc-900/95' : 'text-white/95'}`}
-            style={{ textShadow: shadow }}
-          >
-            {brand}
-          </div>
-        )}
-        <div>{deckName}</div>
-        <div className="opacity-85">{year}</div>
-        <div>{section}</div>
-        <div className="tabular-nums">{page}</div>
+        <div className={`min-w-0 justify-self-start font-semibold tracking-[0.18em] ${strong}`} style={{ textShadow: shadow }}>
+          {omitBrand ? null : brand}
+        </div>
+        <div className="flex min-w-0 items-baseline justify-center gap-x-2 sm:gap-x-3">
+          <span className="truncate">{deckName}</span>
+          <span className="shrink-0 opacity-40" aria-hidden>
+            ·
+          </span>
+          <span className="shrink-0 opacity-85">{year}</span>
+        </div>
+        <div className="flex min-w-0 items-baseline justify-end gap-x-3 sm:gap-x-5">
+          <span className="truncate text-right">{section}</span>
+          <span className="shrink-0 tabular-nums">{page}</span>
+        </div>
       </div>
     </div>
   )
 }
-

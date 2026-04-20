@@ -1,165 +1,60 @@
-import { DashedRule } from '../components/DashedRule'
 import { TopNav } from '../components/TopNav'
 import { THEME } from '../lib/theme'
 
 const CAL_LOGO = '/logos/cal-golden-bears.svg'
 
-function AdvisorAvatar({ initials, accent }: { initials: string; accent: string }) {
-  return (
-    <div
-      className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border"
-      style={{
-        borderColor: `${accent}33`,
-        background: `linear-gradient(180deg, ${accent}12 0%, rgba(255,255,255,0.9) 100%)`,
-      }}
-    >
-      <div
-        className="flex h-10 w-10 items-center justify-center rounded-full"
-        style={{ background: `${accent}18`, color: accent, fontFamily: THEME.fontMono, fontWeight: 700, fontSize: 13 }}
-      >
-        {initials}
-      </div>
-    </div>
-  )
-}
+const PAD = 'clamp(20px, 3.2vh, 48px) clamp(28px, 3.5vw, 44px) clamp(16px, 2.5vh, 32px)'
+
+const METRICS = [
+  { label: 'Sign ups', value: '245', accent: THEME.primary },
+  { label: 'Fundraised', value: '$200', accent: THEME.cyan },
+  { label: 'Athlete users', value: '120', accent: THEME.purple },
+  { label: 'Coaches', value: '4', accent: THEME.amber },
+] as const
 
 export function S05_Traction({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
-    <div className="absolute inset-0 flex flex-col overflow-hidden" style={{ background: THEME.light, padding: '48px 44px 32px' }}>
+    <div
+      className="absolute inset-0 flex flex-col overflow-x-hidden overflow-y-auto overscroll-y-contain"
+      style={{ background: THEME.light, padding: PAD }}
+    >
       <TopNav section={sectionOverride ?? '04 · TRACTION'} page={pageOverride ?? '6 / 13'} tone="light" />
 
-      <div className="flex min-h-0 flex-1 flex-col">
-        <div className="mt-2">
-          <div className="text-[10px] font-bold uppercase tracking-[0.24em]" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-            Traction
-          </div>
-          <div className="mt-3 flex items-start justify-between gap-6">
-            <div className="min-w-0">
-              <h1
-                className="text-[clamp(30px,4.5vw,46px)] font-bold leading-[1.02] tracking-[-0.06em]"
-                style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}
-              >
-                Real early pull.
-              </h1>
-              <p className="mt-3 max-w-[44rem] text-[15px] leading-[1.55]" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
-                Early demand from athletes and coaches, with fundraising momentum and an advisory base around Cal rowing + sports data.
-              </p>
-            </div>
-            <img src={CAL_LOGO} alt="Cal" className="mt-1 h-12 w-auto shrink-0 opacity-90" />
-          </div>
-          <div className="mt-5">
-            <DashedRule />
-          </div>
-        </div>
-
-        <div className="mt-6 grid grid-cols-3 gap-4">
-          <div
-            className="col-span-2 rounded-2xl border bg-white px-5 py-4"
-            style={{ borderColor: THEME.border, borderLeft: `4px solid ${THEME.primary}`, boxShadow: '0 2px 18px rgba(24,24,27,0.06)' }}
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <div className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ fontFamily: THEME.fontMono, color: THEME.primary }}>
-                  Piloting and validating at Cal
-                </div>
-                <div className="mt-2 text-[18px] font-bold" style={{ fontFamily: THEME.fontSerif, color: THEME.textPrimary }}>
-                  Cal Rowing
-                </div>
-              </div>
-              <img src={CAL_LOGO} alt="Cal" className="h-7 w-auto shrink-0 opacity-80" />
-            </div>
-            <div className="mt-2 text-[12px] leading-[1.55]" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
-              Real roster, lineups, fatigue workflow, and direct coach + athlete feedback on workflow quality, signal coverage, and day-to-day usefulness.
+      <div className="flex min-h-0 flex-1 flex-col items-stretch justify-center">
+        <div className="flex min-h-0 w-full max-w-[1100px] flex-col items-center justify-center gap-10 self-center sm:flex-row sm:items-center sm:gap-[clamp(32px,7vw,88px)]">
+          <div className="flex shrink-0 flex-col items-center justify-center">
+            <img src={CAL_LOGO} alt="Cal" className="h-[clamp(80px,min(18vh,16vw),160px)] w-auto object-contain opacity-95" />
+            <div
+              className="mt-5 text-center text-[11px] font-semibold tracking-[0.18em] text-zinc-500/80"
+              style={{ fontFamily: THEME.fontMono }}
+            >
+              Ranked #2 &amp; 8th in the country
             </div>
           </div>
 
-          <div
-            className="rounded-2xl border bg-white px-5 py-4"
-            style={{ borderColor: THEME.border, borderLeft: `4px solid ${THEME.purple}`, boxShadow: '0 2px 18px rgba(24,24,27,0.06)' }}
-          >
-            <div className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ fontFamily: THEME.fontMono, color: THEME.purple }}>
-              In conversations with
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {['Tennis', 'Football', 'Water Polo', 'Swimming', 'Basketball', 'Soccer', 'Track & Field'].map((sport) => (
-                <span
-                  key={sport}
-                  className="rounded-full border bg-zinc-50 px-2.5 py-1 text-[10px] font-semibold"
-                  style={{ borderColor: THEME.border, fontFamily: THEME.fontSans, color: THEME.textPrimary }}
-                >
-                  {sport}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-5 rounded-2xl border bg-white p-5" style={{ borderColor: THEME.border, boxShadow: '0 2px 18px rgba(24,24,27,0.06)' }}>
-          <div className="text-[10px] font-bold uppercase tracking-[0.22em]" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-            Advisory board
-          </div>
-          <div className="mt-4 grid grid-cols-2 gap-4">
-            {[
-              {
-                name: 'Sarah Bennett',
-                role: 'Assistant Coach · Cal Women’s Rowing',
-                note: 'Day-to-day understanding of collegiate rowing operations and athlete management.',
-                accent: THEME.primary,
-              },
-              {
-                name: 'Daniel Park',
-                role: 'Sports Analytics Advisor',
-                note: 'Helps shape how performance data is structured, interpreted, and made actionable.',
-                accent: THEME.cyan,
-              },
-            ].map((advisor) => (
+          <div className="grid w-full min-w-0 max-w-[540px] flex-1 grid-cols-2 justify-items-stretch gap-3 sm:max-w-[600px] sm:gap-4 md:max-w-[680px]">
+            {METRICS.map((metric) => (
               <div
-                key={advisor.name}
-                className="rounded-xl border px-4 py-4"
-                style={{ borderColor: THEME.border, background: THEME.light, borderLeft: `4px solid ${advisor.accent}` }}
+                key={metric.label}
+                className="flex min-h-[clamp(118px,22vh,150px)] min-w-0 flex-col items-center justify-center rounded-2xl border bg-white px-5 py-5 text-center sm:px-6 sm:py-6"
+                style={{
+                  borderColor: THEME.border,
+                  boxShadow:
+                    '0 1px 0 rgba(255,255,255,0.9) inset, 0 2px 4px rgba(24,24,27,0.04), 0 12px 36px rgba(24,24,27,0.08)',
+                }}
               >
-                <div className="flex items-start gap-4">
-                  <AdvisorAvatar initials={advisor.name.split(' ').map((part) => part[0]).join('').slice(0, 2)} accent={advisor.accent} />
-                  <div className="min-w-0">
-                    <div className="text-[16px] font-bold leading-tight" style={{ fontFamily: THEME.fontSerif, color: THEME.textPrimary }}>
-                      {advisor.name}
-                    </div>
-                    <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.16em]" style={{ fontFamily: THEME.fontMono, color: advisor.accent }}>
-                      {advisor.role}
-                    </div>
-                    <div className="mt-3 text-[12px] leading-[1.55]" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
-                      {advisor.note}
-                    </div>
-                  </div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
+                  {metric.label}
+                </div>
+                <div
+                  className="mt-3 text-[clamp(34px,min(9.5vw,8.5vh),52px)] font-bold leading-none tracking-[-0.06em]"
+                  style={{ fontFamily: THEME.fontMono, color: metric.accent }}
+                >
+                  {metric.value}
                 </div>
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="mt-5 grid grid-cols-2 gap-4">
-          {[
-            { label: 'Sign ups', value: '245', accent: THEME.primary, note: 'placeholder' },
-            { label: 'Fundraised', value: '$200', accent: THEME.cyan, note: 'placeholder' },
-            { label: 'Athlete users', value: '150', accent: THEME.purple, note: 'placeholder' },
-            { label: 'Coaches', value: '4', accent: THEME.amber, note: 'placeholder' },
-          ].map((metric) => (
-            <div
-              key={metric.label}
-              className="rounded-2xl border bg-white px-5 py-5"
-              style={{ borderColor: THEME.border, borderLeft: `5px solid ${metric.accent}`, boxShadow: '0 2px 18px rgba(24,24,27,0.06)' }}
-            >
-              <div className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-                {metric.label}
-              </div>
-              <div className="mt-3 text-[44px] font-bold leading-none tracking-[-0.06em]" style={{ fontFamily: THEME.fontMono, color: metric.accent }}>
-                {metric.value}
-              </div>
-              <div className="mt-2 text-[11px]" style={{ fontFamily: THEME.fontSans, color: THEME.textMuted }}>
-                {metric.note}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>
