@@ -9,19 +9,19 @@ const SERIES = [
     key: 'data',
     label: 'Data per athlete',
     color: '#10B981',
-    values: [5, 8, 15, 30, 60, 100, 180, 320, 500],
+    values: [5, 6, 7, 9, 12, 16, 25, 37, 50],
   },
   {
     key: 'spend',
     label: 'Athlete spend per program',
     color: '#06B6D4',
-    values: [50, 60, 75, 95, 120, 450, 850, 1200, 1500],
+    values: [50, 60, 75, 95, 120, 180, 250, 370, 500],
   },
   {
     key: 'tools',
     label: 'Disconnected tools per staff',
     color: '#F59E0B',
-    values: [2, 3, 4, 5, 5, 6, 8, 10, 12],
+    values: [2, 3, 4, 5, 5, 6, 7, 9, 10],
   },
 ] as const
 
@@ -69,8 +69,8 @@ export function S06_WhyNow({ pageOverride, sectionOverride }: { pageOverride?: s
     })
   }, [])
 
-  const windowStartX = PAD_L + (5 / (YEARS.length - 1)) * PLOT_W
-  const windowEndX = PAD_L + (6 / (YEARS.length - 1)) * PLOT_W
+  const windowStartX = PAD_L + (6 / (YEARS.length - 1)) * PLOT_W
+  const windowEndX = PAD_L + (7 / (YEARS.length - 1)) * PLOT_W
 
   return (
     <div
@@ -93,7 +93,7 @@ export function S06_WhyNow({ pageOverride, sectionOverride }: { pageOverride?: s
         className="mt-4 max-w-[62rem] text-[16px] leading-[1.55]"
         style={{ fontFamily: THEME.fontSans, color: '#A1A1AA' }}
       >
-        Athlete data, program spending, and coaching tool count all hit their inflection point in 2025. The synthesis layer doesn&apos;t exist yet.
+        Athlete data, program spending, and coaching tool count all hit their inflection point in 2026. The synthesis layer doesn&apos;t exist yet.
       </p>
 
       <div className="mt-10 flex min-h-0 flex-1 items-center justify-center">
@@ -160,7 +160,7 @@ export function S06_WhyNow({ pageOverride, sectionOverride }: { pageOverride?: s
             <g
               style={{
                 opacity: mounted ? 1 : 0,
-                transition: 'opacity 500ms ease 2600ms',
+                transition: 'opacity 360ms ease 900ms',
               }}
             >
               <rect
@@ -258,7 +258,7 @@ export function S06_WhyNow({ pageOverride, sectionOverride }: { pageOverride?: s
               textAnchor="end"
               style={{ fontFamily: THEME.fontMono, fontSize: 10, fill: 'rgba(255,255,255,0.28)' }}
             >
-              Sources: WHOOP, Catapult, Concept2, House v. NCAA, Teamworks · 2025
+              Sources: WHOOP, Catapult, Concept2, House v. NCAA, Teamworks · 2026
             </text>
           </svg>
         </div>

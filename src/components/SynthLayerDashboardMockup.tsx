@@ -69,6 +69,10 @@ export type SynthLayerDashboardMockupProps = {
   hideSidebar?: boolean
   /** Table body max-height override (e.g. `min(22rem, 42vh)` for prototype). */
   tableMaxHeight?: string
+  /** Sidebar placement for synth. AI in this mockup. */
+  synthAiPlacement?: 'default' | 'top'
+  /** Highlight synth. AI row (used for AI demo moments). */
+  synthAiActive?: boolean
   /**
    * Full product layout: no fake browser chrome (traffic lights / URL bar).
    * Use inside a real app shell (sidebar + header).
@@ -140,6 +144,8 @@ function SidebarNav({
   showSidebarDeploy,
   onDeploy,
   deployPulse,
+  synthAiPlacement,
+  synthAiActive,
 }: {
   mode: SynthDashboardNavMode
   customToolsGroupRef?: RefObject<HTMLDivElement | null>
@@ -147,6 +153,8 @@ function SidebarNav({
   showSidebarDeploy: boolean
   onDeploy: () => void
   deployPulse: boolean
+  synthAiPlacement: 'default' | 'top'
+  synthAiActive: boolean
 }) {
   const selected: {
     dashboard: boolean
@@ -232,6 +240,19 @@ function SidebarNav({
     )
   }
 
+  const synthAiRow = (
+    <div className="flex items-center gap-2 rounded-lg px-2 py-2" style={{ background: synthAiActive ? `${THEME.primary}10` : 'transparent' }}>
+      <Icon name="spark" active={synthAiActive} />
+      <span
+        className="text-[10px] font-semibold"
+        style={{ fontFamily: THEME.fontSans, color: synthAiActive ? THEME.primary : THEME.textSecondary }}
+      >
+        synth. AI
+      </span>
+      {synthAiActive ? <span className="ml-auto h-3 w-[2px] rounded-full" style={{ background: THEME.primary }} aria-hidden /> : null}
+    </div>
+  )
+
   const NavItem = ({
     label,
     icon,
@@ -290,9 +311,21 @@ function SidebarNav({
       </div>
 
       <div className="px-2">
-        <div className="text-[8px] font-bold uppercase tracking-[0.26em] text-zinc-400" style={{ fontFamily: THEME.fontMono }}>
-          Overview
-        </div>
+        {synthAiPlacement === 'top' ? (
+          <>
+            <div className="text-[8px] font-bold uppercase tracking-[0.26em] text-zinc-400" style={{ fontFamily: THEME.fontMono }}>
+              AI
+            </div>
+            <div className="mt-2">{synthAiRow}</div>
+            <div className="mt-4 text-[8px] font-bold uppercase tracking-[0.26em] text-zinc-400" style={{ fontFamily: THEME.fontMono }}>
+              Overview
+            </div>
+          </>
+        ) : (
+          <div className="text-[8px] font-bold uppercase tracking-[0.26em] text-zinc-400" style={{ fontFamily: THEME.fontMono }}>
+            Overview
+          </div>
+        )}
         <div className="mt-2 space-y-1">
           <NavItem label="Dashboard" icon="grid" active={selected.dashboard} rightMark={selected.dashboard} />
           <NavItem label="Athletes" icon="user" active={selected.athletes} />
@@ -310,12 +343,7 @@ function SidebarNav({
           <NavItem label="Add tool" icon="plus" active={selected.addTool} rightMark={selected.addTool} />
         </div>
 
-        <div className="mt-4 flex items-center gap-2 px-2 py-2">
-          <Icon name="spark" active={false} />
-          <span className="text-[10px] font-semibold" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
-            synth. AI
-          </span>
-        </div>
+        {synthAiPlacement === 'default' ? <div className="mt-4">{synthAiRow}</div> : null}
       </div>
 
       <div className="mt-auto px-2 pb-2 pt-2">
@@ -553,6 +581,8 @@ export function SynthLayerDashboardMockup({
   squatColumnSuffix,
   hideSidebar = false,
   tableMaxHeight,
+  synthAiPlacement = 'default',
+  synthAiActive = false,
   embeddedApp = false,
 }: SynthLayerDashboardMockupProps) {
   const [deployPulse, setDeployPulse] = useState(false)
@@ -720,6 +750,8 @@ export function SynthLayerDashboardMockup({
               showSidebarDeploy={showSidebarDeploy}
               deployPulse={deployPulse}
               onDeploy={() => setDeployPulse(true)}
+              synthAiPlacement={synthAiPlacement}
+              synthAiActive={synthAiActive}
             />
           </aside>
         ) : null}

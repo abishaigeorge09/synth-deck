@@ -6,6 +6,7 @@ const PAD = 'clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px) clamp(20px, 3vw, 36px
 
 /** Matches order in `APPENDIX_TAIL_SLIDES` after cover + this index (content slides only). */
 export const APPENDIX_CONTENT_INDEX: { title: string; blurb: string }[] = [
+  { title: 'Product demo (interactive)', blurb: 'Click into the live demo slide; preview expands and plays in-place.' },
   { title: 'Problem statements', blurb: 'Numbered problem framing with Cal context.' },
   { title: 'Problem everywhere', blurb: 'Rowing + global sports data scope and signals.' },
   { title: 'Solution overview', blurb: 'Four solution statements and team visual.' },

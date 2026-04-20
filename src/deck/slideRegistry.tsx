@@ -7,6 +7,8 @@ import { S02_Problem } from '../slides/S02_Problem'
 import { S03a_ProblemEverywhere } from '../slides/S03a_ProblemEverywhere'
 import { OurSolutionCover } from '../slides/OurSolutionCover'
 import { S03_SolutionOverview } from '../slides/S03_SolutionOverview'
+import { S04_ProductSetupLoop } from '../slides/S04_ProductSetupLoop'
+import { S05_ProductCoachAthleteLoop } from '../slides/S05_ProductCoachAthleteLoop'
 import { ProductDemoSlide } from '../slides/ProductDemoSlide'
 import { S05_Traction } from '../slides/S05_Traction'
 import { S07_Market } from '../slides/S07_Market'
@@ -67,7 +69,14 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
   { id: 's10', section: '09 · TEAM', background: THEME.darkDeep, render: (nav) => <S10_Team {...nav} /> },
   { id: 's02', section: '01 · PROBLEM', background: THEME.light, render: (nav) => <S02_Problem {...nav} /> },
   { id: 's02-solution', section: '02 · SOLUTION', background: THEME.primary, render: (nav) => <OurSolutionCover {...nav} /> },
-  { id: 's06-product-demo', section: '02 · SOLUTION', background: THEME.darkDeep, render: (nav) => <ProductDemoSlide {...nav} /> },
+  { id: 's04-setup-loop', section: '02 · SOLUTION', background: THEME.light, render: (nav) => <S04_ProductSetupLoop {...nav} /> },
+  {
+    id: 's05-coach-athlete-loop',
+    section: '02 · SOLUTION',
+    background: THEME.light,
+    render: (nav) => <S05_ProductCoachAthleteLoop {...nav} />,
+  },
+  { id: 's06-custom-tools', section: '02 · SOLUTION', background: THEME.light, render: (nav) => <CustomToolsShowcaseSlide {...nav} /> },
   { id: 's05', section: '04 · TRACTION', background: THEME.light, render: (nav) => <S05_Traction {...nav} /> },
   { id: 's06', section: '05 · WHY NOW', background: THEME.light, render: (nav) => <S06_WhyNow {...nav} /> },
   { id: 's07', section: '06 · MARKET', background: THEME.darkDeep, render: (nav) => <S07_Market {...nav} /> },
@@ -84,6 +93,7 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
 export const APPENDIX_TAIL_SLIDES: RegisteredSlide[] = [
   { id: 'appx-cover', section: 'APPENDIX', background: THEME.darkDeep, render: (nav) => <AppendixCoverSlide {...nav} /> },
   { id: 'appx-index', section: 'APPENDIX', background: THEME.light, render: (nav) => <AppendixIndexSlide {...nav} /> },
+  { id: 'appx-product-demo', section: 'APPENDIX', background: THEME.darkDeep, render: (nav) => <ProductDemoSlide {...nav} /> },
   { id: 'appx-s02a', section: 'APPENDIX', background: THEME.light, render: (nav) => <S02a_ProblemStatements {...nav} /> },
   { id: 'appx-s03a-scope', section: 'APPENDIX', background: THEME.light, render: (nav) => <S03a_ProblemEverywhere {...nav} /> },
   { id: 'appx-solution-overview', section: 'APPENDIX', background: THEME.light, render: (nav) => <S03_SolutionOverview {...nav} /> },
@@ -94,7 +104,6 @@ export const APPENDIX_TAIL_SLIDES: RegisteredSlide[] = [
   { id: 'appx-sf01', section: 'APPENDIX', background: THEME.light, render: (nav) => <SF01_DashboardIntro {...nav} /> },
   { id: 'appx-sf02', section: 'APPENDIX', background: THEME.light, render: (nav) => <SF02_DeployExtension {...nav} /> },
   { id: 'appx-workflow', section: 'APPENDIX', background: THEME.primary, render: (nav) => <SynthAgentWorkflowSlide {...nav} /> },
-  { id: 'appx-custom-tools', section: 'APPENDIX', background: THEME.light, render: (nav) => <CustomToolsShowcaseSlide {...nav} /> },
   { id: 'appx-connectors', section: 'APPENDIX', background: THEME.light, render: (nav) => <S04_Connectors {...nav} /> },
 ]
 
