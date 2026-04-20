@@ -246,8 +246,8 @@ body{color:var(--t);font-family:var(--sans);overflow:hidden;height:100vh;width:1
 </div>
 
 <div class="scene" id="s2b"><div class="connect-wrap" id="connectWrap" style="border-radius:20px;padding:28px;background:rgba(10,12,18,0.95);border:1px solid var(--bd);box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-  <div class="connect-title">Connect your tools</div><div class="connect-sub">OAuth where we can. AI extraction where we can't.</div>
-  <div class="connect-grid" id="connectGrid"></div><div class="connect-done" id="connectDone">8 sources connected</div>
+  <div class="connect-title">Connect your tools</div><div class="connect-sub">OAuth where we can. Import the rest in minutes.</div>
+  <div class="connect-grid" id="connectGrid"></div><div class="connect-done" id="connectDone">Sources connected</div>
 </div></div>
 
 <div class="scene" id="s3"><div class="deploy-wrap">
@@ -398,7 +398,7 @@ const l=$('s1Logo');l.style.transition='all 800ms cubic-bezier(0.22,1,0.36,1)';l
 // Then typing starts below
 const typeEl=$('s1Type');
 setTimeout(()=>{typeEl.style.transition='opacity 300ms';typeEl.style.opacity='1';
-const text='One platform for every data signal.';let idx=0;
+const text='Log in. Connect your tools. Voila.';let idx=0;
 const ti=setInterval(()=>{if(idx<text.length){typeEl.innerHTML=text.slice(0,idx+1)+'<span class="cursor"></span>';idx++;}else{clearInterval(ti);typeEl.innerHTML=text;}},50);},1200);}
 
 function s2(){show('s2');an($('ct2'),{opacity:'1'},500);
@@ -413,9 +413,9 @@ setTimeout(()=>{field.classList.remove('field-shake');$('ct2').style.transition=
 function s2b(){show('s2b');const w=$('connectWrap');w.style.transition='all 700ms cubic-bezier(0.22,1,0.36,1)';w.style.opacity='1';w.style.transform='scale(1)';
 const src=[{n:'Google Sheets',t:'OAuth',svg:'<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="1" width="18" height="22" rx="2" stroke="#34A853" stroke-width="1.5"/><line x1="3" y1="9" x2="21" y2="9" stroke="#34A853" stroke-width="1" opacity="0.5"/></svg>'},{n:'Bridge Athletics',t:'CSV Import',svg:'<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#F59E0B" stroke-width="1.5"/><path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#F59E0B" stroke-width="1.5"/></svg>'},{n:'TeamWorks',t:'Scraper',svg:'<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#3B82F6" stroke-width="1.5"/><line x1="3" y1="9" x2="21" y2="9" stroke="#3B82F6" stroke-width="1"/></svg>'},{n:'Concept2',t:'API',svg:'<svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="12" rx="9" ry="4" stroke="#06B6D4" stroke-width="1.5"/></svg>'},{n:'Apple Health',t:'HealthKit',svg:'<svg viewBox="0 0 24 24" fill="none"><path d="M12 21l-7-7a4.5 4.5 0 016.36-6.36L12 8.5l.64-.86A4.5 4.5 0 0119 14l-7 7z" stroke="#EF4444" stroke-width="1.5"/></svg>'},{n:'Whoop',t:'API',svg:'<svg viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="5" stroke="#8B5CF6" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="#8B5CF6" stroke-width="1.5"/></svg>'},{n:'Strava',t:'OAuth',svg:'<svg viewBox="0 0 24 24" fill="none"><path d="M5 18l5-12 5 12" stroke="#FC4C02" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'},{n:'Google Drive',t:'OAuth',svg:'<svg viewBox="0 0 24 24" fill="none"><path d="M8 2l7 12H1L8 2z" stroke="#F59E0B" stroke-width="1.3"/><path d="M16 2l7 12h-7" stroke="#34A853" stroke-width="1.3"/></svg>'}];
 $('connectGrid').innerHTML=src.map((s,i)=>`<div class="connect-item" id="ci${i}"><div class="ci-icon">${s.svg}</div><div class="ci-info"><div class="ci-name">${s.n}</div><div class="ci-type">${s.t}</div></div><div class="ci-toggle"></div></div>`).join('');
-src.forEach((s,i)=>{setTimeout(()=>{const el=$('ci'+i);el.style.transition='all 400ms cubic-bezier(0.22,1,0.36,1)';el.style.opacity='1';el.style.transform='translateX(0)';},i*160+500);});
-src.forEach((s,i)=>{setTimeout(()=>{$('ci'+i).classList.add('on');},i*280+2400);});
-setTimeout(()=>{an($('connectDone'),{opacity:'1'},400);},5200);}
+src.forEach((s,i)=>{setTimeout(()=>{const el=$('ci'+i);el.style.transition='all 360ms cubic-bezier(0.22,1,0.36,1)';el.style.opacity='1';el.style.transform='translateX(0)';},i*110+360);});
+src.forEach((s,i)=>{setTimeout(()=>{$('ci'+i).classList.add('on');},i*160+1300);});
+setTimeout(()=>{an($('connectDone'),{opacity:'1'},350);},2600);}
 
 function s3(){show('s3');const box=$('deployBox');box.style.transition='none';box.style.opacity='0';box.style.transform='scale(0.9)';box.offsetHeight;an(box,{opacity:'1',transform:'scale(1)'},500);
 const srcs=[{n:'Google Sheets',t:'OAuth'},{n:'Bridge Athletics',t:'CSV'},{n:'Apple Health',t:'HealthKit'},{n:'Concept2',t:'API'}];
@@ -449,17 +449,17 @@ $('insightsList').innerHTML=insights.map((ins,i)=>`<div class="insight-row" id="
 insights.forEach((ins,i)=>{setTimeout(()=>{const el=$('ins'+i);el.style.transition='all 400ms cubic-bezier(0.22,1,0.36,1)';el.style.opacity='1';el.style.transform='translateX(0)';},i*350+1800);});
 setTimeout(()=>an(dw,{transform:'perspective(1200px) rotateX(0deg) scale(1) translateY(0)',transformOrigin:'center center'},1500),1500);}
 
-function s5(){show('s5');const w=$('aiWrap');w.style.transition='none';w.style.opacity='0';w.style.transform='translateY(20px)';w.offsetHeight;an(w,{opacity:'1',transform:'translateY(0)'},600);
-const qText='Compare Star and Lily\'s race readiness for Saturday';const qEl=$('aiQ');qEl.innerHTML='';
+function s5(){show('s5');const w=$('aiWrap');w.style.transition='none';w.style.opacity='0';w.style.transform='translateY(20px)';w.offsetHeight;an(w,{opacity:'1',transform:'translateY(0)'},520);
+const qText='How many athletes are fatigued?';const qEl=$('aiQ');qEl.innerHTML='';
 let qi=0;setTimeout(()=>{const qti=setInterval(()=>{if(qi<qText.length){qEl.innerHTML=qText.slice(0,qi+1)+'<span class="cursor"></span>';qi++;}else{clearInterval(qti);qEl.textContent=qText;
 // Show "Generating..." loading
 const el=$('aiText');
-setTimeout(()=>{el.innerHTML='<span style="color:var(--g);opacity:0.6;font-style:italic;">Generating response...</span><span class="ai-cursor"></span>';},300);
+setTimeout(()=>{el.innerHTML='<span style="color:var(--g);opacity:0.6;font-style:italic;">Generating response...</span><span class="ai-cursor"></span>';},220);
 // Then replace with actual response
-setTimeout(()=>{const text="Star: Recovery 88/100, HRV stable, 7.4hr sleep, load 5.8 — green, full training.\nLily: Recovery 72/100, HRV dipped 12%, 6.1hr sleep, load 7.2 — yellow, monitor.\n\nRecommendation: Star leads the V8. Consider lighter Wednesday for Lily.";
+setTimeout(()=>{const text="3 athletes flagged today.\n2 yellow (monitor).\n1 red (reduce load).\n\nRecommendation: adjust Wednesday volume for flagged athletes.";
 el.innerHTML='';let idx=0;const ti=setInterval(()=>{if(idx<text.length){el.innerHTML=text.slice(0,idx+1).replace(/\n/g,'<br>')+'<span class="ai-cursor"></span>';idx++;}else{clearInterval(ti);el.innerHTML=text.replace(/\n/g,'<br>');}},18);},1400);}},35);},600);
-setTimeout(()=>{const ch=$('aiChart');ch.style.transition='all 500ms ease';ch.style.opacity='1';ch.style.transform='translateY(0)';const m=[{l:'Recovery',s:88,li:72},{l:'HRV',s:85,li:62},{l:'Sleep',s:92,li:76},{l:'Load',s:58,li:72},{l:'Trend',s:90,li:68}];$('aiBars').innerHTML=m.map(x=>`<div class="ai-bar-col"><div style="display:flex;gap:3px;align-items:flex-end;height:70px;width:100%"><div class="ai-bar" style="flex:1;height:0%;background:var(--g);" data-h="${x.s}"></div><div class="ai-bar" style="flex:1;height:0%;background:var(--am);opacity:0.6;" data-h="${x.li}"></div></div><div class="ai-bar-lbl">${x.l}</div></div>`).join('');setTimeout(()=>{$('aiBars').querySelectorAll('.ai-bar').forEach(b=>{b.style.height=b.dataset.h+'%';});},200);},6500);
-setTimeout(()=>{$('aiCites').innerHTML='<span class="ai-cite">Apple Health</span><span class="ai-cite">Concept2</span><span class="ai-cite">wellness check-in</span><span class="ai-cite">session timer</span>';},7500);}
+setTimeout(()=>{const ch=$('aiChart');ch.style.transition='all 500ms ease';ch.style.opacity='1';ch.style.transform='translateY(0)';const m=[{l:'Recovery',s:78,li:66},{l:'HRV',s:74,li:58},{l:'Sleep',s:82,li:61},{l:'Load',s:62,li:80},{l:'Trend',s:76,li:54}];$('aiBars').innerHTML=m.map(x=>`<div class="ai-bar-col"><div style="display:flex;gap:3px;align-items:flex-end;height:70px;width:100%"><div class="ai-bar" style="flex:1;height:0%;background:var(--g);" data-h="${x.s}"></div><div class="ai-bar" style="flex:1;height:0%;background:var(--am);opacity:0.6;" data-h="${x.li}"></div></div><div class="ai-bar-lbl">${x.l}</div></div>`).join('');setTimeout(()=>{$('aiBars').querySelectorAll('.ai-bar').forEach(b=>{b.style.height=b.dataset.h+'%';});},200);},2200);
+setTimeout(()=>{$('aiCites').innerHTML='<span class="ai-cite">wearables</span><span class="ai-cite">sleep</span><span class="ai-cite">training load</span><span class="ai-cite">wellness</span>';},2600);}
 
 function s6(){show('s6');const ps=$('phoneScene');ps.style.transition='none';ps.style.opacity='0';ps.offsetHeight;an(ps,{opacity:'1'},400);an($('phoneCtx'),{opacity:'1',transform:'translateX(0)'},500,300);
 [$('phone1'),$('phone2')].forEach(p=>{p.style.transition='none';p.style.opacity='0';p.style.transform='translateY(30px)';p.offsetHeight;});
@@ -513,8 +513,9 @@ an($('closeCta'),{opacity:'1'},500,2000);
 setTimeout(()=>{l.style.animation='logoFloat 3s ease-in-out infinite';},2500);
 setTimeout(()=>$('replayBtn').classList.add('show'),3000);}
 
-const TL=[{at:0,fn:s1},{at:4000,fn:s2},{at:11500,fn:s2b},{at:19000,fn:s3},{at:33500,fn:s4},{at:40500,fn:s5},{at:49000,fn:s6},{at:57000,fn:s7},{at:65000,fn:s8}];
-const TOTAL=71500;
+// 30s cut: focus on log in → connect → dashboard → AI answer → close.
+const TL=[{at:0,fn:s1},{at:2500,fn:s2b},{at:9000,fn:s4},{at:15000,fn:s5},{at:28500,fn:s8}];
+const TOTAL=30000;
 let demoStarted=false;
 function setPausedUI(paused){
   $('pauseOverlay').style.opacity=paused?'1':'0';
