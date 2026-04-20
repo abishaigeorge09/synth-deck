@@ -6,8 +6,6 @@ const CAL_LOGO = '/logos/cal-golden-bears.svg'
 const PAD = 'clamp(20px, 3.2vh, 48px) clamp(28px, 3.5vw, 44px) clamp(16px, 2.5vh, 32px)'
 
 const METRICS = [
-  { label: 'Sign ups', value: '245', accent: THEME.primary },
-  { label: 'Fundraised', value: '$200', accent: THEME.cyan },
   { label: 'Athlete users', value: '120', accent: THEME.purple },
   { label: 'Coaches', value: '4', accent: THEME.amber },
 ] as const
