@@ -86,7 +86,7 @@ export function AppendixDeck() {
             Appendix · drafts ({APPENDIX_SLIDE_TOTAL})
           </p>
           <div className="min-h-0 flex-1 pt-9">
-            <SlideShell slides={slides} index={index} setIndex={setIndex} />
+            <SlideShell slides={slides} index={index} setIndex={setIndex} deckMode="appendix" />
           </div>
         </div>
       </DeckAdvanceProvider>

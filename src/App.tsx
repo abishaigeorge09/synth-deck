@@ -7,6 +7,14 @@ import { AppendixDeck } from './appendix/AppendixDeck'
 
 import { DeckBlurLock } from './components/DeckBlurLock'
 import { APPENDIX_TAIL_SLIDES, MAIN_FLOW_SLIDES, TITLE_SLIDE } from './deck/slideRegistry'
+import { LiveAnalyticsDebug } from './analytics/LiveAnalyticsDebug'
+
+function resolveHashRoute(hash: string): 'main' | 'appendix' | 'analytics' {
+  const base = hash.replace(/^#/, '').split('?')[0] ?? ''
+  if (base === 'analytics') return 'analytics'
+  if (base === 'appendix') return 'appendix'
+  return 'main'
+}
 
 function MainDeck() {
   const [index, setIndex] = useState(0)
@@ -77,20 +85,36 @@ function MainDeck() {
 }
 
 export default function App() {
-  const [appendix, setAppendix] = useState(() =>
-    typeof window !== 'undefined' ? window.location.hash === '#appendix' : false,
+  const [hashRoute, setHashRoute] = useState<'main' | 'appendix' | 'analytics'>(() =>
+    typeof window !== 'undefined' ? resolveHashRoute(window.location.hash) : 'main',
   )
 
   useEffect(() => {
     const sync = () => {
-      setAppendix(window.location.hash === '#appendix')
+      setHashRoute(resolveHashRoute(window.location.hash))
     }
     window.addEventListener('hashchange', sync)
     sync()
     return () => window.removeEventListener('hashchange', sync)
   }, [])
 
-  if (appendix) {
+  if (hashRoute === 'analytics') {
+    const host = typeof window !== 'undefined' ? window.location.hostname : ''
+    const isLocal =
+      host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || host === '::1'
+    if (typeof window !== 'undefined' && !isLocal) {
+      return (
+        <div className="p-8 text-sm text-zinc-600" style={{ fontFamily: 'system-ui, sans-serif' }}>
+          Analytics dashboard is only available in local dev. Run <code className="rounded bg-zinc-100 px-1 py-0.5">npm run dev</code>
+          , then open the <strong>Local</strong> URL from the terminal with <code className="rounded bg-zinc-100 px-1 py-0.5">/#analytics</code>{' '}
+          (Vite defaults to port 5173 but uses the next free port—e.g. 5174—if 5173 is taken).
+        </div>
+      )
+    }
+    return <LiveAnalyticsDebug />
+  }
+
+  if (hashRoute === 'appendix') {
     return (
       <AdvanceGateProvider>
         <MobileLandscapeGate>

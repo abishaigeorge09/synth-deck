@@ -2,7 +2,9 @@ import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import React, { useEffect, useMemo, useRef, type CSSProperties } from 'react'
 import { THEME } from '../lib/theme'
 import { TRANSITIONS } from '../lib/motion'
+import type { DeckMode } from '../lib/analytics/useDeckPresence'
 import { useAdvanceGate } from './advanceGate'
+import { DeckPresenceBridge } from './DeckPresenceBridge'
 import { SlideDeckProvider } from './SlideDeckContext'
 import { PRODUCT_DEMO_SLIDE_NEXT_EVENT, SETUP_SLIDE_NEXT_EVENT } from '../lib/setupSlideEvents'
 
@@ -30,10 +32,13 @@ export function SlideShell({
   slides,
   index,
   setIndex,
+  deckMode = 'main',
 }: {
   slides: SlideDef[]
   index: number
   setIndex: (i: number) => void
+  /** Which deck shell is active (main pitch vs `/#appendix` drafts). */
+  deckMode?: DeckMode
 }) {
   const { blocked } = useAdvanceGate()
   const slide = slides[index]!
@@ -209,6 +214,13 @@ export function SlideShell({
                   >
                     <div className="absolute inset-0" style={{ background: bg }} />
                     <SlideDeckProvider value={{ currentIndex: index, slideCount: slides.length }}>
+                      <DeckPresenceBridge
+                        deckMode={deckMode}
+                        slideId={slide.id}
+                        slideIndex={index}
+                        slideCount={slides.length}
+                        section={slide.section}
+                      />
                       {slide.component}
                     </SlideDeckProvider>
                   </div>
