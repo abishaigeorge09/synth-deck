@@ -7,15 +7,16 @@ import { TopNav } from '../components/TopNav'
 import { PRODUCT_DEMO_SLIDE_NEXT_EVENT } from '../lib/setupSlideEvents'
 import { THEME } from '../lib/theme'
 
-type NavOverrides = { pageOverride?: string; sectionOverride?: string }
+type NavOverrides = { pageOverride?: string; sectionOverride?: string; autoExpand?: boolean }
 type DemoPhase = 'preview' | 'expanded' | 'done' | 'closing'
 
 const DEMO_URL = '/Product%20Demo/synth_demo_nature.html'
 
-export function ProductDemoSlide({ pageOverride, sectionOverride }: NavOverrides) {
+export function ProductDemoSlide({ pageOverride, sectionOverride, autoExpand = false }: NavOverrides) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
   const closingTimerRef = useRef<number | null>(null)
   const pendingStartRef = useRef(false)
+  const pendingPreviewStartRef = useRef(true)
 
   const { setBlocked } = useAdvanceGate()
   const advance = useDeckAdvance()
@@ -53,6 +54,22 @@ export function ProductDemoSlide({ pageOverride, sectionOverride }: NavOverrides
       pendingStartRef.current = true
     }
   }, [iframeLoaded, invokeDemo, setBlocked])
+
+  useEffect(() => {
+    if (!autoExpand) return
+    if (phase !== 'preview') return
+    window.setTimeout(() => openDemo(), 60)
+  }, [autoExpand, openDemo, phase])
+
+  useEffect(() => {
+    if (phase !== 'preview') return
+    if (iframeLoaded) {
+      window.setTimeout(() => invokeDemo('start', true), 80)
+      pendingPreviewStartRef.current = false
+      return
+    }
+    pendingPreviewStartRef.current = true
+  }, [iframeLoaded, invokeDemo, phase])
 
   const collapseAndAdvance = useCallback(() => {
     setBlocked(false)
@@ -161,6 +178,10 @@ export function ProductDemoSlide({ pageOverride, sectionOverride }: NavOverrides
               }}
               onLoad={() => {
                 setIframeLoaded(true)
+                if (phase === 'preview' && pendingPreviewStartRef.current) {
+                  pendingPreviewStartRef.current = false
+                  window.setTimeout(() => invokeDemo('start', true), 80)
+                }
                 if (pendingStartRef.current) {
                   pendingStartRef.current = false
                   window.setTimeout(() => invokeDemo('start', false), 80)

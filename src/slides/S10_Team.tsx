@@ -95,12 +95,12 @@ export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: str
             name="Star Rose"
             title="Co-founder"
             accent={THEME.cyan}
-            photoSrc="/team/star-rose_rowing.png"
-            photoObjectPosition="center 45%"
+            photoSrc="/team/star-rose_profile.png"
+            photoObjectPosition="center 32%"
             bullets={[
               'Cal Women’s Rowing',
               'Australian U23 Women’s Eight · 2024 World Rowing U23 Championships',
-              'St. Catharines, Canada · Sydney Rowing Club',
+              'Sydney, Australia · Sydney Rowing Club',
             ]}
           />
           <TeamMember

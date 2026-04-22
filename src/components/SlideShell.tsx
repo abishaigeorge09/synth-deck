@@ -47,17 +47,17 @@ export function SlideShell({
   }
   const goNext = () => {
     if (!canNext) return
-    if (blocked) return
     /** Setup slide runs a cursor → Create account sim before advancing. */
     if (slide.id === 's02-setup') {
       window.dispatchEvent(new CustomEvent(SETUP_SLIDE_NEXT_EVENT))
       return
     }
     /** Product demo slide expands first, then advances only after completion. */
-    if (slide.id === 's06-product-demo') {
+    if (slide.id === 's06-product-demo' || slide.id === 'appx-product-demo') {
       window.dispatchEvent(new CustomEvent(PRODUCT_DEMO_SLIDE_NEXT_EVENT))
       return
     }
+    if (blocked) return
     setIndex(index + 1)
   }
 
