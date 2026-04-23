@@ -621,6 +621,16 @@ window.synthDemoController={
   isStarted:()=>demoStarted,
   isPaused:()=>schedulerPaused,
 };
+window.addEventListener('keydown',function(e){
+  if(!demoStarted||demoFinished)return;
+  if(!schedulerPaused)return;
+  var k=e.key;
+  if(k==='ArrowRight'||k==='Enter'||(k===' '&&!e.repeat)){
+    try{window.parent.postMessage({source:'synth-demo',type:'requestDeckNext'},'*');}catch(_){}
+    e.preventDefault();
+    e.stopPropagation();
+  }
+},true);
 window.addEventListener('message',(event)=>{
   const data=event&&event.data;
   if(!data||data.source!=='deck-product-demo')return;

@@ -67,6 +67,12 @@ export const TITLE_SLIDE: RegisteredSlide = {
 /** Main story after title: Team first, then problem → solution demo → traction → market → competition → thank you. */
 export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
   { id: 's10', section: '09 · TEAM', background: THEME.darkDeep, render: (nav) => <S10_Team {...nav} /> },
+  {
+    id: 's10a-solution-cover',
+    section: '02 · SOLUTION',
+    background: THEME.primary,
+    render: (nav) => <OurSolutionCover {...nav} />,
+  },
   { id: 's02', section: '01 · PROBLEM', background: THEME.light, render: (nav) => <S02_Problem {...nav} /> },
   { id: 's02-solution', section: '02 · SOLUTION', background: THEME.primary, render: (nav) => <OurSolutionCover {...nav} /> },
   { id: 's04-setup-loop', section: '02 · SOLUTION', background: THEME.light, render: (nav) => <S04_ProductSetupLoop {...nav} /> },

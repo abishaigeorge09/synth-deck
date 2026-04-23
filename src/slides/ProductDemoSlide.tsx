@@ -48,8 +48,9 @@ export function ProductDemoSlide({ pageOverride, sectionOverride, autoExpand = f
   const openDemo = useCallback(() => {
     setPhase('expanded')
     setBlocked(false)
+    /** Expanded demo always starts muted; unmute from the in-demo speaker control. */
     if (iframeLoaded) {
-      window.setTimeout(() => invokeDemo('start', false), 80)
+      window.setTimeout(() => invokeDemo('start', true), 80)
     } else {
       pendingStartRef.current = true
     }
@@ -109,6 +110,10 @@ export function ProductDemoSlide({ pageOverride, sectionOverride, autoExpand = f
         setPhase('done')
         setBlocked(false)
       }
+      /** Iframe has focus while demo is paused; parent never sees Arrow/Space — bridge from HTML. */
+      if (data.type === 'requestDeckNext') {
+        window.dispatchEvent(new CustomEvent(PRODUCT_DEMO_SLIDE_NEXT_EVENT))
+      }
     }
     window.addEventListener('message', onMessage)
     return () => window.removeEventListener('message', onMessage)
@@ -116,7 +121,8 @@ export function ProductDemoSlide({ pageOverride, sectionOverride, autoExpand = f
 
   const previewHint = useMemo(() => {
     if (phase === 'preview') return 'Press next to open the live product demo.'
-    if (phase === 'expanded') return 'Demo is playing. Click inside to pause or resume, or press next to skip.'
+    if (phase === 'expanded')
+      return 'Demo is playing muted. Use the speaker control in the demo for sound. Click inside to pause or resume, or press next to skip.'
     if (phase === 'done') return 'Demo finished. Press next to continue.'
     return 'Closing demo…'
   }, [phase])
@@ -184,7 +190,7 @@ export function ProductDemoSlide({ pageOverride, sectionOverride, autoExpand = f
                 }
                 if (pendingStartRef.current) {
                   pendingStartRef.current = false
-                  window.setTimeout(() => invokeDemo('start', false), 80)
+                  window.setTimeout(() => invokeDemo('start', true), 80)
                 }
               }}
             />

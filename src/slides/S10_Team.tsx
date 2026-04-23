@@ -80,7 +80,7 @@ export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: str
         <div className="mt-6 flex-1 min-h-0 w-full max-w-[1100px] grid grid-cols-2 grid-rows-2 gap-x-12 gap-y-6 items-start justify-items-center content-center">
           <TeamMember
             name="Abishai Gosula"
-            title="Co-founder"
+            title="Founder"
             accent={THEME.primary}
             photoSrc="/team/abishai-gosula.png"
             photoObjectPosition="center 22%"
@@ -93,7 +93,7 @@ export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: str
           />
           <TeamMember
             name="Star Rose"
-            title="Co-founder"
+            title="Founder"
             accent={THEME.cyan}
             photoSrc="/team/star-rose_profile.png"
             photoObjectPosition="center 32%"
@@ -105,7 +105,7 @@ export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: str
           />
           <TeamMember
             name="Lily Pember"
-            title="Co-founder"
+            title="Founder"
             accent={THEME.purple}
             photoSrc="/team/lily-pember_rowing.png"
             photoObjectPosition="center 42%"
@@ -117,7 +117,7 @@ export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: str
           />
           <TeamMember
             name="Matthew Waddell"
-            title="Co-founder"
+            title="Founder"
             accent={THEME.amber}
             photoSrc="/team/matthew-waddell_rowing.png"
             photoObjectPosition="32% 48%"

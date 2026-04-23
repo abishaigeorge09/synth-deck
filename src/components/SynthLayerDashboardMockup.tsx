@@ -26,6 +26,8 @@ export type SynthLayerDashboardMockupProps = {
   showCoachProfile?: boolean
   /** Darken dashboard body under a modal. */
   dimMain?: boolean
+  /** Stronger dim + backdrop blur (e.g. AI modal “thinking” / results). */
+  dimMainHeavy?: boolean
   /** Centered or full overlay above the mockup (modals, wizards). */
   overlay?: ReactNode
   /** Show “Deploy agent” CTA in sidebar (off during some story beats). */
@@ -559,6 +561,7 @@ export function SynthLayerDashboardMockup({
   agentHighlight = false,
   showCoachProfile = false,
   dimMain = false,
+  dimMainHeavy = false,
   overlay = null,
   showSidebarDeploy = true,
   navMode = 'default',
@@ -735,7 +738,14 @@ export function SynthLayerDashboardMockup({
 
       <div className={embeddedApp ? 'relative flex w-full min-w-0' : 'relative flex min-h-0 flex-1'}>
         {dimMain ? (
-          <div className="pointer-events-none absolute inset-0 z-[15] bg-zinc-900/35" aria-hidden />
+          <div
+            className={
+              dimMainHeavy
+                ? 'pointer-events-none absolute inset-0 z-[15] bg-zinc-900/55 backdrop-blur-[5px]'
+                : 'pointer-events-none absolute inset-0 z-[15] bg-zinc-900/35'
+            }
+            aria-hidden
+          />
         ) : null}
 
         {!hideSidebar ? (

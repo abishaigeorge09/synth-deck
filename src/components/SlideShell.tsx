@@ -50,6 +50,10 @@ export function SlideShell({
     if (!canPrev) return
     setIndex(index - 1)
   }
+  /** These slides handle → via custom events; advance gate must not disable the nav button. */
+  const nextBypassesBlocked =
+    slide.id === 's02-setup' || slide.id === 's06-product-demo' || slide.id === 'appx-product-demo'
+
   const goNext = () => {
     if (!canNext) return
     /** Setup slide runs a cursor → Create account sim before advancing. */
@@ -284,7 +288,7 @@ export function SlideShell({
                       e.stopPropagation()
                       goNext()
                     }}
-                    disabled={!canNext || blocked}
+                    disabled={!canNext || (blocked && !nextBypassesBlocked)}
                     className="flex h-10 w-10 items-center justify-center rounded-lg border text-white shadow-[0_10px_26px_rgba(0,0,0,0.45)] backdrop-blur-md transition-colors disabled:opacity-40"
                     style={{
                       fontFamily: THEME.fontMono,

@@ -9,7 +9,7 @@ const PAD = 'clamp(52px, 6.5vh, 76px) clamp(24px, 4vw, 56px) clamp(18px, 2.8vh, 
 const PILLARS: Array<{ k: string; title: string; accent: string }> = [
   { k: '01', title: 'Domain experts', accent: THEME.primaryLight },
   { k: '02', title: 'Market access', accent: THEME.cyan },
-  { k: '03', title: 'Low switching cost', accent: THEME.accent },
+  { k: '03', title: 'Low switching effort', accent: THEME.accent },
 ]
 
 function AdvantageRow({ k, title, accent, i }: { k: string; title: string; accent: string; i: number }) {

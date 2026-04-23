@@ -19,7 +19,10 @@ const COACH_ROWS: DashboardAthleteRow[] = [
   { name: 'Ari Kim', pos: '2V stroke', erg: '6:19.9', split: '1:34.4', squat: '288', load: 'Low', sleep: '7.8h', comply: '95%', risk: false },
 ]
 
-const COACH_QUESTION = 'Who should we monitor this week based on load trend and sleep drop?'
+const COACH_QUESTION = 'how many athletes are fatigued?'
+
+/** Ms after AI phase start once typing is done, before result cards appear (blur + “Generating…”). */
+const AI_RESPONSE_DELAY_MS = 5200
 
 function BrowserShell({
   title,
@@ -58,9 +61,9 @@ function AiOverlay({
   showCaret: boolean
 }) {
   const responseRows = [
-    { name: 'Maya Collins', note: 'sleep down 3 nights', trend: [72, 68, 61, 59] },
-    { name: 'Nia Brooks', note: 'load spike after intervals', trend: [64, 66, 74, 77] },
-    { name: 'Star Miller', note: 'recovering well, monitor anyway', trend: [58, 63, 67, 70] },
+    { name: 'Maya Collins', note: 'Fatigue risk · sleep down 3 nights', trend: [72, 68, 61, 59] },
+    { name: 'Nia Brooks', note: 'Acute load spike · recovery lagging', trend: [64, 66, 74, 77] },
+    { name: 'Roster summary', note: '12 athletes above fatigue threshold', trend: [6, 8, 10, 12] },
   ]
   return (
     <div className="w-[360px] rounded-xl border bg-white p-3 shadow-[0_20px_60px_rgba(0,0,0,0.22)]" style={{ borderColor: THEME.border }} data-no-advance>
@@ -421,6 +424,7 @@ export function S05_ProductCoachAthleteLoop({ pageOverride, sectionOverride }: N
   const typedChars = Math.max(0, Math.min(COACH_QUESTION.length, Math.floor(aiElapsed / 35)))
   const typedQuestion = COACH_QUESTION.slice(0, typedChars)
   const typingDone = typedChars >= COACH_QUESTION.length
+  const aiShowResponse = typingDone && aiElapsed >= AI_RESPONSE_DELAY_MS
   const activeAthleteCard = Math.floor(elapsed / 1800) % 8
   const athleteElapsed = Math.max(0, elapsed - COACH_PHASE_MS)
   const athleteWindow = LOOP_MS - COACH_PHASE_MS
@@ -456,7 +460,6 @@ export function S05_ProductCoachAthleteLoop({ pageOverride, sectionOverride }: N
         <motion.div
           className="min-h-0"
           animate={{
-            filter: coachActive ? 'blur(0px)' : 'blur(2.6px)',
             opacity: coachActive ? 1 : 0.76,
             scale: coachActive ? 1 : 0.988,
           }}
@@ -471,11 +474,10 @@ export function S05_ProductCoachAthleteLoop({ pageOverride, sectionOverride }: N
                 showSidebarDeploy={false}
                 synthAiPlacement="top"
                 synthAiActive={coachStep === 'ai'}
-                dimMain={coachStep === 'ai'}
                 replaceMain={coachStep === 'dashboard' ? undefined : <CoachAthleteCardsMini pulseIndex={activeAthleteCard} />}
                 overlay={
                   coachStep === 'ai' ? (
-                    <AiOverlay showResponse={typingDone && aiElapsed >= 4200} questionText={typedQuestion} showCaret={!typingDone} />
+                    <AiOverlay showResponse={aiShowResponse} questionText={typedQuestion} showCaret={!typingDone} />
                   ) : null
                 }
               />
