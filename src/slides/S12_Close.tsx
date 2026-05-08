@@ -120,6 +120,18 @@ export function S12_Close({ pageOverride, sectionOverride }: { pageOverride?: st
               </tbody>
             </table>
           </div>
+
+          <div className="mt-5 flex items-center justify-center gap-8 text-[12px] tracking-[0.16em] uppercase" style={{ fontFamily: THEME.fontMono }}>
+            <div className="flex items-center gap-2">
+              <span className="font-bold" style={{ color: THEME.textMuted }}>Site</span>
+              <span className="font-semibold" style={{ color: THEME.primaryDarker }}>synthsports.co</span>
+            </div>
+            <span aria-hidden style={{ color: THEME.border }}>·</span>
+            <div className="flex items-center gap-2">
+              <span className="font-bold" style={{ color: THEME.textMuted }}>Live app</span>
+              <span className="font-semibold" style={{ color: THEME.primaryDarker }}>synthsports.co/app</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

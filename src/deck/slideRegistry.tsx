@@ -11,6 +11,7 @@ import { S04_ProductSetupLoop } from '../slides/S04_ProductSetupLoop'
 import { S05_ProductCoachAthleteLoop } from '../slides/S05_ProductCoachAthleteLoop'
 import { ProductDemoSlide } from '../slides/ProductDemoSlide'
 import { S05_Traction } from '../slides/S05_Traction'
+import { S05a_Advisors } from '../slides/S05a_Advisors'
 import { S07_Market } from '../slides/S07_Market'
 import { S08_BusinessModel } from '../slides/S08_BusinessModel'
 import { S09_Competition } from '../slides/S09_Competition'
@@ -84,6 +85,7 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
   },
   { id: 's06-custom-tools', section: '02 · SOLUTION', background: THEME.light, render: (nav) => <CustomToolsShowcaseSlide {...nav} /> },
   { id: 's05', section: '04 · TRACTION', background: THEME.light, render: (nav) => <S05_Traction {...nav} /> },
+  { id: 's05a-advisors', section: 'ADVISORS', background: THEME.light, render: (nav) => <S05a_Advisors {...nav} /> },
   { id: 's06', section: '05 · WHY NOW', background: THEME.light, render: (nav) => <S06_WhyNow {...nav} /> },
   { id: 's07', section: '06 · MARKET', background: THEME.darkDeep, render: (nav) => <S07_Market {...nav} /> },
   { id: 's09', section: '08 · COMPETITION', background: THEME.darkDeep, render: (nav) => <S09_Competition {...nav} /> },

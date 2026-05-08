@@ -158,7 +158,7 @@ function AthleteMiniApp({ scrollOffset }: { scrollOffset: number }) {
       <div className="relative z-20 border-b bg-[#0C0A09] px-3 py-2" style={{ borderColor: THEME.border }}>
         <div className="flex items-center justify-between gap-2">
           <span className="truncate text-[8px] text-white/65" style={{ fontFamily: THEME.fontMono }}>
-            app.synthsports.com/athlete/home
+            synthsports.co/app/athlete/home
           </span>
           <span className="rounded-full border px-2 py-0.5 text-[7px] font-bold uppercase tracking-[0.12em] text-emerald-300" style={{ borderColor: 'rgba(16,185,129,0.5)', fontFamily: THEME.fontMono }}>
             Athlete
@@ -465,7 +465,7 @@ export function S05_ProductCoachAthleteLoop({ pageOverride, sectionOverride }: N
           }}
           transition={{ duration: 0.28 }}
         >
-          <BrowserShell title="app.synthsports.com/coach">
+          <BrowserShell title="synthsports.co/app/coach">
             <div className="h-[430px] overflow-hidden">
               <SynthLayerDashboardMockup
                 navMode={coachStep === 'dashboard' ? 'default' : 'athletes'}
@@ -494,7 +494,7 @@ export function S05_ProductCoachAthleteLoop({ pageOverride, sectionOverride }: N
           }}
           transition={{ duration: 0.28 }}
         >
-          <BrowserShell title="app.synthsports.com/athlete">
+          <BrowserShell title="synthsports.co/app/athlete">
             <AthleteMiniApp scrollOffset={athleteScrollOffset} />
           </BrowserShell>
         </motion.div>

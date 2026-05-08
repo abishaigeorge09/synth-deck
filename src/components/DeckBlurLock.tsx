@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { PrintExportContext } from '../context/PrintExportContext'
 import { DeckPrintStack } from './DeckPrintStack'
 import type { SlideDef } from './SlideShell'
-import { THEME } from '../lib/theme'
-import { DECK_UNLOCK_PASSWORD } from '../lib/deckLock'
+import {
+  DECK_UNLOCK_PASSWORD,
+  readDeckUnlockFlag,
+  writeDeckUnlockFlag,
+} from '../lib/deckLock'
+import { PasscodeInput } from '../features/gate/PasscodeInput'
 
 export function DeckBlurLock({ children, printSlides }: { children: React.ReactNode; printSlides: SlideDef[] }) {
-  // Temporary override: keep the deck open without a password barrier.
-  // Re-enable later by switching this back to `() => import.meta.env.DEV`.
-  const [unlocked, setUnlocked] = useState(true)
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState(false)
+  const [unlocked, setUnlocked] = useState<boolean>(() => readDeckUnlockFlag())
+  const [hasError, setHasError] = useState(false)
+  const [verifying, setVerifying] = useState(false)
+  const [attemptId, setAttemptId] = useState(0)
+  const reducedMotion = useReducedMotion()
 
   /** Only mount the heavy print stack while a print job is active — avoids scroll/layout jank. */
   const [printSession, setPrintSession] = useState(false)
@@ -33,7 +37,6 @@ export function DeckBlurLock({ children, printSlides }: { children: React.ReactN
   useEffect(() => {
     const onAfterPrint = () => {
       setPrintSession(false)
-      // Print preview sets overflow on body; restore app chrome
       document.body.style.overflow = 'hidden'
       document.documentElement.style.overflow = ''
     }
@@ -41,104 +44,116 @@ export function DeckBlurLock({ children, printSlides }: { children: React.ReactN
     return () => window.removeEventListener('afterprint', onAfterPrint)
   }, [])
 
-  // Safari / edge cases: if afterprint never fires, unmount the print stack so scroll stays smooth
   useEffect(() => {
     if (!printSession) return
     const safety = window.setTimeout(() => setPrintSession(false), 120_000)
     return () => window.clearTimeout(safety)
   }, [printSession])
 
-  const tryUnlock = (e?: React.FormEvent) => {
-    e?.preventDefault()
-    if (password === DECK_UNLOCK_PASSWORD) {
-      setUnlocked(true)
-      setError(false)
-      setPassword('')
-    } else {
-      setError(true)
+  useEffect(() => {
+    if (!unlocked) {
+      const prev = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = prev
+      }
     }
+  }, [unlocked])
+
+  const onSubmit = (code: string) => {
+    if (verifying) return
+    if (code === DECK_UNLOCK_PASSWORD) {
+      setVerifying(true)
+      window.setTimeout(() => {
+        writeDeckUnlockFlag()
+        setUnlocked(true)
+      }, 280)
+      return
+    }
+    setHasError(true)
+    window.setTimeout(() => {
+      setAttemptId((n) => n + 1)
+      setHasError(false)
+    }, 340)
   }
 
   return (
     <PrintExportContext.Provider value={printExportValue}>
       <div className="relative h-full w-full min-h-0">
         <div
-          className={`h-full w-full min-h-0 ${unlocked ? '' : 'pointer-events-none select-none blur-[14px]'}`}
           aria-hidden={!unlocked}
+          className="h-full w-full min-h-0"
+          style={{
+            filter: unlocked ? 'none' : 'blur(18px) saturate(1.2) brightness(0.7)',
+            transition: 'filter 350ms ease',
+            pointerEvents: unlocked ? 'auto' : 'none',
+          }}
         >
           {children}
         </div>
 
-        {!unlocked ? (
-          <div
-            className="fixed inset-0 z-[200] flex items-center justify-center overflow-y-auto bg-black/50 p-4 backdrop-blur-md sm:p-6"
-            style={{
-              paddingTop: 'max(1rem, env(safe-area-inset-top, 0px))',
-              paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 0px))',
-              paddingLeft: 'max(1rem, env(safe-area-inset-left, 0px))',
-              paddingRight: 'max(1rem, env(safe-area-inset-right, 0px))',
-            }}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="deck-lock-title"
-          >
-            <form
-              onSubmit={tryUnlock}
-              className="my-auto w-full max-h-[min(90dvh,560px)] max-w-[380px] overflow-y-auto rounded-2xl border border-white/10 bg-zinc-950/95 p-6 shadow-2xl sm:p-8"
-              style={{ fontFamily: THEME.fontSans }}
+        <AnimatePresence>
+          {!unlocked ? (
+            <motion.div
+              key="deck-gate"
+              initial={reducedMotion ? { opacity: 1 } : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center"
+              style={{
+                background:
+                  'radial-gradient(ellipse at center, rgba(30, 38, 130, 0.55) 0%, rgba(8, 8, 40, 0.85) 60%, rgba(8, 8, 40, 0.95) 100%)',
+                backdropFilter: 'blur(8px) saturate(1.1)',
+                WebkitBackdropFilter: 'blur(8px) saturate(1.1)',
+                paddingTop: 'env(safe-area-inset-top)',
+                paddingBottom: 'env(safe-area-inset-bottom)',
+                paddingLeft: 'env(safe-area-inset-left)',
+                paddingRight: 'env(safe-area-inset-right)',
+              }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="deck-lock-title"
             >
-              <h2 id="deck-lock-title" className="text-lg font-semibold text-white" style={{ fontFamily: THEME.fontMono }}>
-                Presentation locked
-              </h2>
-              <p className="mt-2 text-sm text-zinc-400">Enter the password to view this deck.</p>
-
-              <label className="mt-6 block">
-                <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-zinc-500" style={{ fontFamily: THEME.fontMono }}>
-                  Password
-                </span>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value)
-                    setError(false)
-                  }}
-                  autoComplete="current-password"
-                  className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-[15px] text-white outline-none ring-0 placeholder:text-zinc-600 focus:border-zinc-500"
-                  placeholder="Password"
-                  autoFocus
-                />
-              </label>
-
-              <div className="mt-3 flex items-center gap-2">
-                <input
-                  id="deck-lock-show-pw"
-                  type="checkbox"
-                  checked={showPassword}
-                  onChange={(e) => setShowPassword(e.target.checked)}
-                  className="h-4 w-4 rounded border-zinc-600 bg-zinc-900 text-emerald-600 focus:ring-emerald-500"
-                />
-                <label htmlFor="deck-lock-show-pw" className="cursor-pointer text-sm text-zinc-400">
-                  Show password
-                </label>
-              </div>
-
-              {error ? (
-                <p className="mt-3 text-sm text-red-400" role="alert">
-                  Incorrect password. Try again.
-                </p>
-              ) : null}
-
-              <button
-                type="submit"
-                className="mt-6 w-full rounded-lg py-2.5 text-[13px] font-semibold uppercase tracking-wide text-white transition hover:opacity-90"
-                style={{ background: THEME.primary, fontFamily: THEME.fontMono }}
+              <motion.div
+                initial={{ y: 12, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1], delay: 0.06 }}
+                className="mx-5 flex w-full max-w-[380px] flex-col items-center gap-10"
+                style={{ fontFamily: 'JetBrains Mono, ui-monospace, monospace' }}
               >
-                Unlock
-              </button>
-            </form>
-          </div>
-        ) : null}
+                <span
+                  id="deck-lock-title"
+                  className="text-[28px] font-bold leading-none tracking-[-0.02em]"
+                  style={{ color: '#FFFFFF' }}
+                >
+                  synth
+                  <span style={{ color: '#10B981' }}>.</span>
+                </span>
+
+                <PasscodeInput
+                  key={attemptId}
+                  length={8}
+                  onSubmit={onSubmit}
+                  hasError={hasError}
+                  disabled={verifying}
+                />
+
+                <p
+                  className="min-h-[16px] text-center text-[11px] leading-[1.4]"
+                  aria-live="polite"
+                  style={{
+                    color: hasError ? 'rgba(239, 68, 68, 0.85)' : 'transparent',
+                    transition: 'color 200ms ease',
+                    fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                  }}
+                >
+                  {hasError ? 'Wrong code' : '·'}
+                </p>
+              </motion.div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
 
         {unlocked && printSession ? <DeckPrintStack slides={printSlides} /> : null}
       </div>

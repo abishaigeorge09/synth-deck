@@ -240,7 +240,7 @@ export function S04_ProductSetupLoop({ pageOverride, sectionOverride }: NavOverr
           <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-500" style={{ fontFamily: THEME.fontMono }}>
             Step 1 · Set up team
           </p>
-          <BrowserShell url="app.synthsports.com/onboarding/setup-team">
+          <BrowserShell url="synthsports.co/app/onboarding/setup-team">
             <div className="space-y-4 p-4">
               <div className="text-[11px] text-zinc-500" style={{ fontFamily: THEME.fontSans }}>
                 Add team details and upload roster first.
@@ -324,7 +324,7 @@ export function S04_ProductSetupLoop({ pageOverride, sectionOverride }: NavOverr
           <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-500" style={{ fontFamily: THEME.fontMono }}>
             Step 2 · Connect tools
           </p>
-          <BrowserShell url="app.synthsports.com/onboarding/connect-tools">
+          <BrowserShell url="synthsports.co/app/onboarding/connect-tools">
             <ConnectToolsLoopMiniSite tick={tick} />
           </BrowserShell>
         </motion.div>

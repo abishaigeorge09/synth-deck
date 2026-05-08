@@ -32,6 +32,12 @@ export function S01_Title() {
           >
             {THEME.tagline}
           </p>
+          <p
+            className="mt-6 text-[clamp(11px,1.4vw,13px)] tracking-[0.18em] uppercase text-white/70"
+            style={{ fontFamily: THEME.fontMono }}
+          >
+            synthsports.co
+          </p>
         </div>
       </div>
     </div>

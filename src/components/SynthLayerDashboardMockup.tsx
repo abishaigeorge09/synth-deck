@@ -554,7 +554,7 @@ function AthletesPage({ rows, replaceSummary }: { rows: DashboardAthleteRow[]; r
 }
 
 /**
- * In-slide app.synthsports.com mockup — configurable for the multi-step solution story.
+ * In-slide synthsports.co/app mockup — configurable for the multi-step solution story.
  */
 export function SynthLayerDashboardMockup({
   agentRef,
@@ -633,7 +633,7 @@ export function SynthLayerDashboardMockup({
             className="mx-1 min-w-0 flex-1 truncate rounded px-2 py-0.5 text-[8px] text-white/55"
             style={{ background: 'rgba(255,255,255,0.08)', fontFamily: THEME.fontMono }}
           >
-            app.synthsports.com/dashboard
+            synthsports.co/app/dashboard
           </div>
           {showCoachProfile ? (
             <div
