@@ -18,6 +18,8 @@ export const APPENDIX_CONTENT_INDEX: { title: string; blurb: string }[] = [
   { title: 'Pricing tiers detail', blurb: 'Per-tier limits, breakpoints, enterprise.' },
   { title: 'Product architecture', blurb: 'Connectors, agent, store, surfaces.' },
   { title: 'Competitive quadrant (2×2)', blurb: 'Where synth sits vs. point tools and platforms.' },
+  { title: 'Problem statements', blurb: 'Numbered problem framing with Cal context.' },
+  { title: 'Problem everywhere', blurb: 'Rowing + global sports data scope and signals.' },
 ]
 
 export function AppendixIndexSlide({ pageOverride }: { pageOverride?: string }) {

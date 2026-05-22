@@ -20,6 +20,8 @@ import { AppendixCoverSlide } from '../slides/AppendixCoverSlide'
 import { AppendixDataPrivacy } from '../slides/AppendixDataPrivacy'
 import { AppendixIndexSlide } from '../slides/AppendixIndexSlide'
 import { PlaceholderSlide } from '../slides/PlaceholderSlide'
+import { S02a_ProblemStatements } from '../slides/S02a_ProblemStatements'
+import { S03a_ProblemEverywhere } from '../slides/S03a_ProblemEverywhere'
 
 export type DeckNavOverrides = {
   /** Overrides TopNav section label (e.g. when reused in appendix). */
@@ -344,6 +346,22 @@ export const APPENDIX_TAIL_SLIDES: RegisteredSlide[] = [
         title="Competitive quadrant."
         kicker="A12 · 2×2 matrix"
       />
+    ),
+  },
+  {
+    id: 'appx-problem-statements',
+    section: 'A13 · PROBLEM STATEMENTS',
+    background: THEME.light,
+    render: (nav) => (
+      <S02a_ProblemStatements {...nav} sectionOverride="A13 · PROBLEM STATEMENTS" />
+    ),
+  },
+  {
+    id: 'appx-problem-everywhere',
+    section: 'A14 · PROBLEM EVERYWHERE',
+    background: THEME.light,
+    render: (nav) => (
+      <S03a_ProblemEverywhere {...nav} sectionOverride="A14 · PROBLEM EVERYWHERE" />
     ),
   },
 ]
