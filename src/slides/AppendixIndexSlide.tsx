@@ -6,19 +6,18 @@ const PAD = 'clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px) clamp(20px, 3vw, 36px
 
 /** Matches order in `APPENDIX_TAIL_SLIDES` after cover + this index (content slides only). */
 export const APPENDIX_CONTENT_INDEX: { title: string; blurb: string }[] = [
-  { title: 'Product demo (interactive)', blurb: 'Click into the live demo slide; preview expands and plays in-place.' },
-  { title: 'Problem statements', blurb: 'Numbered problem framing with Cal context.' },
-  { title: 'Problem everywhere', blurb: 'Rowing + global sports data scope and signals.' },
-  { title: 'Solution overview', blurb: 'Four solution statements and team visual.' },
-  { title: 'Vision', blurb: 'Long-term synth layer across programs.' },
-  { title: 'Close / Our ask', blurb: 'Partners, seed, GTM asks.' },
-  { title: 'Business model', blurb: 'Tiers, mix, projections.' },
-  { title: 'Setup account', blurb: 'Onboarding and connector selection.' },
-  { title: 'Dashboard intro', blurb: 'First look at the coach dashboard.' },
-  { title: 'Deploy extension', blurb: 'Agent deployment to the browser.' },
-  { title: 'Synth agent workflow', blurb: 'Capture beside existing workflows.' },
-  { title: 'Custom tools showcase', blurb: 'Custom tools on the same layer.' },
-  { title: 'Connectors', blurb: 'Connect once, scheduled updates.' },
+  { title: 'The flywheel', blurb: 'How data, signal, and engagement compound.' },
+  { title: 'Revenue projections', blurb: 'Y1 → Y6 model with key drivers.' },
+  { title: 'Unit economics', blurb: 'ACV, gross margin, payback, LTV/CAC.' },
+  { title: 'Pre-seed budget breakdown', blurb: 'Use of funds across brand, compute, ops.' },
+  { title: 'Behavioral economics in the product', blurb: 'Loops we lean on to drive habit + retention.' },
+  { title: 'Two-way sync', blurb: 'Synth writes back to source-of-truth systems.' },
+  { title: 'Department intelligence', blurb: 'Roll-ups across teams, AD office, program-wide insight.' },
+  { title: 'Data & privacy / ethics', blurb: 'Athlete consent, scoping, retention, deletion.' },
+  { title: 'Advisors (detailed)', blurb: 'Who we work with and how they help.' },
+  { title: 'Pricing tiers detail', blurb: 'Per-tier limits, breakpoints, enterprise.' },
+  { title: 'Product architecture', blurb: 'Connectors, agent, store, surfaces.' },
+  { title: 'Competitive quadrant (2×2)', blurb: 'Where synth sits vs. point tools and platforms.' },
 ]
 
 export function AppendixIndexSlide({ pageOverride }: { pageOverride?: string }) {
