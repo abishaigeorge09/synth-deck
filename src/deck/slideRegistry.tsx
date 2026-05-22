@@ -66,16 +66,28 @@ export const TITLE_SLIDE: RegisteredSlide = {
  */
 export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
   {
-    id: 's02-problem',
+    id: 's02-problem-statements',
     section: '01 · PROBLEM',
     background: THEME.light,
-    render: (nav) => <S02_Problem {...nav} />,
+    render: (nav) => (
+      <S02a_ProblemStatements {...nav} sectionOverride="01 · PROBLEM" />
+    ),
   },
   {
-    id: 's03-solution',
+    id: 's02b-problem-everywhere',
+    section: '01 · PROBLEM',
+    background: THEME.light,
+    render: (nav) => (
+      <S03a_ProblemEverywhere {...nav} sectionOverride="01 · PROBLEM" />
+    ),
+  },
+  {
+    id: 's03-solution-overview',
     section: '02 · SOLUTION',
-    background: THEME.primary,
-    render: (nav) => <OurSolutionCover {...nav} />,
+    background: THEME.light,
+    render: (nav) => (
+      <S03_SolutionOverview {...nav} sectionOverride="02 · SOLUTION" />
+    ),
   },
   {
     id: 's04-product-demo',
@@ -350,27 +362,19 @@ export const APPENDIX_TAIL_SLIDES: RegisteredSlide[] = [
     ),
   },
   {
-    id: 'appx-problem-statements',
-    section: 'A13 · PROBLEM STATEMENTS',
+    id: 'appx-problem-cover',
+    section: 'A13 · PROBLEM COVER',
     background: THEME.light,
     render: (nav) => (
-      <S02a_ProblemStatements {...nav} sectionOverride="A13 · PROBLEM STATEMENTS" />
+      <S02_Problem {...nav} sectionOverride="A13 · PROBLEM COVER" />
     ),
   },
   {
-    id: 'appx-problem-everywhere',
-    section: 'A14 · PROBLEM EVERYWHERE',
-    background: THEME.light,
+    id: 'appx-solution-cover',
+    section: 'A14 · SOLUTION COVER',
+    background: THEME.primary,
     render: (nav) => (
-      <S03a_ProblemEverywhere {...nav} sectionOverride="A14 · PROBLEM EVERYWHERE" />
-    ),
-  },
-  {
-    id: 'appx-solution-overview',
-    section: 'A15 · SOLUTION OVERVIEW',
-    background: THEME.light,
-    render: (nav) => (
-      <S03_SolutionOverview {...nav} sectionOverride="A15 · SOLUTION OVERVIEW" />
+      <OurSolutionCover {...nav} sectionOverride="A14 · SOLUTION COVER" />
     ),
   },
 ]

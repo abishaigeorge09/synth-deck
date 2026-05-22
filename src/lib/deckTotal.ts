@@ -10,10 +10,10 @@
 export const DECK_SLIDE_TOTAL = 30
 
 /** Main story slides (title + main flow through Thank You) — used for page counters. */
-export const MAIN_DECK_SLIDE_TOTAL = 16
+export const MAIN_DECK_SLIDE_TOTAL = 17
 
 /** Appendix slides appended after Thank You in the primary deck (cover + index + content). */
-export const APPENDIX_MAIN_TOTAL = 17
+export const APPENDIX_MAIN_TOTAL = 16
 
 /** Draft / appendix deck (`#appendix`) — `AppendixDeck.tsx`. */
 export const APPENDIX_SLIDE_TOTAL = 9
