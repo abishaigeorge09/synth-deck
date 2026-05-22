@@ -20,6 +20,7 @@ export const APPENDIX_CONTENT_INDEX: { title: string; blurb: string }[] = [
   { title: 'Competitive quadrant (2×2)', blurb: 'Where synth sits vs. point tools and platforms.' },
   { title: 'Problem statements', blurb: 'Numbered problem framing with Cal context.' },
   { title: 'Problem everywhere', blurb: 'Rowing + global sports data scope and signals.' },
+  { title: 'Solution overview', blurb: 'Four solution statements and the synth layer framing.' },
 ]
 
 export function AppendixIndexSlide({ pageOverride }: { pageOverride?: string }) {

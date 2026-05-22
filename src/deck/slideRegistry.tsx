@@ -21,6 +21,7 @@ import { AppendixDataPrivacy } from '../slides/AppendixDataPrivacy'
 import { AppendixIndexSlide } from '../slides/AppendixIndexSlide'
 import { PlaceholderSlide } from '../slides/PlaceholderSlide'
 import { S02a_ProblemStatements } from '../slides/S02a_ProblemStatements'
+import { S03_SolutionOverview } from '../slides/S03_SolutionOverview'
 import { S03a_ProblemEverywhere } from '../slides/S03a_ProblemEverywhere'
 
 export type DeckNavOverrides = {
@@ -362,6 +363,14 @@ export const APPENDIX_TAIL_SLIDES: RegisteredSlide[] = [
     background: THEME.light,
     render: (nav) => (
       <S03a_ProblemEverywhere {...nav} sectionOverride="A14 · PROBLEM EVERYWHERE" />
+    ),
+  },
+  {
+    id: 'appx-solution-overview',
+    section: 'A15 · SOLUTION OVERVIEW',
+    background: THEME.light,
+    render: (nav) => (
+      <S03_SolutionOverview {...nav} sectionOverride="A15 · SOLUTION OVERVIEW" />
     ),
   },
 ]
