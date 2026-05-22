@@ -15,6 +15,14 @@ export const COACH_TOOL_IMAGES: CoachToolImage[] = [
     file: 'google-sheets-rowing-erg-intervals.png',
     alt: 'Google Sheets: Starboard and Port erg intervals plus Bike watts',
   },
+  {
+    file: 'telemetry-boat-hud.png',
+    alt: 'Boat telemetry (splits, power, force curves)',
+  },
+  {
+    file: 'garmin-connect-at-a-glance.png',
+    alt: 'Garmin Connect (HR, load, stress, steps)',
+  },
 ]
 
 export function coachToolSrc(file: string) {
