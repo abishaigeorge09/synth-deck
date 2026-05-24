@@ -4,7 +4,7 @@ import { THEME } from '../lib/theme'
 /** Cover: pixel texture + brand mark image + wordmark + tagline */
 export function S01_Title() {
   return (
-    <div className="absolute inset-0 overflow-hidden" style={{ background: THEME.primary }}>
+    <div className="absolute inset-0 overflow-hidden" style={{ background: THEME.accent }}>
       <div className="pointer-events-none absolute inset-0 z-0">
         <PixelArt pattern="cascade-tr" seed={2} color="#000000" opacity={0.1} />
         <PixelArt pattern="cascade-bl" seed={3} color="#000000" opacity={0.08} />

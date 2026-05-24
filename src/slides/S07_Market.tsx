@@ -32,7 +32,6 @@ function MarketTier({
         {label}
       </p>
       <div className="flex min-w-0 items-center gap-4">
-        {/* Single leader line (never crosses into illustration column) */}
         <div className="h-[2px] min-w-[4.5rem] flex-1" style={{ background: lineColor, opacity: 0.9 }} />
         <span
           className="shrink-0 text-[clamp(26px,3.4vw,42px)] font-bold tracking-[-0.04em]"
@@ -48,7 +47,7 @@ function MarketTier({
   )
 }
 
-/** Airbnb-style market viz: bullseye bleeds from the left; TAM/SAM/SOM blocks + connectors on the right. */
+/** Airbnb-style market viz on dark — bullseye bleeds from the left; TAM/SAM/SOM blocks on the right. */
 export function S07_Market({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden" style={{ background: THEME.darkDeep, padding: PAD }}>
@@ -60,61 +59,55 @@ export function S07_Market({ pageOverride, sectionOverride }: { pageOverride?: s
         aria-hidden
       />
 
-      <TopNav section={sectionOverride ?? '06 · MARKET'} page={pageOverride ?? '7 / 13'} tone="dark" />
+      <TopNav section={sectionOverride ?? '09 · MARKET SIZE'} page={pageOverride ?? ''} tone="dark" />
 
-      {/* Center the whole composition inside the slide */}
       <div className="relative z-[1] flex min-h-0 flex-1 items-center">
         <div className="mx-auto flex w-full max-w-[1280px] min-h-0 flex-col items-stretch gap-10 lg:flex-row lg:items-center lg:gap-14">
           <div className="relative flex min-h-[min(40vh,320px)] min-w-0 flex-[1.45] items-center justify-center overflow-visible lg:min-h-0">
-            <div
-              className="flex w-full items-center justify-center"
-              // Keep the full outer disk visible; no edge cropping.
-              style={{ transform: 'translateX(0%)', transformOrigin: 'center center' }}
-            >
+            <div className="flex w-full items-center justify-center" style={{ transformOrigin: 'center center' }}>
               <IllustMarketNestedBottom className="max-w-none max-lg:max-h-[min(52vh,520px)] lg:max-h-[min(70vh,640px)]" />
             </div>
           </div>
 
           <div className="flex min-w-0 flex-1 flex-col justify-center gap-11 py-6 sm:py-8 lg:max-w-[min(26rem,44vw)] lg:gap-12 lg:py-10">
-          <h2
-            className="text-left text-[clamp(32px,4.6vw,56px)] font-bold leading-[1.02] tracking-[-0.04em]"
-            style={{ fontFamily: THEME.fontSans }}
-          >
-            <span style={{ color: THEME.white }}>Market</span>{' '}
-            <span style={{ color: 'rgba(255,255,255,0.38)' }}>size</span>
-          </h2>
-
-          <div className="flex flex-col gap-11 lg:gap-12">
-            <MarketTier
-              label="Total addressable market"
-              value="$4.2B+"
-              valueColor={THEME.white}
-              lineColor={lineTam}
+            <h2
+              className="text-left text-[clamp(32px,4.6vw,56px)] font-bold leading-[1.02] tracking-[-0.04em]"
+              style={{ fontFamily: THEME.fontSans }}
             >
-              <strong style={{ color: THEME.white, fontWeight: 600 }}>Global sports</strong> software &amp; data spend
-              (illustrative).
-            </MarketTier>
+              <span style={{ color: THEME.white }}>Market</span>{' '}
+              <span style={{ color: 'rgba(255,255,255,0.38)' }}>size</span>
+            </h2>
 
-            <MarketTier
-              label="Serviceable addressable market"
-              value="$890M"
-              valueColor={THEME.primaryLight}
-              lineColor={lineSam}
-            >
-              <strong style={{ color: THEME.primaryLight, fontWeight: 600 }}>US collegiate</strong> athletics programs.
-            </MarketTier>
+            <div className="flex flex-col gap-11 lg:gap-12">
+              <MarketTier
+                label="Total addressable market"
+                value="$116B+"
+                valueColor={THEME.white}
+                lineColor={lineTam}
+              >
+                <strong style={{ color: THEME.white, fontWeight: 600 }}>Global athletes</strong> tracking performance data.
+              </MarketTier>
 
-            <MarketTier
-              label="Serviceable obtainable market"
-              value="$24M"
-              valueColor={THEME.accent}
-              lineColor={lineSom}
-            >
-              <strong style={{ color: THEME.accent, fontWeight: 600 }}>Rowing</strong> wedge · year-one footprint.
-            </MarketTier>
+              <MarketTier
+                label="Serviceable addressable market"
+                value="$4.9B"
+                valueColor={THEME.primaryLight}
+                lineColor={lineSam}
+              >
+                <strong style={{ color: THEME.primaryLight, fontWeight: 600 }}>US athletes</strong> reachable through current channels.
+              </MarketTier>
+
+              <MarketTier
+                label="Serviceable obtainable market"
+                value="$15.3M"
+                valueColor={THEME.accent}
+                lineColor={lineSom}
+              >
+                <strong style={{ color: THEME.accent, fontWeight: 600 }}>Realistic capture</strong> by year three.
+              </MarketTier>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   )

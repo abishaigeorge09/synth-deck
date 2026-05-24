@@ -5,7 +5,7 @@ const PAD = 'clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px) clamp(24px, 4vw, 40px
 
 type NavOverrides = { pageOverride?: string; sectionOverride?: string }
 
-function Icon({ name }: { name: 'view' | 'fatigue' | 'connect' | 'custom' }) {
+function Icon({ name }: { name: 'timeline' | 'predict' | 'custom' | 'scores' }) {
   const common = {
     fill: 'none',
     stroke: THEME.textPrimary,
@@ -13,40 +13,39 @@ function Icon({ name }: { name: 'view' | 'fatigue' | 'connect' | 'custom' }) {
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
   }
-  if (name === 'view') {
+  if (name === 'timeline') {
     return (
       <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden>
-        <path {...common} d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z" />
-        <circle {...common} cx="12" cy="12" r="3" />
+        <path {...common} d="M3 18h18" />
+        <circle cx="6" cy="18" r="2" {...common} fill="white" />
+        <circle cx="12" cy="18" r="2" {...common} fill="white" />
+        <circle cx="18" cy="18" r="2" {...common} fill="white" />
+        <path {...common} d="M6 14V8M12 14V5M18 14v-3" />
       </svg>
     )
   }
-  if (name === 'fatigue') {
+  if (name === 'predict') {
     return (
       <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden>
-        <path {...common} d="M12 2v4" />
-        <path {...common} d="M12 18v4" />
-        <path {...common} d="M4.2 4.2l2.8 2.8" />
-        <path {...common} d="M17 17l2.8 2.8" />
-        <path {...common} d="M2 12h4" />
-        <path {...common} d="M18 12h4" />
-        <path {...common} d="M7 7a7 7 0 1 1 10 10" opacity="0.55" />
-        <path {...common} d="M9.5 13.5c.8.8 1.9 1.3 3.1 1.3 1 0 2-.3 2.8-1" />
+        <path {...common} d="M3 17l5-6 4 4 6-8 3 4" />
+        <circle cx="8" cy="11" r="1.3" fill={THEME.textPrimary} />
+        <circle cx="12" cy="15" r="1.3" fill={THEME.textPrimary} />
+        <circle cx="18" cy="7" r="1.3" fill={THEME.textPrimary} />
       </svg>
     )
   }
-  if (name === 'connect') {
+  if (name === 'custom') {
     return (
       <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden>
-        <path {...common} d="M7 7h4v4H7zM13 7h4v4h-4zM7 13h4v4H7zM13 13h4v4h-4z" />
-        <path {...common} d="M11 9h2M9 11v2M15 11v2M11 15h2" opacity="0.7" />
+        <path {...common} d="M4 6h7v7H4zM13 6h7v7h-7zM4 15h7v5H4z" />
+        <path {...common} d="M16 17h3M17.5 15.5v3" />
       </svg>
     )
   }
   return (
     <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden>
-      <path {...common} d="M12 3l1.6 6.3L20 11l-6.4 1.7L12 19l-1.6-6.3L4 11l6.4-1.7L12 3z" />
-      <path {...common} d="M18 18l3 3" opacity="0.7" />
+      <circle cx="12" cy="12" r="8" {...common} />
+      <path {...common} d="M12 7v5l3 2" />
     </svg>
   )
 }
@@ -74,7 +73,7 @@ function Row({
       </div>
       <div className="min-w-0">
         <p className="text-[26px] leading-[1.12] tracking-[-0.03em]" style={{ fontFamily: THEME.fontSans, color: THEME.textPrimary }}>
-          {lead}{' '}
+          {lead ? <>{lead}{' '}</> : null}
           <span style={{ color: THEME.primaryDarker, fontWeight: 700 }}>{highlight}</span>
           {rest}
         </p>
@@ -103,31 +102,31 @@ export function S03_SolutionOverview({ pageOverride, sectionOverride }: NavOverr
             <div className="space-y-10">
               <Row
                 num="01"
-                icon="view"
-                lead="synth. gives coaches"
-                highlight="one complete view"
-                rest=" of every athlete, so decisions are made with the full picture."
+                icon="timeline"
+                lead="synth. pulls every source into"
+                highlight="one athlete timeline,"
+                rest=" so coaches see patterns instead of switching tabs."
               />
               <Row
                 num="02"
-                icon="fatigue"
-                lead="synth. helps teams"
-                highlight="spot fatigue and recovery early"
-                rest=" across large rosters, before performance drops."
+                icon="predict"
+                lead="synth. learns when load, sleep, and recovery"
+                highlight="predict injury,"
+                rest=" not just track it after the fact."
               />
               <Row
                 num="03"
-                icon="connect"
-                lead="synth. pulls data from"
-                highlight="8+ tools into one system,"
-                rest=" so coaches stop working across disconnected platforms."
+                icon="custom"
+                lead="synth. ships"
+                highlight="custom tools on your data in 24 hours,"
+                rest=" because no two programs run the same way."
               />
               <Row
                 num="04"
-                icon="custom"
-                lead="synth. supports"
-                highlight="custom tools on the same data layer,"
-                rest=" so teams get the exact workflows they need without adding more disconnected software."
+                icon="scores"
+                lead="synth. turns complex data into"
+                highlight="simple scores and actions,"
+                rest=" so nothing stays buried in spreadsheets."
               />
             </div>
           </div>

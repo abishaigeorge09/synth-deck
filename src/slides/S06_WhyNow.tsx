@@ -80,7 +80,7 @@ export function S06_WhyNow({ pageOverride, sectionOverride }: { pageOverride?: s
         padding: '44px 44px 34px',
       }}
     >
-      <TopNav section={sectionOverride ?? '05 · WHY NOW'} page={pageOverride ?? '12 / 19'} tone="dark" />
+      <TopNav section={sectionOverride ?? '08 · WHY NOW'} page={pageOverride ?? ''} tone="dark" />
 
       <h1
         className="mt-16 text-[clamp(34px,4.4vw,56px)] font-bold leading-[1.02] tracking-[-0.05em]"

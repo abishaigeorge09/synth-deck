@@ -1,135 +1,139 @@
+import { PaperTexture } from '../components/PaperTexture'
+import { SectionLabel } from '../components/SectionLabel'
 import { TopNav } from '../components/TopNav'
 import { THEME } from '../lib/theme'
 
-const ROWS: {
-  num: string
-  ask: string
-  accent: string
-  summary: string
-  funds?: string[]
-}[] = [
-  {
-    num: '01',
-    ask: 'Partners & pilots',
-    accent: THEME.primary,
-    summary:
-      'Coaches and programs still split across disconnected tools, help us shape the base app for your sport.',
-  },
-  {
-    num: '02',
-    ask: '$100k seed',
-    accent: THEME.cyan,
-    summary: 'Raising $100k to turn live traction into repeatable growth, clear use of funds, no mystery.',
-    funds: ['Brand & marketing', 'AI & compute credits', 'Ops & infrastructure'],
-  },
-  {
-    num: '03',
-    ask: 'GTM / sales',
-    accent: THEME.amber,
-    summary:
-      'A network into collegiate athletics, AD offices, coaching trees, conferences, to open doors while we ship.',
-  },
+type FundLine = {
+  label: string
+  pct: number
+  amount: string
+  desc: string
+  color: string
+}
+
+const FUNDS: FundLine[] = [
+  { label: 'Engineering', pct: 55, amount: '$192K', desc: 'Founding engineer + contractor + founder salary', color: THEME.accent },
+  { label: 'Buffer', pct: 25, amount: '$87K', desc: 'Unallocated reserve', color: THEME.cyan },
+  { label: 'Growth', pct: 10, amount: '$35K', desc: 'Paid social, content, conferences', color: THEME.blue },
+  { label: 'Operations', pct: 4, amount: '$15K', desc: 'Travel, accounting, insurance', color: THEME.purple },
+  { label: 'Legal & compliance', pct: 3, amount: '$11K', desc: 'SOC 2 prep, immigration, legal docs', color: THEME.amber },
+  { label: 'Infrastructure', pct: 3, amount: '$11K', desc: 'Supabase, Vercel, Claude API', color: THEME.red },
 ]
 
 export function S12_Close({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
-    <div className="absolute inset-0 flex flex-col" style={{ padding: '44px 40px 32px', color: THEME.textPrimary, background: THEME.light }}>
-      <TopNav section={sectionOverride ?? 'CLOSE'} page={pageOverride ?? '12 / 13'} tone="light" />
+    <div
+      className="absolute inset-0 flex flex-col"
+      style={{ padding: '44px 44px 32px', color: THEME.textPrimary, background: THEME.light }}
+    >
+      <PaperTexture strength={0.5} tint="rgba(255,255,255,0.92)" />
+      <TopNav section={sectionOverride ?? '15 · RAISING'} page={pageOverride ?? ''} tone="light" />
 
-      <div className="flex-1 min-h-0 flex flex-col justify-center w-full max-w-[1200px] mx-auto">
-        <div className="w-full min-h-0 flex flex-col">
-          <h2
-            className="text-[30px] font-bold tracking-[-0.04em] text-center"
-            style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}
-          >
-            Our ask
-          </h2>
-          <p className="mt-1.5 text-center text-[12px] uppercase tracking-[0.16em] font-semibold" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-            Three ways to plug in
-          </p>
+      <div className="relative z-10 mx-auto mt-6 flex w-full min-h-0 max-w-[1280px] flex-1 flex-col">
+        <SectionLabel text="15 · RAISING" />
 
-          <div className="mt-5 rounded-2xl overflow-hidden w-full" style={{ border: `1px solid ${THEME.border}`, boxShadow: '0 8px 32px rgba(24,24,27,0.08)' }}>
-            <table className="w-full border-collapse text-left" style={{ fontFamily: THEME.fontSans }}>
-              <thead>
-                <tr style={{ background: `${THEME.primary}10` }}>
-                  <th
-                    scope="col"
-                    className="py-3.5 px-4 w-[68px] text-[11px] tracking-[0.14em] uppercase font-bold border-b"
-                    style={{ fontFamily: THEME.fontMono, color: THEME.primaryDarker, borderColor: THEME.border }}
-                  >
-                    #
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3.5 px-4 w-[min(30%,260px)] text-[11px] tracking-[0.14em] uppercase font-bold border-b"
-                    style={{ fontFamily: THEME.fontMono, color: THEME.primaryDarker, borderColor: THEME.border }}
-                  >
-                    Ask
-                  </th>
-                  <th
-                    scope="col"
-                    className="py-3.5 px-5 text-[11px] tracking-[0.14em] uppercase font-bold border-b"
-                    style={{ fontFamily: THEME.fontMono, color: THEME.primaryDarker, borderColor: THEME.border }}
-                  >
-                    What we&apos;re looking for
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {ROWS.map((row) => (
-                  <tr key={row.num} style={{ background: THEME.white }}>
-                    <td
-                      className="align-top py-5 px-4 border-b font-bold text-[14px]"
-                      style={{
-                        fontFamily: THEME.fontMono,
-                        color: row.accent,
-                        borderColor: THEME.border,
-                        borderLeft: `4px solid ${row.accent}`,
-                      }}
-                    >
-                      {row.num}
-                    </td>
-                    <td
-                      className="align-top py-5 px-4 border-b text-[18px] font-semibold leading-snug"
-                      style={{ fontFamily: THEME.fontSerif, color: THEME.textPrimary, borderColor: THEME.border }}
-                    >
-                      {row.ask}
-                    </td>
-                    <td className="align-top py-5 px-5 border-b" style={{ borderColor: THEME.border }}>
-                      <p className="text-[15px] leading-[1.62]" style={{ color: THEME.textSecondary }}>
-                        {row.summary}
-                      </p>
-                      {row.funds ? (
-                        <div className="mt-4 pt-4" style={{ borderTop: `1px dashed ${THEME.border}` }}>
-                          <div className="mb-2 text-[11px] font-bold uppercase tracking-[0.12em]" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-                            Use of funds
-                          </div>
-                          <ul className="space-y-1.5 text-[13px] leading-[1.45]" style={{ fontFamily: THEME.fontMono, color: THEME.textSecondary }}>
-                            {row.funds.map((f) => (
-                              <li key={f} className="flex gap-2">
-                                <span style={{ color: row.accent }}>·</span>
-                                <span>{f}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ) : null}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="mt-10 grid min-h-0 flex-1 grid-cols-12 gap-12">
+          {/* Hero — big number */}
+          <div className="col-span-7 flex flex-col justify-center">
+            <div
+              className="flex items-baseline gap-3"
+              style={{ fontFamily: THEME.fontMono, lineHeight: 0.92 }}
+            >
+              <span
+                className="text-[clamp(140px,18vw,260px)] font-bold tracking-[-0.07em]"
+                style={{ color: THEME.textPrimary }}
+              >
+                $350K
+              </span>
+              <span
+                className="text-[clamp(28px,3vw,40px)] font-bold tracking-[-0.04em]"
+                style={{ color: THEME.accent }}
+              >
+                .
+              </span>
+            </div>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <span
+                className="rounded-full border px-4 py-2 text-[12px] font-bold uppercase tracking-[0.22em]"
+                style={{
+                  fontFamily: THEME.fontMono,
+                  borderColor: THEME.border,
+                  background: 'white',
+                  color: THEME.textPrimary,
+                }}
+              >
+                Pre-seed
+              </span>
+              <span
+                className="rounded-full border px-4 py-2 text-[12px] font-bold uppercase tracking-[0.22em]"
+                style={{
+                  fontFamily: THEME.fontMono,
+                  borderColor: THEME.border,
+                  background: 'white',
+                  color: THEME.textPrimary,
+                }}
+              >
+                16-month runway
+              </span>
+            </div>
+            <div
+              className="mt-8 text-[14px] font-semibold uppercase tracking-[0.22em]"
+              style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+            >
+              founder@synthsports.co
+            </div>
           </div>
 
-          <div className="mt-5 flex items-center justify-center gap-8 text-[12px] tracking-[0.16em] uppercase" style={{ fontFamily: THEME.fontMono }}>
-            <div className="flex items-center gap-2">
-              <span className="font-bold" style={{ color: THEME.textMuted }}>Site</span>
-              <span className="font-semibold" style={{ color: THEME.primaryDarker }}>synthsports.co</span>
+          {/* Use of funds — compact list */}
+          <div className="col-span-5 flex flex-col justify-center">
+            <div
+              className="mb-4 text-[11px] font-bold uppercase tracking-[0.22em]"
+              style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+            >
+              Use of funds
             </div>
-            <span aria-hidden style={{ color: THEME.border }}>·</span>
-            <div className="flex items-center gap-2">
-              <span className="font-bold" style={{ color: THEME.textMuted }}>Live app</span>
-              <span className="font-semibold" style={{ color: THEME.primaryDarker }}>synthsports.co/app</span>
+            <div className="flex flex-col gap-3.5">
+              {FUNDS.map((f) => (
+                <div key={f.label} className="flex items-baseline gap-3">
+                  <span className="block h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: f.color }} />
+                  <span
+                    className="text-[15px] font-semibold"
+                    style={{ fontFamily: THEME.fontSans, color: THEME.textPrimary }}
+                  >
+                    {f.label}
+                  </span>
+                  <span
+                    className="text-[12px] font-bold tabular-nums"
+                    style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+                  >
+                    {f.pct}%
+                  </span>
+                  <span className="flex-1 border-b border-dotted" style={{ borderColor: THEME.border }} />
+                  <span
+                    className="shrink-0 text-[15px] font-bold tabular-nums"
+                    style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}
+                  >
+                    {f.amount}
+                  </span>
+                </div>
+              ))}
+              <div
+                className="mt-2 flex items-baseline justify-between border-t pt-3"
+                style={{ borderColor: THEME.border }}
+              >
+                <span
+                  className="text-[11px] font-bold uppercase tracking-[0.22em]"
+                  style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+                >
+                  Total
+                </span>
+                <span
+                  className="text-[20px] font-bold tabular-nums"
+                  style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}
+                >
+                  $350K
+                </span>
+              </div>
             </div>
           </div>
         </div>

@@ -2,9 +2,7 @@ import type { ReactNode } from 'react'
 
 import { THEME } from '../lib/theme'
 import { S01_Title } from '../slides/S01_Title'
-import { S02_Problem } from '../slides/S02_Problem'
-import { OurSolutionCover } from '../slides/OurSolutionCover'
-import { ProductDemoSlide } from '../slides/ProductDemoSlide'
+import { ProductDemoStatic } from '../slides/ProductDemoStatic'
 import { S05_Traction } from '../slides/S05_Traction'
 import { S05a_Advisors } from '../slides/S05a_Advisors'
 import { S06_WhyNow } from '../slides/S06_WhyNow'
@@ -15,14 +13,27 @@ import { S10_Team } from '../slides/S10_Team'
 import { S11_Vision } from '../slides/S11_Vision'
 import { S12_Close } from '../slides/S12_Close'
 import { S13_ThankYou } from '../slides/S13_ThankYou'
+import { DataStrategySlide } from '../slides/DataStrategySlide'
+import { WhatSynthPredictsSlide } from '../slides/WhatSynthPredictsSlide'
+import { TheInsightSlide } from '../slides/TheInsightSlide'
 
-import { AppendixCoverSlide } from '../slides/AppendixCoverSlide'
-import { AppendixDataPrivacy } from '../slides/AppendixDataPrivacy'
 import { AppendixIndexSlide } from '../slides/AppendixIndexSlide'
-import { PlaceholderSlide } from '../slides/PlaceholderSlide'
+import { AppendixFlywheel } from '../slides/AppendixFlywheel'
+import { AppendixGrowthModel } from '../slides/AppendixGrowthModel'
+import { AppendixUnitEconomics } from '../slides/AppendixUnitEconomics'
+import { AppendixPreSeedBudget } from '../slides/AppendixPreSeedBudget'
+import {
+  AppendixBehavioralEconomicsA,
+  AppendixBehavioralEconomicsB,
+} from '../slides/AppendixBehavioralEconomics'
+import { AppendixEthicsPolicy } from '../slides/AppendixEthicsPolicy'
+import { AppendixDepartmentIntelligence } from '../slides/AppendixDepartmentIntelligence'
+import { AppendixDataPrivacyV2 } from '../slides/AppendixDataPrivacyV2'
+import { AppendixPricingTiers } from '../slides/AppendixPricingTiers'
+import { AppendixProductArchitecture } from '../slides/AppendixProductArchitecture'
+import { AppendixCompetitiveQuadrant } from '../slides/AppendixCompetitiveQuadrant'
 import { S02a_ProblemStatements } from '../slides/S02a_ProblemStatements'
 import { S03_SolutionOverview } from '../slides/S03_SolutionOverview'
-import { S03a_ProblemEverywhere } from '../slides/S03a_ProblemEverywhere'
 
 export type DeckNavOverrides = {
   /** Overrides TopNav section label (e.g. when reused in appendix). */
@@ -47,7 +58,7 @@ export type RegisteredSlide = {
 export const TITLE_SLIDE: RegisteredSlide = {
   id: 's01',
   section: 'TITLE',
-  background: THEME.darkDeep,
+  background: THEME.accent,
   frame: 'none',
   showTopNav: false,
   showProgress: false,
@@ -55,15 +66,6 @@ export const TITLE_SLIDE: RegisteredSlide = {
   render: () => <S01_Title />,
 }
 
-/**
- * Main story slides (after title, through Thank You).
- * Page numbers are assigned automatically from this order.
- *
- * Order matches the VC-pitch structure:
- *   Problem → Solution → Product demo → Insight → Data strategy →
- *   What synth predicts → Traction → Why now → Market → Competition →
- *   Vision → Business model → Team → Ask → Thank you
- */
 export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
   {
     id: 's02-problem-statements',
@@ -71,14 +73,6 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
     background: THEME.light,
     render: (nav) => (
       <S02a_ProblemStatements {...nav} sectionOverride="01 · PROBLEM" />
-    ),
-  },
-  {
-    id: 's02b-problem-everywhere',
-    section: '01 · PROBLEM',
-    background: THEME.light,
-    render: (nav) => (
-      <S03a_ProblemEverywhere {...nav} sectionOverride="01 · PROBLEM" />
     ),
   },
   {
@@ -92,47 +86,26 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
   {
     id: 's04-product-demo',
     section: '03 · PRODUCT DEMO',
-    background: THEME.darkDeep,
-    render: (nav) => <ProductDemoSlide {...nav} autoExpand />,
+    background: THEME.light,
+    render: (nav) => <ProductDemoStatic {...nav} sectionOverride="03 · PRODUCT DEMO" />,
   },
   {
-    id: 's05-the-insight',
-    section: '04 · THE INSIGHT',
+    id: 's05-our-advantage',
+    section: '04 · OUR ADVANTAGE',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="04 · THE INSIGHT"
-        title="The insight."
-        kicker="04 · The insight"
-      />
-    ),
+    render: (nav) => <TheInsightSlide {...nav} sectionOverride="04 · OUR ADVANTAGE" />,
   },
   {
     id: 's06-data-strategy',
     section: '05 · DATA STRATEGY',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="05 · DATA STRATEGY"
-        title="Data strategy."
-        kicker="05 · Data strategy"
-      />
-    ),
+    render: (nav) => <DataStrategySlide {...nav} sectionOverride="05 · DATA STRATEGY" />,
   },
   {
     id: 's07-what-synth-predicts',
     section: '06 · WHAT SYNTH PREDICTS',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="06 · WHAT SYNTH PREDICTS"
-        title="What synth predicts."
-        kicker="06 · What synth predicts"
-      />
-    ),
+    render: (nav) => <WhatSynthPredictsSlide {...nav} sectionOverride="06 · WHAT SYNTH PREDICTS" />,
   },
   {
     id: 's08-traction',
@@ -143,7 +116,7 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
   {
     id: 's09-why-now',
     section: '08 · WHY NOW',
-    background: THEME.light,
+    background: THEME.darkDeep,
     render: (nav) => <S06_WhyNow {...nav} />,
   },
   {
@@ -155,7 +128,7 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
   {
     id: 's11-competition',
     section: '10 · COMPETITION',
-    background: THEME.darkDeep,
+    background: THEME.light,
     render: (nav) => <S09_Competition {...nav} />,
   },
   {
@@ -173,14 +146,20 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
   {
     id: 's14-team',
     section: '13 · TEAM',
-    background: THEME.darkDeep,
+    background: THEME.light,
     render: (nav) => <S10_Team {...nav} />,
   },
   {
-    id: 's15-ask',
-    section: '14 · ASK',
+    id: 's14a-advisors',
+    section: '14 · ADVISORS',
     background: THEME.light,
-    render: (nav) => <S12_Close {...nav} />,
+    render: (nav) => <S05a_Advisors {...nav} sectionOverride="14 · ADVISORS" />,
+  },
+  {
+    id: 's15-raising',
+    section: '15 · RAISING',
+    background: THEME.light,
+    render: (nav) => <S12_Close {...nav} sectionOverride="15 · RAISING" />,
   },
   {
     id: 's16-thankyou',
@@ -192,22 +171,9 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
 
 /**
  * Appendix slides appended after Thank You in the primary deck.
- * These use local numbering, set in App via `pageOverride`.
- *
- * Order matches the VC-pitch appendix:
- *   Cover · Index ·
- *   Flywheel · Revenue projections · Unit economics · Pre-seed budget ·
- *   Behavioral economics · Two-way sync · Department intelligence ·
- *   Data & privacy / ethics · Advisors (detailed) · Pricing tiers ·
- *   Product architecture · Competitive quadrant
+ * Cover + Index + 11 content slides = 13 total.
  */
 export const APPENDIX_TAIL_SLIDES: RegisteredSlide[] = [
-  {
-    id: 'appx-cover',
-    section: 'APPENDIX',
-    background: THEME.darkDeep,
-    render: (nav) => <AppendixCoverSlide {...nav} />,
-  },
   {
     id: 'appx-index',
     section: 'APPENDIX',
@@ -216,165 +182,78 @@ export const APPENDIX_TAIL_SLIDES: RegisteredSlide[] = [
   },
   {
     id: 'appx-flywheel',
-    section: 'A1 · FLYWHEEL',
+    section: 'A1 · THE FLYWHEEL',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="A1 · FLYWHEEL"
-        title="The flywheel."
-        kicker="A1 · The flywheel"
-      />
-    ),
+    render: (nav) => <AppendixFlywheel {...nav} sectionOverride="A1 · THE FLYWHEEL" />,
   },
   {
-    id: 'appx-revenue-projections',
-    section: 'A2 · REVENUE PROJECTIONS',
+    id: 'appx-growth-model',
+    section: 'A2 · GROWTH MODEL',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="A2 · REVENUE PROJECTIONS"
-        title="Revenue projections."
-        kicker="A2 · Y1 → Y6"
-      />
-    ),
+    render: (nav) => <AppendixGrowthModel {...nav} sectionOverride="A2 · GROWTH MODEL" />,
   },
   {
     id: 'appx-unit-economics',
     section: 'A3 · UNIT ECONOMICS',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="A3 · UNIT ECONOMICS"
-        title="Unit economics."
-        kicker="A3 · Unit economics"
-      />
-    ),
+    render: (nav) => <AppendixUnitEconomics {...nav} sectionOverride="A3 · UNIT ECONOMICS" />,
   },
   {
     id: 'appx-preseed-budget',
     section: 'A4 · PRE-SEED BUDGET',
     background: THEME.light,
+    render: (nav) => <AppendixPreSeedBudget {...nav} sectionOverride="A4 · PRE-SEED BUDGET" />,
+  },
+  {
+    id: 'appx-behavioral-economics-a',
+    section: 'A5 · BEHAVIORAL ECONOMICS (1/2)',
+    background: THEME.light,
     render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="A4 · PRE-SEED BUDGET"
-        title="Pre-seed budget breakdown."
-        kicker="A4 · Pre-seed budget"
-      />
+      <AppendixBehavioralEconomicsA {...nav} sectionOverride="A5 · BEHAVIORAL ECONOMICS (1/2)" />
     ),
   },
   {
-    id: 'appx-behavioral-economics',
-    section: 'A5 · BEHAVIORAL ECONOMICS',
+    id: 'appx-behavioral-economics-b',
+    section: 'A5 · BEHAVIORAL ECONOMICS (2/2)',
     background: THEME.light,
     render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="A5 · BEHAVIORAL ECONOMICS"
-        title="Behavioral economics in the product."
-        kicker="A5 · Behavioral economics"
-      />
+      <AppendixBehavioralEconomicsB {...nav} sectionOverride="A5 · BEHAVIORAL ECONOMICS (2/2)" />
     ),
   },
   {
-    id: 'appx-two-way-sync',
-    section: 'A6 · TWO-WAY SYNC',
+    id: 'appx-ethics-policy',
+    section: 'A6 · ETHICS POLICY',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="A6 · TWO-WAY SYNC"
-        title="Two-way sync."
-        kicker="A6 · Two-way sync"
-      />
-    ),
+    render: (nav) => <AppendixEthicsPolicy {...nav} sectionOverride="A6 · ETHICS POLICY" />,
   },
   {
     id: 'appx-department-intelligence',
     section: 'A7 · DEPARTMENT INTELLIGENCE',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="A7 · DEPARTMENT INTELLIGENCE"
-        title="Department intelligence."
-        kicker="A7 · Department intelligence"
-      />
-    ),
+    render: (nav) => <AppendixDepartmentIntelligence {...nav} sectionOverride="A7 · DEPARTMENT INTELLIGENCE" />,
   },
   {
     id: 'appx-data-privacy',
-    section: 'A8 · DATA & PRIVACY',
+    section: 'A8 · DATA SECURITY & PRIVACY',
     background: THEME.light,
-    render: (nav) => (
-      <AppendixDataPrivacy
-        pageOverride={nav?.pageOverride}
-        sectionOverride="A8 · DATA & PRIVACY"
-      />
-    ),
-  },
-  {
-    id: 'appx-advisors-detailed',
-    section: 'A9 · ADVISORS',
-    background: THEME.light,
-    render: (nav) => <S05a_Advisors {...nav} />,
+    render: (nav) => <AppendixDataPrivacyV2 {...nav} sectionOverride="A8 · DATA SECURITY & PRIVACY" />,
   },
   {
     id: 'appx-pricing-tiers',
-    section: 'A10 · PRICING TIERS',
+    section: 'A9 · PRICING TIERS DETAIL',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="A10 · PRICING TIERS"
-        title="Pricing tiers."
-        kicker="A10 · Pricing tiers detail"
-      />
-    ),
+    render: (nav) => <AppendixPricingTiers {...nav} sectionOverride="A9 · PRICING TIERS DETAIL" />,
   },
   {
     id: 'appx-product-architecture',
-    section: 'A11 · PRODUCT ARCHITECTURE',
+    section: 'A10 · PRODUCT ARCHITECTURE',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="A11 · PRODUCT ARCHITECTURE"
-        title="Product architecture."
-        kicker="A11 · Product architecture"
-      />
-    ),
+    render: (nav) => <AppendixProductArchitecture {...nav} sectionOverride="A10 · PRODUCT ARCHITECTURE" />,
   },
   {
     id: 'appx-competitive-quadrant',
-    section: 'A12 · COMPETITIVE QUADRANT',
+    section: 'A11 · 2×2 MATRIX',
     background: THEME.light,
-    render: (nav) => (
-      <PlaceholderSlide
-        {...nav}
-        section="A12 · COMPETITIVE QUADRANT"
-        title="Competitive quadrant."
-        kicker="A12 · 2×2 matrix"
-      />
-    ),
-  },
-  {
-    id: 'appx-problem-cover',
-    section: 'A13 · PROBLEM COVER',
-    background: THEME.light,
-    render: (nav) => (
-      <S02_Problem {...nav} sectionOverride="A13 · PROBLEM COVER" />
-    ),
-  },
-  {
-    id: 'appx-solution-cover',
-    section: 'A14 · SOLUTION COVER',
-    background: THEME.primary,
-    render: (nav) => (
-      <OurSolutionCover {...nav} sectionOverride="A14 · SOLUTION COVER" />
-    ),
+    render: (nav) => <AppendixCompetitiveQuadrant {...nav} sectionOverride="A11 · 2×2 MATRIX" />,
   },
 ]

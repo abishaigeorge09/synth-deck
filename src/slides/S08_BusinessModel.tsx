@@ -1,16 +1,14 @@
 import { DashedRule } from '../components/DashedRule'
 import { PaperTexture } from '../components/PaperTexture'
-import { SectionLabel } from '../components/SectionLabel'
 import { TierCard } from '../components/TierCard'
 import { TopNav } from '../components/TopNav'
 import { THEME } from '../lib/theme'
 
-/** Steady-state ARR mix (illustrative) · must sum to 100. */
+/** Y6 ARR mix across the three revenue layers (illustrative). Sums to 100. */
 const ARR_MIX = [
-  { tier: 'Starter', pct: 12, color: THEME.primary },
-  { tier: 'Pro', pct: 28, color: THEME.cyan },
-  { tier: 'Elite', pct: 38, color: THEME.purple },
-  { tier: 'Enterprise', pct: 22, color: THEME.amber },
+  { tier: 'SaaS', pct: 72, color: THEME.primary },
+  { tier: 'Marketplace', pct: 17, color: THEME.cyan },
+  { tier: 'Data licensing', pct: 11, color: THEME.purple },
 ] as const
 
 function ArrMixDonut() {
@@ -27,141 +25,167 @@ function ArrMixDonut() {
   ).parts.join(', ')
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-3">
       <div
-        className="text-[10px] tracking-[0.16em] uppercase text-center font-bold"
+        className="text-center text-[10px] font-bold uppercase tracking-[0.16em]"
         style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
       >
-        Steady-state ARR mix
+        Y6 revenue mix
       </div>
-      <div className="relative h-[140px] w-[140px] shrink-0">
+      <div className="relative h-[124px] w-[124px] shrink-0">
         <div
           className="absolute inset-0 rounded-full"
-          style={{
-            background: `conic-gradient(from -90deg, ${gradientStops})`,
-          }}
+          style={{ background: `conic-gradient(from -90deg, ${gradientStops})` }}
         />
         <div
           className="absolute rounded-full bg-white"
-          style={{
-            inset: '28%',
-            boxShadow: 'inset 0 1px 0 rgba(0,0,0,0.06)',
-          }}
+          style={{ inset: '28%', boxShadow: 'inset 0 1px 0 rgba(0,0,0,0.06)' }}
         />
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <span className="text-[11px] font-bold text-center leading-tight px-2" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-            by tier
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <span
+            className="text-[11px] font-bold leading-tight"
+            style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}
+          >
+            $214M
           </span>
         </div>
       </div>
-      <ul className="w-full space-y-1.5">
+      <ul className="w-full space-y-1">
         {ARR_MIX.map((s) => (
           <li key={s.tier} className="flex items-center justify-between gap-2 text-[11px]">
-            <span className="flex items-center gap-2 min-w-0">
+            <span className="flex min-w-0 items-center gap-2">
               <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: s.color }} />
               <span className="truncate" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
                 {s.tier}
               </span>
             </span>
-            <span className="tabular-nums font-semibold shrink-0" style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}>
+            <span
+              className="shrink-0 font-semibold tabular-nums"
+              style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}
+            >
               {s.pct}%
             </span>
           </li>
         ))}
       </ul>
-      <p className="text-[10px] leading-snug text-center max-w-[200px]" style={{ fontFamily: THEME.fontSans, color: THEME.textMuted }}>
-        Illustrative mix once programs mature, Elite and Pro carry most recurring volume; Starter seeds the wedge.
-      </p>
     </div>
   )
 }
 
 export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
-  const upsellSteps = [
-    { tier: 'Starter', desc: 'Daily use → proof the surface saves time', color: THEME.primary },
-    { tier: 'Pro', desc: 'More connectors + synthesis → fewer tabs', color: THEME.cyan },
-    { tier: 'Elite', desc: 'Automation + real-time → staff stops babysitting exports', color: THEME.purple },
-    { tier: 'Enterprise', desc: 'Athletics deploys one stack across sports', color: THEME.amber },
+  const compoundSteps = [
+    { name: 'SaaS', desc: '$19/mo → $60K/yr. Wedge that builds the data corpus.', color: THEME.primary },
+    { name: 'Marketplace', desc: '15% take rate on partner tools transacted through synth. Activates Y2.', color: THEME.cyan },
+    { name: 'Data licensing', desc: 'Anonymized aggregate to manufacturers, federations, researchers. Activates Y4.', color: THEME.purple },
+    { name: 'Network effects', desc: 'More athletes × more tools → every layer above scales further.', color: THEME.amber },
   ] as const
 
   return (
-    <div className="absolute inset-0 flex flex-col" style={{ padding: '48px 44px 32px', color: THEME.textPrimary }}>
-      <TopNav section={sectionOverride ?? '07 · BUSINESS MODEL'} page={pageOverride ?? '8 / 13'} tone="light" />
+    <div
+      className="absolute inset-0 flex flex-col"
+      style={{ padding: '48px 44px 32px', color: THEME.textPrimary }}
+    >
+      <TopNav section={sectionOverride ?? '12 · BUSINESS MODEL'} page={pageOverride ?? ''} tone="light" />
       <PaperTexture strength={0.75} tint="rgba(244, 243, 236, 0.95)" />
 
-      <SectionLabel text="07 · BUSINESS MODEL" />
       <div
-        className="mt-2 text-[42px] leading-[1.05] font-bold max-w-[900px]"
+        className="mt-5 text-[10px] font-bold uppercase tracking-[0.24em]"
+        style={{ fontFamily: THEME.fontMono, color: THEME.accent }}
+      >
+        12 · Business model
+      </div>
+      <div
+        className="mt-2 max-w-[920px] text-[42px] font-bold leading-[1.05]"
         style={{ fontFamily: THEME.fontMono, letterSpacing: '-0.05em' }}
       >
-        Flat tiers. Simple to buy. Natural to upgrade.
+        Four tiers. Three revenue layers. One flywheel.
       </div>
+      <p
+        className="mt-3 max-w-[920px] text-[14px] leading-[1.55]"
+        style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}
+      >
+        Consumer-first GTM. Platform-scale outcome. $214M total revenue by Year 6.
+      </p>
       <div className="mt-3">
         <DashedRule />
       </div>
 
-      {/* Tier cards · same baseline (no staircase) */}
-      <div className="mt-4 grid grid-cols-4 gap-4 items-stretch">
+      {/* SaaS pricing tiers — same flat row as the original */}
+      <div className="mt-4 grid grid-cols-4 items-stretch gap-4">
         <TierCard
-          name="Starter"
-          price="$199/mo"
+          name="Consumer"
+          price="$19/mo"
           accent={THEME.primary}
-          offset={0}
-          features={['Up to 40 athletes', 'Base app', '1 connector (Sheets)', 'Weekly sync']}
+          features={['Pro tier', 'Individual athlete', 'All integrations', 'Mobile + web']}
         />
         <TierCard
-          name="Pro"
+          name="Team"
           price="$499/mo"
           accent={THEME.cyan}
-          offset={0}
-          features={['Up to 80 athletes', '3 connectors', 'Daily cloud scraping', 'AI dashboard']}
+          features={['Team+ tier', 'Up to ~80 athletes', 'Coach dashboard', 'Two-way sync']}
         />
         <TierCard
-          name="Elite"
-          price="$999/mo"
+          name="Program"
+          price="$22,500/yr"
           accent={THEME.purple}
-          offset={0}
-          features={['Unlimited athletes', 'Unlimited connectors', 'Real-time sync', 'Chrome ext + layouts']}
+          features={['Single sport', 'Full institutional', 'Custom tools', 'Dedicated success']}
         />
         <TierCard
-          name="Enterprise"
-          price="Custom"
+          name="Department"
+          price="$60,000/yr"
           accent={THEME.amber}
-          offset={0}
-          features={['Multi-sport deploy', 'Dedicated connectors', 'White-label', 'Custom base apps']}
+          features={['Multi-sport deploy', 'Full athletic dept.', 'Custom integrations', 'White-label']}
         />
       </div>
 
-      <div className="mt-4 flex-1 min-h-0 grid grid-cols-12 gap-4" style={{ alignItems: 'stretch' }}>
-        {/* Upsell · single vertical spine + connected nodes */}
-        <div className="col-span-4 rounded-xl border p-5 flex flex-col min-h-0" style={{ borderColor: THEME.border, background: '#ffffff' }}>
-          <div className="text-[11px] tracking-[0.16em] uppercase mb-1" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-            Why the upsell is natural
+      <div className="mt-4 grid min-h-0 flex-1 grid-cols-12 gap-4" style={{ alignItems: 'stretch' }}>
+        {/* Compounds spine */}
+        <div
+          className="col-span-4 flex min-h-0 flex-col rounded-xl border p-5"
+          style={{ borderColor: THEME.border, background: '#ffffff' }}
+        >
+          <div
+            className="mb-1 text-[11px] uppercase tracking-[0.16em]"
+            style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+          >
+            How the layers compound
           </div>
-          <p className="text-[11px] leading-snug mb-4" style={{ fontFamily: THEME.fontSans, color: THEME.textMuted }}>
-            Each step unlocks the next job-to-be-done, same product, wider pipes, not a different SKU for its own sake.
+          <p
+            className="mb-4 text-[11px] leading-snug"
+            style={{ fontFamily: THEME.fontSans, color: THEME.textMuted }}
+          >
+            SaaS builds the corpus; the corpus makes marketplace + licensing possible at all.
           </p>
           <div className="relative flex-1 pl-1">
             <div
-              className="absolute left-[15px] top-2 bottom-2 w-[2px] rounded-full"
+              className="absolute bottom-2 left-[15px] top-2 w-[2px] rounded-full"
               style={{ background: `linear-gradient(180deg, ${THEME.primary}55, ${THEME.amber}55)` }}
             />
             <ul className="space-y-0">
-              {upsellSteps.map((step, i) => (
-                <li key={step.tier} className="relative flex gap-3 pb-5 last:pb-0">
+              {compoundSteps.map((step, i) => (
+                <li key={step.name} className="relative flex gap-3 pb-5 last:pb-0">
                   <div
-                    className="relative z-10 mt-0.5 h-8 w-8 shrink-0 rounded-full flex items-center justify-center border-2 bg-white"
+                    className="relative z-10 mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 bg-white"
                     style={{ borderColor: step.color, boxShadow: `0 0 0 3px ${step.color}22` }}
                   >
-                    <span className="text-[11px] font-bold" style={{ fontFamily: THEME.fontMono, color: step.color }}>
+                    <span
+                      className="text-[11px] font-bold"
+                      style={{ fontFamily: THEME.fontMono, color: step.color }}
+                    >
                       {i + 1}
                     </span>
                   </div>
-                  <div className="pt-0.5 min-w-0">
-                    <div className="text-[13px] font-bold" style={{ fontFamily: THEME.fontMono, color: step.color }}>
-                      {step.tier}
+                  <div className="min-w-0 pt-0.5">
+                    <div
+                      className="text-[13px] font-bold"
+                      style={{ fontFamily: THEME.fontMono, color: step.color }}
+                    >
+                      {step.name}
                     </div>
-                    <div className="mt-0.5 text-[12px] leading-[1.45]" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
+                    <div
+                      className="mt-0.5 text-[12px] leading-[1.45]"
+                      style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}
+                    >
                       {step.desc}
                     </div>
                   </div>
@@ -171,58 +195,95 @@ export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverr
           </div>
         </div>
 
-        {/* Revenue projections */}
-        <div className="col-span-4 rounded-xl border p-5 flex flex-col min-h-0" style={{ borderColor: THEME.border, background: '#ffffff' }}>
-          <div className="text-[11px] tracking-[0.16em] uppercase mb-3" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
+        {/* Revenue projections + data-licensing detail */}
+        <div
+          className="col-span-4 flex min-h-0 flex-col gap-3 rounded-xl border p-5"
+          style={{ borderColor: THEME.border, background: '#ffffff' }}
+        >
+          <div
+            className="text-[11px] uppercase tracking-[0.16em]"
+            style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+          >
             Revenue projections
           </div>
-          <table className="w-full text-left border-collapse flex-1 text-[12px]">
+          <table className="w-full border-collapse text-left text-[12px]">
             <thead>
               <tr style={{ borderBottom: `2px solid ${THEME.border}` }}>
-                <th className="pb-2 text-[10px] uppercase tracking-[0.12em]" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
+                <th
+                  className="pb-2 text-[10px] uppercase tracking-[0.12em]"
+                  style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+                >
                   Year
                 </th>
-                <th className="pb-2 text-[10px] uppercase tracking-[0.12em]" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-                  Programs
+                <th
+                  className="pb-2 text-[10px] uppercase tracking-[0.12em]"
+                  style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+                >
+                  Phase
                 </th>
-                <th className="pb-2 text-[10px] uppercase tracking-[0.12em]" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-                  Mix
-                </th>
-                <th className="pb-2 text-[10px] uppercase tracking-[0.12em] text-right" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-                  ARR
+                <th
+                  className="pb-2 text-right text-[10px] uppercase tracking-[0.12em]"
+                  style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+                >
+                  Total revenue
                 </th>
               </tr>
             </thead>
             <tbody>
               {[
-                { year: '1 (pilot)', programs: '5', mix: '3S + 2P', arr: '$19K', color: THEME.primary },
-                { year: '2', programs: '20', mix: '8S+8P+4E', arr: '$115K', color: THEME.cyan },
-                { year: '3', programs: '50', mix: '15S+20P+10E+5Ent', arr: '$400K+', color: THEME.purple },
-                { year: '4', programs: '100+', mix: 'Multi-sport', arr: '$800K–1.2M', color: THEME.amber },
+                { year: 'Y1', phase: 'Wedge', arr: '$84K', color: THEME.primary },
+                { year: 'Y2', phase: 'Marketplace on', arr: '$997K', color: THEME.cyan },
+                { year: 'Y3', phase: 'Scale SaaS', arr: '$6.6M', color: THEME.primary },
+                { year: 'Y4', phase: 'Licensing on', arr: '$27.5M', color: THEME.purple },
+                { year: 'Y5', phase: 'Cross-layer compounds', arr: '$86.4M', color: THEME.amber },
+                { year: 'Y6', phase: 'Platform scale', arr: '$214.3M', color: THEME.accent },
               ].map((row) => (
                 <tr key={row.year} style={{ borderBottom: `1px solid ${THEME.border}` }}>
-                  <td className="py-2.5" style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}>
+                  <td
+                    className="py-2"
+                    style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary, fontWeight: 600 }}
+                  >
                     {row.year}
                   </td>
-                  <td className="py-2.5 font-semibold" style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}>
-                    {row.programs}
+                  <td
+                    className="py-2 text-[10.5px]"
+                    style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+                  >
+                    {row.phase}
                   </td>
-                  <td className="py-2.5 text-[10px]" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
-                    {row.mix}
-                  </td>
-                  <td className="py-2.5 text-right font-bold" style={{ fontFamily: THEME.fontMono, color: row.color }}>
+                  <td
+                    className="py-2 text-right font-bold"
+                    style={{ fontFamily: THEME.fontMono, color: row.color }}
+                  >
                     {row.arr}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <div
+            className="mt-2 rounded-lg border p-3"
+            style={{ borderColor: THEME.border, background: 'rgba(124,110,242,0.05)' }}
+          >
+            <div
+              className="text-[10px] font-bold uppercase tracking-[0.18em]"
+              style={{ fontFamily: THEME.fontMono, color: THEME.purple }}
+            >
+              Data licensing — $250K–$500K / partner / yr
+            </div>
+            <div
+              className="mt-1 text-[11px] leading-[1.4]"
+              style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}
+            >
+              Equipment (Nike, Concept2), governing bodies (NCAA, US Rowing), researchers/universities, insurance + occupational health (Phase 2+).
+            </div>
+          </div>
         </div>
 
         {/* ARR mix donut */}
-        <div className="col-span-4 flex flex-col min-h-0">
+        <div className="col-span-4 flex min-h-0 flex-col">
           <div
-            className="rounded-xl border p-5 flex-1 flex flex-col items-center justify-center min-h-[280px]"
+            className="flex min-h-[280px] flex-1 flex-col items-center justify-center rounded-xl border p-5"
             style={{ borderColor: THEME.border, background: '#ffffff' }}
           >
             <ArrMixDonut />
@@ -230,8 +291,11 @@ export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverr
         </div>
       </div>
 
-      <div className="mt-3 text-[12px] italic" style={{ fontFamily: THEME.fontSerif, color: THEME.textMuted }}>
-        Less than a set of oars to start. Scales to a university-wide deployment.
+      <div
+        className="mt-3 text-[12px] italic"
+        style={{ fontFamily: THEME.fontSerif, color: THEME.textMuted }}
+      >
+        SaaS alone caps around $169M. Marketplace and data licensing break through to $214M.
       </div>
     </div>
   )

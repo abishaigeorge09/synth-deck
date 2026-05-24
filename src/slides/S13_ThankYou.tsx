@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { QRCodeSVG } from 'qrcode.react'
-import { ExportPdfButton } from '../components/ExportPdfButton'
 import { PixelArt } from '../components/PixelArt'
 import { TopNav } from '../components/TopNav'
 import { STAGGER, TRANSITIONS } from '../lib/motion'
@@ -24,7 +23,7 @@ function QrTile({ label, href }: { label: string; href: string }) {
       <div className="rounded-2xl bg-white p-3 shadow-[0_12px_32px_rgba(0,0,0,0.25)]">
         <QRCodeSVG
           value={href}
-          size={132}
+          size={148}
           level="M"
           fgColor={THEME.darkDeep}
           bgColor="#FFFFFF"
@@ -32,7 +31,7 @@ function QrTile({ label, href }: { label: string; href: string }) {
         />
       </div>
       <span
-        className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/75"
+        className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/85"
         style={{ fontFamily: THEME.fontMono }}
       >
         {label}
@@ -44,14 +43,14 @@ function QrTile({ label, href }: { label: string; href: string }) {
 export function S13_ThankYou({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden text-white" style={{ padding: '52px 64px 40px' }}>
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 z-0">
         <PixelArt pattern="scatter" seed={4} color="#ffffff" opacity={0.06} />
       </div>
 
-      <TopNav section={sectionOverride ?? 'THANK YOU'} page={pageOverride ?? '13 / 13'} tone="dark" />
+      <TopNav section={sectionOverride ?? 'THANK YOU'} page={pageOverride ?? ''} tone="dark" />
 
       <motion.div
-        className="relative z-10 flex flex-1 items-center justify-center gap-16 px-6"
+        className="relative z-10 flex flex-1 items-center justify-center gap-20 px-6"
         variants={container}
         initial="hidden"
         animate="visible"
@@ -77,15 +76,12 @@ export function S13_ThankYou({ pageOverride, sectionOverride }: { pageOverride?:
             Thank you.
           </motion.h1>
 
-          <motion.div variants={item} className="flex items-start gap-10">
+          <motion.div variants={item} className="flex items-start gap-16">
             <QrTile label="Website" href="https://synthsports.co" />
             <QrTile label="Live app" href="https://synthsports.co/app" />
-            <QrTile label="Deck" href="https://synth-deck.vercel.app" />
           </motion.div>
         </div>
       </motion.div>
-
-      <ExportPdfButton tone="green" />
     </div>
   )
 }

@@ -16,14 +16,13 @@ function AdvisorCard({
   bullets: string[]
   accent: string
   photoSrc?: string
-  /** Where to anchor `object-fit: cover` so head + shoulders read clearly (varies by source crop). */
   photoObjectPosition?: string
 }) {
   return (
-    <div className="flex min-w-0 gap-4 items-start h-full justify-center">
+    <div className="flex h-full min-w-0 items-start justify-center gap-4">
       <div
-        className="relative shrink-0 w-[160px] aspect-[3/4] rounded-2xl overflow-hidden"
-        style={{ background: `${THEME.light}`, border: `1px solid ${THEME.border}` }}
+        className="relative aspect-[3/4] w-[160px] shrink-0 overflow-hidden rounded-2xl"
+        style={{ background: THEME.light, border: `1px solid ${THEME.border}` }}
       >
         {photoSrc ? (
           <img
@@ -34,24 +33,33 @@ function AdvisorCard({
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center" style={{ background: `${accent}08` }}>
-            <span className="text-[10px] tracking-[0.12em] uppercase font-medium" style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}>
+            <span
+              className="text-[10px] font-medium uppercase tracking-[0.12em]"
+              style={{ fontFamily: THEME.fontMono, color: THEME.textMuted }}
+            >
               Photo
             </span>
           </div>
         )}
       </div>
-      <div className="min-w-0 flex-1 max-w-[260px] flex flex-col justify-start pt-1">
-        <div className="text-[18px] font-bold leading-tight" style={{ fontFamily: THEME.fontSerif, color: THEME.textPrimary }}>
+      <div className="flex min-w-0 max-w-[260px] flex-1 flex-col pt-1">
+        <div
+          className="text-[18px] font-bold leading-tight"
+          style={{ fontFamily: THEME.fontSerif, color: THEME.textPrimary }}
+        >
           {name}
         </div>
-        <div className="mt-1 text-[11px] tracking-[0.14em] uppercase font-semibold" style={{ fontFamily: THEME.fontMono, color: accent }}>
+        <div
+          className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em]"
+          style={{ fontFamily: THEME.fontMono, color: accent }}
+        >
           {title}
         </div>
         <ul className="mt-2.5 space-y-2">
           {bullets.map((b) => (
             <li
               key={b}
-              className="text-[13px] leading-[1.5] pl-3 border-l-2"
+              className="border-l-2 pl-3 text-[13px] leading-[1.5]"
               style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary, borderColor: `${accent}55` }}
             >
               {b}
@@ -65,23 +73,26 @@ function AdvisorCard({
 
 export function S05a_Advisors({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
   return (
-    <div className="absolute inset-0 flex flex-col" style={{ padding: '44px 44px 32px', color: THEME.textPrimary, background: THEME.light }}>
-      <TopNav section={sectionOverride ?? 'ADVISORS'} page={pageOverride ?? ''} tone="light" />
+    <div
+      className="absolute inset-0 flex flex-col"
+      style={{ padding: '44px 44px 32px', color: THEME.textPrimary, background: THEME.light }}
+    >
+      <TopNav section={sectionOverride ?? '14 · ADVISORS'} page={pageOverride ?? ''} tone="light" />
       <PaperTexture strength={0.65} tint="rgba(255,255,255,0.97)" />
 
-      <div className="flex-1 flex flex-col items-center min-h-0 w-full">
-        <SectionLabel text="ADVISORS" className="!text-[12px] text-center" />
+      <div className="relative z-10 flex w-full min-h-0 flex-1 flex-col items-center">
+        <SectionLabel text="14 · ADVISORS" className="!text-[12px] text-center" />
 
         {/* Preserve the Team slide spacing rhythm (section label → grid). */}
         <h1
-          className="mt-3 text-[36px] leading-[1.1] font-bold max-w-[920px] text-center invisible pointer-events-none select-none"
+          className="invisible pointer-events-none mt-3 max-w-[920px] select-none text-center text-[36px] font-bold leading-[1.1]"
           style={{ fontFamily: THEME.fontMono, letterSpacing: '-0.05em', color: THEME.textPrimary }}
           aria-hidden={true}
         >
           Advisors
         </h1>
 
-        <div className="mt-6 flex-1 min-h-0 w-full max-w-[1340px] grid grid-cols-3 grid-rows-2 gap-x-6 gap-y-12 items-start justify-items-center content-center">
+        <div className="mt-6 grid w-full min-h-0 max-w-[1340px] flex-1 grid-cols-3 grid-rows-2 items-start justify-items-center gap-x-6 gap-y-12 content-center">
           <AdvisorCard
             name="Shuo Chen"
             title="Advisor"
@@ -102,7 +113,7 @@ export function S05a_Advisors({ pageOverride, sectionOverride }: { pageOverride?
             photoObjectPosition="center 30%"
             bullets={[
               'Partner, Clearvision Ventures',
-              'Lecturer, UC Berkeley (Entrepreneurship)',
+              'Faculty, UC Berkeley SCET',
               '4x founder, multiple exits',
             ]}
           />
@@ -119,7 +130,7 @@ export function S05a_Advisors({ pageOverride, sectionOverride }: { pageOverride?
             ]}
           />
           <AdvisorCard
-            name="Vasileios Iliopoulos"
+            name="Vasilis Iliopoulos"
             title="Advisor"
             accent={THEME.cyan}
             photoSrc="/advisors/vasileios-iliopoulos.png"
@@ -127,6 +138,7 @@ export function S05a_Advisors({ pageOverride, sectionOverride }: { pageOverride?
             bullets={[
               'Director of Revenue Analytics, Cal Athletics',
               'Former Cal Tennis assistant coach',
+              'Haas MBA',
             ]}
           />
           <AdvisorCard

@@ -5,38 +5,13 @@ const PAD = 'clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px) clamp(24px, 4vw, 40px
 
 type NavOverrides = { pageOverride?: string; sectionOverride?: string }
 
-function Icon({ name }: { name: 'decision' | 'fatigue' | 'tools' | 'next' }) {
+function Icon({ name }: { name: 'tools' | 'shield' | 'sliders' | 'alert' }) {
   const common = {
     fill: 'none',
     stroke: THEME.textPrimary,
     strokeWidth: 1.8,
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
-  }
-  if (name === 'decision') {
-    return (
-      <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden>
-        <path {...common} d="M12 3v6" />
-        <path {...common} d="M8 7h8" />
-        <path {...common} d="M7 21l5-3 5 3" />
-        <path {...common} d="M8 13l2 2 6-6" />
-        <path {...common} d="M12 9a7 7 0 0 1 7 7v3H5v-3a7 7 0 0 1 7-7z" opacity="0.55" />
-      </svg>
-    )
-  }
-  if (name === 'fatigue') {
-    return (
-      <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden>
-        <path {...common} d="M12 2v4" />
-        <path {...common} d="M12 18v4" />
-        <path {...common} d="M4.2 4.2l2.8 2.8" />
-        <path {...common} d="M17 17l2.8 2.8" />
-        <path {...common} d="M2 12h4" />
-        <path {...common} d="M18 12h4" />
-        <path {...common} d="M7 7a7 7 0 1 1 10 10" opacity="0.55" />
-        <path {...common} d="M9.5 13.5c.8.8 1.9 1.3 3.1 1.3 1 0 2-.3 2.8-1" />
-      </svg>
-    )
   }
   if (name === 'tools') {
     return (
@@ -45,11 +20,29 @@ function Icon({ name }: { name: 'decision' | 'fatigue' | 'tools' | 'next' }) {
       </svg>
     )
   }
+  if (name === 'shield') {
+    return (
+      <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden>
+        <path {...common} d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6l8-3z" />
+        <path {...common} d="M9 12l2 2 4-4" />
+      </svg>
+    )
+  }
+  if (name === 'sliders') {
+    return (
+      <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden>
+        <path {...common} d="M4 7h16M4 12h16M4 17h16" />
+        <circle {...common} cx="9" cy="7" r="2" fill="white" />
+        <circle {...common} cx="15" cy="12" r="2" fill="white" />
+        <circle {...common} cx="8" cy="17" r="2" fill="white" />
+      </svg>
+    )
+  }
   return (
     <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden>
-      <path {...common} d="M4 4h16v12H7l-3 3V4z" />
-      <path {...common} d="M7.5 9h9" />
-      <path {...common} d="M7.5 12h6" />
+      <path {...common} d="M12 3l10 18H2L12 3z" />
+      <path {...common} d="M12 10v5" />
+      <circle cx="12" cy="18" r="0.9" fill={THEME.textPrimary} />
     </svg>
   )
 }
@@ -77,7 +70,7 @@ function Row({
       </div>
       <div className="min-w-0">
         <p className="text-[26px] leading-[1.12] tracking-[-0.03em]" style={{ fontFamily: THEME.fontSans, color: THEME.textPrimary }}>
-          {lead}{' '}
+          {lead ? <>{lead}{' '}</> : null}
           <span style={{ color: THEME.primaryDarker, fontWeight: 700 }}>{highlight}</span>
           {rest}
         </p>
@@ -103,31 +96,31 @@ export function S02a_ProblemStatements({ pageOverride, sectionOverride }: NavOve
             <div className="space-y-10">
             <Row
               num="01"
-              icon="decision"
-              lead="When coaches decide with"
-              highlight="incomplete info,"
-              rest=" athlete performance drops."
+              icon="tools"
+              lead="Data lives in"
+              highlight="8+ disconnected tools,"
+              rest=" so no single view tells a coach what's actually happening."
             />
             <Row
               num="02"
-              icon="fatigue"
-              lead="With"
-              highlight="120 athletes"
-              rest=" on Cal Rowing, fatigue and recovery are hard to spot early."
+              icon="shield"
+              lead="Coaches can't see when to"
+              highlight="push or protect"
+              rest=" an athlete until fatigue shows up as injury."
             />
             <Row
-              icon="next"
-              lead="They collect the data, but it still doesn’t tell them"
-              highlight="what to do next"
-              rest="—fast."
               num="03"
+              icon="sliders"
+              lead="Every program runs differently, but the tools are"
+              highlight="generic and rigid,"
+              rest=" not built for their context."
             />
             <Row
               num="04"
-              icon="tools"
-              lead="Data lives in"
-              highlight="8+ tools,"
-              rest=" so there’s no single complete view."
+              icon="alert"
+              lead=""
+              highlight="29% of injuries"
+              rest=" come from overtraining, but the warning signs are buried across disconnected systems."
             />
             </div>
           </div>
