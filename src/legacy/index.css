@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0c0a09;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Full-deck PDF: stack is only mounted during print — keep hidden layer from affecting scroll/layout */
+@media screen {
+  .deck-print-only {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    pointer-events: none;
+    visibility: hidden;
+    contain: strict;
+    clip-path: inset(50%);
+  }
+}
+
+@media print {
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+
+  html,
+  body {
+    height: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  .deck-print-hide {
+    display: none !important;
+  }
+
+  .deck-print-only {
+    position: static !important;
+    inset: auto !important;
+    z-index: auto !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    contain: none !important;
+    white-space: normal !important;
+  }
+
+  .deck-print-only > * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

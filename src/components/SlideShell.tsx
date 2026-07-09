@@ -18,6 +18,8 @@ export type SlideDef = {
   showTopNav?: boolean
   showProgress?: boolean
   showNavButtons?: boolean
+  /** When true, suppresses the bottom-right "© Synth Sports" rights line for this slide. */
+  hideRights?: boolean
 }
 
 function isTypingInField(target: EventTarget | null): boolean {
@@ -174,15 +176,17 @@ export function SlideShell({
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
-            <div
-              className="pointer-events-none absolute bottom-3 right-4 z-30 text-[8px] tracking-[0.08em] sm:bottom-5 sm:right-7 sm:text-[9px]"
-              style={{
-                fontFamily: THEME.fontMono,
-                ...rightsTone,
-              }}
-            >
-              © 2026 Synth Sports. All rights reserved.
-            </div>
+            {slide.hideRights ? null : (
+              <div
+                className="pointer-events-none absolute bottom-3 right-4 z-30 text-[8px] tracking-[0.08em] sm:bottom-5 sm:right-7 sm:text-[9px]"
+                style={{
+                  fontFamily: THEME.fontMono,
+                  ...rightsTone,
+                }}
+              >
+                © 2026 Synth Sports. All rights reserved.
+              </div>
+            )}
             {frame === 'deck' ? (
               <div
                 className="pointer-events-none absolute inset-0 rounded-[15px] sm:rounded-[16px]"

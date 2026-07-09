@@ -8,11 +8,13 @@ import { AppendixDeck } from './appendix/AppendixDeck'
 import { DeckBlurLock } from './components/DeckBlurLock'
 import { APPENDIX_TAIL_SLIDES, MAIN_FLOW_SLIDES, TITLE_SLIDE } from './deck/slideRegistry'
 import { LiveAnalyticsDebug } from './analytics/LiveAnalyticsDebug'
+import LegacyDeck from './legacy/App'
 
-function resolveHashRoute(hash: string): 'main' | 'appendix' | 'analytics' {
+function resolveHashRoute(hash: string): 'main' | 'appendix' | 'analytics' | 'legacy' {
   const base = hash.replace(/^#/, '').split('?')[0] ?? ''
   if (base === 'analytics') return 'analytics'
   if (base === 'appendix') return 'appendix'
+  if (base === 'legacy') return 'legacy'
   return 'main'
 }
 
@@ -33,6 +35,7 @@ function MainDeck() {
           showTopNav: s.showTopNav,
           showProgress: s.showProgress,
           showNavButtons: s.showNavButtons,
+          hideRights: s.hideRights,
         } satisfies SlideDef
       })
 
@@ -48,6 +51,7 @@ function MainDeck() {
           showTopNav: s.showTopNav,
           showProgress: s.showProgress,
           showNavButtons: s.showNavButtons,
+          hideRights: s.hideRights,
         } satisfies SlideDef
       })
 
@@ -85,7 +89,7 @@ function MainDeck() {
 }
 
 export default function App() {
-  const [hashRoute, setHashRoute] = useState<'main' | 'appendix' | 'analytics'>(() =>
+  const [hashRoute, setHashRoute] = useState<'main' | 'appendix' | 'analytics' | 'legacy'>(() =>
     typeof window !== 'undefined' ? resolveHashRoute(window.location.hash) : 'main',
   )
 
@@ -112,6 +116,16 @@ export default function App() {
       )
     }
     return <LiveAnalyticsDebug />
+  }
+
+  if (hashRoute === 'legacy') {
+    return (
+      <MobileLandscapeGate>
+        <div className="deck-print-hide h-full w-full min-h-0">
+          <LegacyDeck />
+        </div>
+      </MobileLandscapeGate>
+    )
   }
 
   if (hashRoute === 'appendix') {

@@ -10,6 +10,7 @@ export const APPENDIX_CONTENT_INDEX: { title: string; blurb: string }[] = [
   { title: 'Growth model', blurb: 'Y1 → Y6 path to $214M total revenue.' },
   { title: 'Unit economics', blurb: 'Payback under 4 months. Every tier above 3× LTV/CAC.' },
   { title: 'Pre-seed budget breakdown', blurb: 'Use of funds across engineering, growth, ops.' },
+  { title: 'India grant budget breakdown', blurb: '₹1.2 Crore raise, every rupee tied to a milestone.' },
   { title: 'Behavioral economics (1/2)', blurb: 'Smart defaults, loss framing, social proof.' },
   { title: 'Behavioral economics (2/2)', blurb: 'Progress visualization, anchoring, anti-overload.' },
   { title: 'Ethics policy', blurb: 'Nine commitments that protect athletes and the company.' },
@@ -18,6 +19,8 @@ export const APPENDIX_CONTENT_INDEX: { title: string; blurb: string }[] = [
   { title: 'Pricing tiers detail', blurb: 'Per-tier limits, breakpoints, enterprise.' },
   { title: 'Product architecture', blurb: 'Connectors, store, prediction engine, surfaces.' },
   { title: 'Competitive quadrant', blurb: 'Where synth sits vs. point tools and platforms.' },
+  { title: 'Solution (legacy)', blurb: 'A small door into a massive world — base + synth layers.' },
+  { title: 'Connectors (legacy)', blurb: 'Connect once. It updates forever.' },
 ]
 
 export function AppendixIndexSlide({ pageOverride }: { pageOverride?: string }) {

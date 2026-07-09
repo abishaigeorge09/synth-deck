@@ -12,6 +12,8 @@ import { S09_Competition } from '../slides/S09_Competition'
 import { S10_Team } from '../slides/S10_Team'
 import { S11_Vision } from '../slides/S11_Vision'
 import { S12_Close } from '../slides/S12_Close'
+import { S12b_RaisingIndia } from '../slides/S12b_RaisingIndia'
+import { S12c_IndiaReturns } from '../slides/S12c_IndiaReturns'
 import { S13_ThankYou } from '../slides/S13_ThankYou'
 import { DataStrategySlide } from '../slides/DataStrategySlide'
 import { WhatSynthPredictsSlide } from '../slides/WhatSynthPredictsSlide'
@@ -22,6 +24,7 @@ import { AppendixFlywheel } from '../slides/AppendixFlywheel'
 import { AppendixGrowthModel } from '../slides/AppendixGrowthModel'
 import { AppendixUnitEconomics } from '../slides/AppendixUnitEconomics'
 import { AppendixPreSeedBudget } from '../slides/AppendixPreSeedBudget'
+import { AppendixIndiaGrantBudget } from '../slides/AppendixIndiaGrantBudget'
 import {
   AppendixBehavioralEconomicsA,
   AppendixBehavioralEconomicsB,
@@ -34,6 +37,9 @@ import { AppendixProductArchitecture } from '../slides/AppendixProductArchitectu
 import { AppendixCompetitiveQuadrant } from '../slides/AppendixCompetitiveQuadrant'
 import { S02a_ProblemStatements } from '../slides/S02a_ProblemStatements'
 import { S03_SolutionOverview } from '../slides/S03_SolutionOverview'
+import { OnePagerOverview } from '../slides/OnePagerOverview'
+import { S03_Solution as LegacyS03_Solution } from '../legacy/slides/S03_Solution'
+import { S04_Connectors as LegacyS04_Connectors } from '../legacy/slides/S04_Connectors'
 
 export type DeckNavOverrides = {
   /** Overrides TopNav section label (e.g. when reused in appendix). */
@@ -53,6 +59,7 @@ export type RegisteredSlide = {
   showTopNav?: boolean
   showProgress?: boolean
   showNavButtons?: boolean
+  hideRights?: boolean
 }
 
 export const TITLE_SLIDE: RegisteredSlide = {
@@ -162,10 +169,32 @@ export const MAIN_FLOW_SLIDES: RegisteredSlide[] = [
     render: (nav) => <S12_Close {...nav} sectionOverride="15 · RAISING" />,
   },
   {
+    id: 's15b-raising-india',
+    section: '15 · RAISING',
+    background: THEME.light,
+    // Header pinned to the spec ("15 · RAISING · 16 / 18") — twin of the USD raising slide.
+    render: () => <S12b_RaisingIndia sectionOverride="15 · RAISING" pageOverride="16 / 18" />,
+  },
+  {
+    id: 's16-india-returns',
+    section: '16 · INDIA RETURNS',
+    background: THEME.light,
+    // Header pinned to the spec ("16 · INDIA RETURNS · 17 / 18").
+    render: () => <S12c_IndiaReturns sectionOverride="16 · INDIA RETURNS" pageOverride="17 / 18" />,
+  },
+  {
     id: 's16-thankyou',
     section: 'THANK YOU',
     background: THEME.primary,
     render: (nav) => <S13_ThankYou {...nav} />,
+  },
+  {
+    id: 's17-one-pager',
+    section: 'OVERVIEW · ONE-PAGER',
+    background: THEME.light,
+    showTopNav: false,
+    hideRights: true,
+    render: (nav) => <OnePagerOverview {...nav} sectionOverride="OVERVIEW · ONE-PAGER" />,
   },
 ]
 
@@ -203,6 +232,13 @@ export const APPENDIX_TAIL_SLIDES: RegisteredSlide[] = [
     section: 'A4 · PRE-SEED BUDGET',
     background: THEME.light,
     render: (nav) => <AppendixPreSeedBudget {...nav} sectionOverride="A4 · PRE-SEED BUDGET" />,
+  },
+  {
+    id: 'appx-india-grant-budget',
+    section: 'A4 · INDIA GRANT BUDGET',
+    background: THEME.light,
+    // Header pinned to the spec ("A4 · INDIA GRANT BUDGET · 5 / 15") — INR twin of the pre-seed budget.
+    render: () => <AppendixIndiaGrantBudget sectionOverride="A4 · INDIA GRANT BUDGET" pageOverride="5 / 15" />,
   },
   {
     id: 'appx-behavioral-economics-a',
@@ -255,5 +291,17 @@ export const APPENDIX_TAIL_SLIDES: RegisteredSlide[] = [
     section: 'A11 · 2×2 MATRIX',
     background: THEME.light,
     render: (nav) => <AppendixCompetitiveQuadrant {...nav} sectionOverride="A11 · 2×2 MATRIX" />,
+  },
+  {
+    id: 'appx-legacy-solution',
+    section: 'A12 · SOLUTION (LEGACY)',
+    background: THEME.light,
+    render: (nav) => <LegacyS03_Solution {...nav} sectionOverride="A12 · SOLUTION (LEGACY)" />,
+  },
+  {
+    id: 'appx-legacy-connectors',
+    section: 'A13 · CONNECTORS (LEGACY)',
+    background: THEME.light,
+    render: (nav) => <LegacyS04_Connectors {...nav} sectionOverride="A13 · CONNECTORS (LEGACY)" />,
   },
 ]
