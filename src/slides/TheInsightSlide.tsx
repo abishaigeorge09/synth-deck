@@ -88,7 +88,7 @@ export function TheInsightSlide({ pageOverride, sectionOverride }: NavOverrides)
       <TopNav section={sectionOverride ?? '04 · OUR ADVANTAGE'} page={pageOverride ?? ''} tone="light" />
 
       <div className="relative z-10 mt-6 flex min-h-0 flex-1 flex-col">
-        <SectionLabel text="04 · OUR ADVANTAGE" />
+        <SectionLabel text={sectionOverride ?? '04 · OUR ADVANTAGE'} />
 
         <h1
           className="mt-4 text-[clamp(34px,4vw,52px)] font-bold leading-[1.05] tracking-[-0.04em]"

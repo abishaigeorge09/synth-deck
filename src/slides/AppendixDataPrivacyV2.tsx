@@ -164,7 +164,7 @@ export function AppendixDataPrivacyV2({ pageOverride, sectionOverride }: NavOver
           className="text-[10px] font-bold uppercase tracking-[0.24em]"
           style={{ fontFamily: THEME.fontMono, color: THEME.accent }}
         >
-          A8 · Data security &amp; privacy
+          {sectionOverride ?? 'A8 · Data security & privacy'}
         </div>
         <h1
           className="mt-2 text-[clamp(28px,3.4vw,40px)] font-bold leading-[1.05] tracking-[-0.04em]"

@@ -81,7 +81,7 @@ export function S05a_Advisors({ pageOverride, sectionOverride }: { pageOverride?
       <PaperTexture strength={0.65} tint="rgba(255,255,255,0.97)" />
 
       <div className="relative z-10 flex w-full min-h-0 flex-1 flex-col items-center">
-        <SectionLabel text="14 · ADVISORS" className="!text-[12px] text-center" />
+        <SectionLabel text={sectionOverride ?? '14 · ADVISORS'} className="!text-[12px] text-center" />
 
         {/* Preserve the Team slide spacing rhythm (section label → grid). */}
         <h1

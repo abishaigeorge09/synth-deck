@@ -360,7 +360,7 @@ function BehavioralSlide({
           className="text-[10px] font-bold uppercase tracking-[0.24em]"
           style={{ fontFamily: THEME.fontMono, color: THEME.accent }}
         >
-          {partNum} · Behavioral economics
+          {sectionOverride ?? `${partNum} · Behavioral economics`}
         </div>
         <h1
           className="mt-2 text-[clamp(28px,3.4vw,40px)] font-bold leading-[1.05] tracking-[-0.04em]"

@@ -222,7 +222,7 @@ export function AppendixCompetitiveQuadrant({ pageOverride, sectionOverride }: N
               className="text-[10px] font-bold uppercase tracking-[0.24em]"
               style={{ fontFamily: THEME.fontMono, color: THEME.accent }}
             >
-              A11 · 2×2 matrix
+              {sectionOverride ?? 'A11 · 2×2 matrix'}
             </div>
             <h1
               className="mt-1 text-[clamp(26px,3.2vw,38px)] font-bold leading-[1.05] tracking-[-0.04em]"

@@ -9,16 +9,18 @@ import { DeckBlurLock } from './components/DeckBlurLock'
 import { APPENDIX_TAIL_SLIDES, MAIN_FLOW_SLIDES, TITLE_SLIDE } from './deck/slideRegistry'
 import { LiveAnalyticsDebug } from './analytics/LiveAnalyticsDebug'
 import LegacyDeck from './legacy/App'
+import { SimplePitchDeck } from './spd/SimplePitchDeck'
 
 /** The original pre-restructure pitch deck, preserved as its own public Vercel build. */
 const OLD_DECK_URL = 'https://synth-deck-old.vercel.app'
 
-function resolveHashRoute(hash: string): 'main' | 'appendix' | 'analytics' | 'legacy' | 'oldpdf' {
+function resolveHashRoute(hash: string): 'main' | 'appendix' | 'analytics' | 'legacy' | 'oldpdf' | 'spd' {
   const base = hash.replace(/^#/, '').split('?')[0] ?? ''
   if (base === 'analytics') return 'analytics'
   if (base === 'appendix') return 'appendix'
   if (base === 'legacy') return 'legacy'
   if (base === 'oldpdf' || base === 'old') return 'oldpdf'
+  if (base === 'spd') return 'spd'
   return 'main'
 }
 
@@ -111,7 +113,7 @@ function MainDeck() {
 }
 
 export default function App() {
-  const [hashRoute, setHashRoute] = useState<'main' | 'appendix' | 'analytics' | 'legacy' | 'oldpdf'>(() =>
+  const [hashRoute, setHashRoute] = useState<'main' | 'appendix' | 'analytics' | 'legacy' | 'oldpdf' | 'spd'>(() =>
     typeof window !== 'undefined' ? resolveHashRoute(window.location.hash) : 'main',
   )
 
@@ -126,6 +128,14 @@ export default function App() {
 
   if (hashRoute === 'oldpdf') {
     return <OldDeckRedirect />
+  }
+
+  if (hashRoute === 'spd') {
+    return (
+      <MobileLandscapeGate>
+        <SimplePitchDeck />
+      </MobileLandscapeGate>
+    )
   }
 
   if (hashRoute === 'analytics') {

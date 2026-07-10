@@ -70,7 +70,7 @@ export function S09_Competition({ pageOverride, sectionOverride }: { pageOverrid
       <TopNav section={sectionOverride ?? '10 · COMPETITION'} page={pageOverride ?? ''} tone="light" />
 
       <header className="relative z-10 shrink-0 pt-1">
-        <SectionLabel text="10 · COMPETITION" />
+        <SectionLabel text={sectionOverride ?? '10 · COMPETITION'} />
         <h1
           className="mt-2 text-[clamp(40px,min(7.5vw,8.5vh),72px)] font-bold uppercase leading-[0.96] tracking-[-0.04em]"
           style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}

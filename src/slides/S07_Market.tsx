@@ -103,7 +103,7 @@ export function S07_Market({ pageOverride, sectionOverride }: { pageOverride?: s
                 valueColor={THEME.accent}
                 lineColor={lineSom}
               >
-                <strong style={{ color: THEME.accent, fontWeight: 600 }}>Realistic capture</strong> by year three.
+                <strong style={{ color: THEME.accent, fontWeight: 600 }}>Obtainable market</strong> within current channel reach.
               </MarketTier>
             </div>
           </div>

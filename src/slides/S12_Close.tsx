@@ -30,7 +30,7 @@ export function S12_Close({ pageOverride, sectionOverride }: { pageOverride?: st
       <TopNav section={sectionOverride ?? '15 · RAISING'} page={pageOverride ?? ''} tone="light" />
 
       <div className="relative z-10 mx-auto mt-6 flex w-full min-h-0 max-w-[1280px] flex-1 flex-col">
-        <SectionLabel text="15 · RAISING" />
+        <SectionLabel text={sectionOverride ?? '15 · RAISING'} />
 
         <div className="mt-10 grid min-h-0 flex-1 grid-cols-12 gap-12">
           {/* Hero — big number */}

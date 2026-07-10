@@ -81,7 +81,7 @@ export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: str
       <PaperTexture strength={0.65} tint="rgba(255,255,255,0.97)" />
 
       <div className="relative z-10 mx-auto flex w-full min-h-0 max-w-[1180px] flex-1 flex-col items-center">
-        <SectionLabel text="13 · TEAM" className="!text-[12px] text-center" />
+        <SectionLabel text={sectionOverride ?? '13 · TEAM'} className="!text-[12px] text-center" />
 
         {/* Reserves vertical space matching the original layout rhythm */}
         <h1

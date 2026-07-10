@@ -598,7 +598,7 @@ export function AppendixProductArchitecture({ pageOverride, sectionOverride }: N
           className="text-[10px] font-bold uppercase tracking-[0.24em]"
           style={{ fontFamily: THEME.fontMono, color: THEME.accent }}
         >
-          A10 · Product architecture
+          {sectionOverride ?? 'A10 · Product architecture'}
         </div>
         <h1
           className="mt-2 text-[clamp(28px,3.4vw,40px)] font-bold leading-[1.05] tracking-[-0.04em]"
