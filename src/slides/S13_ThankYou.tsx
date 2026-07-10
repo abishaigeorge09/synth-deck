@@ -47,16 +47,6 @@ export function S13_ThankYou({ pageOverride, sectionOverride }: { pageOverride?:
         <PixelArt pattern="scatter" seed={4} color="#ffffff" opacity={0.06} />
       </div>
 
-      <motion.img
-        src="/brand/synthdog.png"
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 right-6 z-10 h-[300px] w-auto drop-shadow-[0_18px_40px_rgba(0,0,0,0.28)]"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ ...TRANSITIONS.smooth, delay: 0.35 }}
-      />
-
       <TopNav section={sectionOverride ?? 'THANK YOU'} page={pageOverride ?? ''} tone="dark" />
 
       <motion.div
@@ -66,13 +56,13 @@ export function S13_ThankYou({ pageOverride, sectionOverride }: { pageOverride?:
         animate="visible"
       >
         <motion.div variants={item} className="shrink-0">
-          <div className="rounded-[36px] bg-white p-10 shadow-[0_36px_80px_rgba(0,0,0,0.28)]">
+          <div className="overflow-hidden rounded-[36px] bg-white shadow-[0_36px_80px_rgba(0,0,0,0.28)]">
             <img
-              src="/logos/synth-icon-green.svg"
+              src="/brand/synth-splash-icon.png"
               alt=""
-              className="h-[260px] w-[260px]"
-              width={260}
-              height={260}
+              className="h-[280px] w-[280px] object-cover"
+              width={280}
+              height={280}
             />
           </div>
         </motion.div>

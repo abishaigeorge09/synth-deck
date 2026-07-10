@@ -121,7 +121,7 @@ export function IllustSolutionLayers({ className = '' }: { className?: string })
   const ly = 6
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className={`w-full max-h-[220px] ${className}`} aria-hidden>
-      <image href="/logos/synth-icon-green.svg" x={lx} y={ly} width={logo} height={logo} />
+      <image href="/brand/synth-app-icon.png" x={lx} y={ly} width={logo} height={logo} />
       <path d={`M ${w / 2} ${ly + logo + 2} L ${w / 2} 54`} stroke={THEME.border} strokeWidth={1.5} opacity={0.85} />
 
       <rect x={22} y={56} width={256} height={58} rx={10} fill={`${THEME.cyan}0d`} stroke={THEME.cyan} strokeWidth={2} />

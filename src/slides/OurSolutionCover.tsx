@@ -34,7 +34,7 @@ export function OurSolutionCover({ pageOverride, sectionOverride }: { pageOverri
           <div className="flex items-center justify-center gap-5 sm:gap-6">
             <div className="rounded-3xl bg-white/95 p-5 shadow-[0_18px_44px_rgba(0,0,0,0.18)]">
               <img
-                src="/logos/synth-icon-green.svg"
+                src="/brand/synth-app-icon.png"
                 alt="synth."
                 className="h-16 w-16 sm:h-20 sm:w-20"
                 width={80}

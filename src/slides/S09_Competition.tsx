@@ -3,7 +3,7 @@ import { SectionLabel } from '../components/SectionLabel'
 import { TopNav } from '../components/TopNav'
 import { THEME } from '../lib/theme'
 
-const SYNTH_LOGO_SRC = '/logos/synth-icon-green.svg'
+const SYNTH_LOGO_SRC = '/brand/synth-app-icon.png'
 
 const PAD = 'clamp(52px, 6.5vh, 76px) clamp(24px, 4vw, 56px) clamp(18px, 2.8vh, 36px)'
 

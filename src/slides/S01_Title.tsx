@@ -12,7 +12,7 @@ export function S01_Title() {
       <div className="relative z-10 flex h-full flex-col items-center justify-center gap-10 px-6 sm:px-10 lg:flex-row lg:gap-14 xl:gap-20">
         <div className="shrink-0 rounded-3xl bg-white p-7 shadow-[0_24px_60px_rgba(0,0,0,0.25)] sm:p-9">
           <img
-            src="/logos/synth-icon-green.svg"
+            src="/brand/synth-splash-icon.png"
             alt=""
             className="h-20 w-20 sm:h-28 sm:w-28"
             width={112}
