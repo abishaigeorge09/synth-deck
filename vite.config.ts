@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['brand/synth-s-logo.png'],
+      includeAssets: ['brand/synth-splash-icon.png'],
       manifest: {
         name: 'synth. Pitch Deck',
         short_name: 'synth.',
@@ -20,8 +20,8 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: '/brand/synth-s-logo.png',
-            sizes: '386x366',
+            src: '/brand/synth-splash-icon.png',
+            sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
           },

@@ -104,7 +104,8 @@ type MainEntry = {
 }
 const MAIN: MainEntry[] = [
   { id: 'spd-problem', label: 'PROBLEM', background: THEME.light, render: (n) => <S02a_ProblemStatements {...n} /> },
-  { id: 'spd-team', label: 'TEAM', background: THEME.light, render: (n) => <S10_Team {...n} /> },
+  { id: 'spd-onepager', label: 'OVERVIEW', background: THEME.light, showTopNav: false, hideRights: true, render: (n) => <OnePagerOverview {...n} /> },
+  { id: 'spd-advisors', label: 'ADVISORS', background: THEME.light, render: (n) => <S05a_Advisors {...n} /> },
   { id: 'spd-solution', label: 'SOLUTION', background: THEME.light, render: (n) => <S03_SolutionOverview {...n} /> },
   { id: 'spd-product-demo', label: 'PRODUCT DEMO', background: THEME.light, render: (n) => <ProductDemoStatic {...n} /> },
   { id: 'spd-market', label: 'MARKET', background: THEME.darkDeep, render: (n) => <S07_Market {...n} /> },
@@ -164,9 +165,8 @@ const APPENDIX: Entry[] = [
   { id: 'spd-a-behavioral-b', group: 'Trust & policy', section: 'APPENDIX · BEHAVIORAL ECON (2/2)', title: 'Behavioral economics (2/2)', blurb: 'Progress visualization, anchoring, anti-overload.', background: THEME.light, render: (n) => <AppendixBehavioralEconomicsB {...n} /> },
 
   // ─── Team & reference ───
-  { id: 'spd-a-advisors', group: 'Team & reference', section: 'APPENDIX · ADVISORS', title: 'Advisors', blurb: 'Operators and researchers backing synth.', background: THEME.light, render: (n) => <S05a_Advisors {...n} /> },
+  { id: 'spd-a-team', group: 'Team & reference', section: 'APPENDIX · TEAM', title: 'Team', blurb: 'The founders behind synth.', background: THEME.light, render: (n) => <S10_Team {...n} /> },
   { id: 'spd-a-dept', group: 'Team & reference', section: 'APPENDIX · DEPARTMENT INTELLIGENCE', title: 'Department intelligence', blurb: 'Roll-ups across teams and the AD office.', background: THEME.light, render: (n) => <AppendixDepartmentIntelligence {...n} /> },
-  { id: 'spd-a-onepager', group: 'Team & reference', section: 'APPENDIX · OVERVIEW', title: 'One-pager overview', blurb: 'The entire pitch on a single page.', background: THEME.light, showTopNav: false, hideRights: true, render: (n) => <OnePagerOverview {...n} /> },
   { id: 'spd-a-legacy-solution', group: 'Team & reference', section: 'APPENDIX · SOLUTION (LEGACY)', title: 'Solution (legacy)', blurb: 'A small door into a massive world.', background: THEME.light, render: (n) => <LegacyS03_Solution {...n} /> },
   { id: 'spd-a-legacy-connectors', group: 'Team & reference', section: 'APPENDIX · CONNECTORS (LEGACY)', title: 'Connectors (legacy)', blurb: 'Connect once. It updates forever.', background: THEME.light, render: (n) => <LegacyS04_Connectors {...n} /> },
 ]
