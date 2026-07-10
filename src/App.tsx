@@ -10,12 +10,34 @@ import { APPENDIX_TAIL_SLIDES, MAIN_FLOW_SLIDES, TITLE_SLIDE } from './deck/slid
 import { LiveAnalyticsDebug } from './analytics/LiveAnalyticsDebug'
 import LegacyDeck from './legacy/App'
 
-function resolveHashRoute(hash: string): 'main' | 'appendix' | 'analytics' | 'legacy' {
+/** The original pre-restructure pitch deck, preserved as its own public Vercel build. */
+const OLD_DECK_URL = 'https://synth-deck-old.vercel.app'
+
+function resolveHashRoute(hash: string): 'main' | 'appendix' | 'analytics' | 'legacy' | 'oldpdf' {
   const base = hash.replace(/^#/, '').split('?')[0] ?? ''
   if (base === 'analytics') return 'analytics'
   if (base === 'appendix') return 'appendix'
   if (base === 'legacy') return 'legacy'
+  if (base === 'oldpdf' || base === 'old') return 'oldpdf'
   return 'main'
+}
+
+/** #oldpdf — send the viewer to the archived original deck build. */
+function OldDeckRedirect() {
+  useEffect(() => {
+    window.location.replace(OLD_DECK_URL)
+  }, [])
+  return (
+    <div
+      className="flex h-full w-full items-center justify-center p-8 text-sm"
+      style={{ fontFamily: 'system-ui, sans-serif', color: '#52525B' }}
+    >
+      Opening the original deck…{' '}
+      <a href={OLD_DECK_URL} className="ml-1 underline" style={{ color: '#059669' }}>
+        continue
+      </a>
+    </div>
+  )
 }
 
 function MainDeck() {
@@ -89,7 +111,7 @@ function MainDeck() {
 }
 
 export default function App() {
-  const [hashRoute, setHashRoute] = useState<'main' | 'appendix' | 'analytics' | 'legacy'>(() =>
+  const [hashRoute, setHashRoute] = useState<'main' | 'appendix' | 'analytics' | 'legacy' | 'oldpdf'>(() =>
     typeof window !== 'undefined' ? resolveHashRoute(window.location.hash) : 'main',
   )
 
@@ -101,6 +123,10 @@ export default function App() {
     sync()
     return () => window.removeEventListener('hashchange', sync)
   }, [])
+
+  if (hashRoute === 'oldpdf') {
+    return <OldDeckRedirect />
+  }
 
   if (hashRoute === 'analytics') {
     const host = typeof window !== 'undefined' ? window.location.hostname : ''
