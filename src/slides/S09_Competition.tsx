@@ -63,7 +63,11 @@ const COMPETITORS: CompetitorRowDef[] = [
   { name: 'Wearables (Whoop, Garmin, Oura)', desc: 'Single-device data', checks: [false, false, false, false] },
 ]
 
-export function S09_Competition({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
+export function S09_Competition({ pageOverride, sectionOverride, inr }: { pageOverride?: string; sectionOverride?: string; inr?: boolean }) {
+  // ₹83 / $1 when `inr` is set (India deck).
+  const competitors = inr
+    ? COMPETITORS.map((c) => ({ ...c, desc: c.desc.replace('$82M raised', '₹680 Cr raised') }))
+    : COMPETITORS
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden" style={{ background: THEME.light, padding: PAD, color: THEME.textPrimary }}>
       <PaperTexture strength={0.5} tint="rgba(255,255,255,0.92)" />
@@ -145,7 +149,7 @@ export function S09_Competition({ pageOverride, sectionOverride }: { pageOverrid
                         <CheckCell key={i} c={true} />
                       ))}
                     </tr>
-                    {COMPETITORS.map((row) => (
+                    {competitors.map((row) => (
                       <tr key={row.name} style={{ borderTop: `1px solid ${THEME.border}` }}>
                         <CompetitorCell row={row} />
                         {row.checks.map((c, i) => (

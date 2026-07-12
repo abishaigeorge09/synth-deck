@@ -48,7 +48,11 @@ function MarketTier({
 }
 
 /** Airbnb-style market viz on dark — bullseye bleeds from the left; TAM/SAM/SOM blocks on the right. */
-export function S07_Market({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
+export function S07_Market({ pageOverride, sectionOverride, inr }: { pageOverride?: string; sectionOverride?: string; inr?: boolean }) {
+  // Values converted at ₹83 / $1 when `inr` is set (India deck).
+  const m = inr
+    ? { tam: '₹9.6L Cr+', sam: '₹40,700 Cr', som: '₹127 Cr' }
+    : { tam: '$116B+', sam: '$4.9B', som: '$15.3M' }
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden" style={{ background: THEME.darkDeep, padding: PAD }}>
       <div
@@ -81,7 +85,7 @@ export function S07_Market({ pageOverride, sectionOverride }: { pageOverride?: s
             <div className="flex flex-col gap-11 lg:gap-12">
               <MarketTier
                 label="Total addressable market"
-                value="$116B+"
+                value={m.tam}
                 valueColor={THEME.white}
                 lineColor={lineTam}
               >
@@ -90,7 +94,7 @@ export function S07_Market({ pageOverride, sectionOverride }: { pageOverride?: s
 
               <MarketTier
                 label="Serviceable addressable market"
-                value="$4.9B"
+                value={m.sam}
                 valueColor={THEME.primaryLight}
                 lineColor={lineSam}
               >
@@ -99,7 +103,7 @@ export function S07_Market({ pageOverride, sectionOverride }: { pageOverride?: s
 
               <MarketTier
                 label="Serviceable obtainable market"
-                value="$15.3M"
+                value={m.som}
                 valueColor={THEME.accent}
                 lineColor={lineSom}
               >

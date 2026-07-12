@@ -11,7 +11,7 @@ const ARR_MIX = [
   { tier: 'Data licensing', pct: 11, color: THEME.purple },
 ] as const
 
-function ArrMixDonut() {
+function ArrMixDonut({ total }: { total: string }) {
   const gradientStops = ARR_MIX.reduce(
     (state, s) => {
       const start = state.cum
@@ -46,7 +46,7 @@ function ArrMixDonut() {
             className="text-[11px] font-bold leading-tight"
             style={{ fontFamily: THEME.fontMono, color: THEME.textPrimary }}
           >
-            $214M
+            {total}
           </span>
         </div>
       </div>
@@ -72,9 +72,33 @@ function ArrMixDonut() {
   )
 }
 
-export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverride?: string; sectionOverride?: string }) {
+export function S08_BusinessModel({ pageOverride, sectionOverride, inr }: { pageOverride?: string; sectionOverride?: string; inr?: boolean }) {
+  // All money converted at ₹83 / $1 when `inr` is set (India deck).
+  const c = inr
+    ? {
+        total: '₹1,776 Cr',
+        consumer: '₹1,577/mo',
+        team: '₹41,417/mo',
+        program: '₹18.7L/yr',
+        dept: '₹49.8L/yr',
+        saasDesc: '₹1,577/mo → ₹49.8L/yr. Wedge that builds the data corpus.',
+        ramp: ['₹70L', '₹8.3 Cr', '₹55 Cr', '₹228 Cr', '₹717 Cr', '₹1,779 Cr'],
+        licensing: 'Data licensing — ₹2.1 Cr–₹4.2 Cr / partner / yr',
+        saasCap: '₹1,403 Cr',
+      }
+    : {
+        total: '$214M',
+        consumer: '$19/mo',
+        team: '$499/mo',
+        program: '$22,500/yr',
+        dept: '$60,000/yr',
+        saasDesc: '$19/mo → $60K/yr. Wedge that builds the data corpus.',
+        ramp: ['$84K', '$997K', '$6.6M', '$27.5M', '$86.4M', '$214.3M'],
+        licensing: 'Data licensing — $250K–$500K / partner / yr',
+        saasCap: '$169M',
+      }
   const compoundSteps = [
-    { name: 'SaaS', desc: '$19/mo → $60K/yr. Wedge that builds the data corpus.', color: THEME.primary },
+    { name: 'SaaS', desc: c.saasDesc, color: THEME.primary },
     { name: 'Marketplace', desc: '15% take rate on partner tools transacted through synth. Activates Y2.', color: THEME.cyan },
     { name: 'Data licensing', desc: 'Anonymized aggregate to manufacturers, federations, researchers. Activates Y4.', color: THEME.purple },
     { name: 'Network effects', desc: 'More athletes × more tools → every layer above scales further.', color: THEME.amber },
@@ -92,7 +116,7 @@ export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverr
         className="mt-5 text-[10px] font-bold uppercase tracking-[0.24em]"
         style={{ fontFamily: THEME.fontMono, color: THEME.accent }}
       >
-        12 · Business model
+        {sectionOverride ?? '12 · Business model'}
       </div>
       <div
         className="mt-2 max-w-[920px] text-[42px] font-bold leading-[1.05]"
@@ -104,7 +128,7 @@ export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverr
         className="mt-3 max-w-[920px] text-[14px] leading-[1.55]"
         style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}
       >
-        Consumer-first GTM. Platform-scale outcome. $214M total revenue by Year 6.
+        Consumer-first GTM. Platform-scale outcome. {c.total} total revenue by Year 6.
       </p>
       <div className="mt-3">
         <DashedRule />
@@ -114,25 +138,25 @@ export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverr
       <div className="mt-4 grid grid-cols-4 items-stretch gap-4">
         <TierCard
           name="Consumer"
-          price="$19/mo"
+          price={c.consumer}
           accent={THEME.primary}
           features={['Pro tier', 'Individual athlete', 'All integrations', 'Mobile + web']}
         />
         <TierCard
           name="Team"
-          price="$499/mo"
+          price={c.team}
           accent={THEME.cyan}
           features={['Team+ tier', 'Up to ~80 athletes', 'Coach dashboard', 'Two-way sync']}
         />
         <TierCard
           name="Program"
-          price="$22,500/yr"
+          price={c.program}
           accent={THEME.purple}
           features={['Single sport', 'Full institutional', 'Custom tools', 'Dedicated success']}
         />
         <TierCard
           name="Department"
-          price="$60,000/yr"
+          price={c.dept}
           accent={THEME.amber}
           features={['Multi-sport deploy', 'Full athletic dept.', 'Custom integrations', 'White-label']}
         />
@@ -231,12 +255,12 @@ export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverr
             </thead>
             <tbody>
               {[
-                { year: 'Y1', phase: 'Wedge', arr: '$84K', color: THEME.primary },
-                { year: 'Y2', phase: 'Marketplace on', arr: '$997K', color: THEME.cyan },
-                { year: 'Y3', phase: 'Scale SaaS', arr: '$6.6M', color: THEME.primary },
-                { year: 'Y4', phase: 'Licensing on', arr: '$27.5M', color: THEME.purple },
-                { year: 'Y5', phase: 'Cross-layer compounds', arr: '$86.4M', color: THEME.amber },
-                { year: 'Y6', phase: 'Platform scale', arr: '$214.3M', color: THEME.accent },
+                { year: 'Y1', phase: 'Wedge', arr: c.ramp[0], color: THEME.primary },
+                { year: 'Y2', phase: 'Marketplace on', arr: c.ramp[1], color: THEME.cyan },
+                { year: 'Y3', phase: 'Scale SaaS', arr: c.ramp[2], color: THEME.primary },
+                { year: 'Y4', phase: 'Licensing on', arr: c.ramp[3], color: THEME.purple },
+                { year: 'Y5', phase: 'Cross-layer compounds', arr: c.ramp[4], color: THEME.amber },
+                { year: 'Y6', phase: 'Platform scale', arr: c.ramp[5], color: THEME.accent },
               ].map((row) => (
                 <tr key={row.year} style={{ borderBottom: `1px solid ${THEME.border}` }}>
                   <td
@@ -269,7 +293,7 @@ export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverr
               className="text-[10px] font-bold uppercase tracking-[0.18em]"
               style={{ fontFamily: THEME.fontMono, color: THEME.purple }}
             >
-              Data licensing — $250K–$500K / partner / yr
+              {c.licensing}
             </div>
             <div
               className="mt-1 text-[11px] leading-[1.4]"
@@ -286,7 +310,7 @@ export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverr
             className="flex min-h-[280px] flex-1 flex-col items-center justify-center rounded-xl border p-5"
             style={{ borderColor: THEME.border, background: '#ffffff' }}
           >
-            <ArrMixDonut />
+            <ArrMixDonut total={c.total} />
           </div>
         </div>
       </div>
@@ -295,7 +319,7 @@ export function S08_BusinessModel({ pageOverride, sectionOverride }: { pageOverr
         className="mt-3 text-[12px] italic"
         style={{ fontFamily: THEME.fontSerif, color: THEME.textMuted }}
       >
-        SaaS alone caps around $169M. Marketplace and data licensing break through to $214M.
+        SaaS alone caps around {c.saasCap}. Marketplace and data licensing break through to {c.total}.
       </div>
     </div>
   )
