@@ -5,16 +5,16 @@ import { DeckBlurLock } from '../components/DeckBlurLock'
 import { SlideShell, type SlideDef } from '../components/SlideShell'
 import { THEME } from '../lib/theme'
 
-import { S01_Title } from '../slides/S01_Title'
 import { S02a_ProblemStatements } from '../slides/S02a_ProblemStatements'
 import { S07_Market } from '../slides/S07_Market'
 import { S03_SolutionOverview } from '../slides/S03_SolutionOverview'
 import { S09_Competition } from '../slides/S09_Competition'
 import { S08_BusinessModel } from '../slides/S08_BusinessModel'
-import { S10_Team } from '../slides/S10_Team'
 import { S12b_RaisingIndia } from '../slides/S12b_RaisingIndia'
-import { S12c_IndiaReturns } from '../slides/S12c_IndiaReturns'
-import { S13_ThankYou } from '../slides/S13_ThankYou'
+import { S_MilestonesDeployment } from './S_MilestonesDeployment'
+import { S_TeamOnePager } from './S_TeamOnePager'
+import { S_TitleIndia } from './S_TitleIndia'
+import { S_ThankYouIndia } from './S_ThankYouIndia'
 
 /**
  * ════════════════════════════════════════════════════════════════════════
@@ -34,14 +34,14 @@ type Entry = {
 }
 
 const CONTENT: Entry[] = [
-  { id: 'in-problem', label: 'PROBLEM STATEMENT', background: THEME.light, render: (n) => <S02a_ProblemStatements {...n} /> },
+  { id: 'in-problem', label: 'PROBLEM STATEMENT', background: THEME.light, render: (n) => <S02a_ProblemStatements {...n} india /> },
   { id: 'in-market', label: 'TARGET MARKET', background: THEME.darkDeep, render: (n) => <S07_Market {...n} inr /> },
-  { id: 'in-solution', label: 'SOLUTION', background: THEME.light, render: (n) => <S03_SolutionOverview {...n} /> },
+  { id: 'in-solution', label: 'SOLUTION', background: THEME.light, render: (n) => <S03_SolutionOverview {...n} india /> },
   { id: 'in-competition', label: 'COMPETITIVE LANDSCAPE', background: THEME.light, render: (n) => <S09_Competition {...n} inr /> },
   { id: 'in-business', label: 'BUSINESS MODEL', background: THEME.light, render: (n) => <S08_BusinessModel {...n} inr /> },
-  { id: 'in-team', label: 'TEAM', background: THEME.light, render: (n) => <S10_Team {...n} /> },
+  { id: 'in-team', label: 'TEAM', background: THEME.light, showTopNav: false, hideRights: true, render: (n) => <S_TeamOnePager {...n} /> },
   { id: 'in-ask', label: 'BUDGET / ASK', background: THEME.light, render: (n) => <S12b_RaisingIndia {...n} /> },
-  { id: 'in-milestones', label: 'MILESTONES', background: THEME.light, render: (n) => <S12c_IndiaReturns {...n} /> },
+  { id: 'in-milestones', label: 'MILESTONES / DEPLOYMENT PLAN', background: THEME.light, render: (n) => <S_MilestonesDeployment {...n} /> },
 ]
 
 export function IndiaPitchDeck() {
@@ -55,8 +55,8 @@ export function IndiaPitchDeck() {
     built.push({
       id: 'in-title',
       section: 'TITLE',
-      component: <S01_Title />,
-      background: THEME.accent,
+      component: <S_TitleIndia />,
+      background: THEME.light,
       frame: 'none',
       showTopNav: false,
       showProgress: false,
@@ -81,7 +81,7 @@ export function IndiaPitchDeck() {
       id: 'in-thankyou',
       section: 'THANK YOU',
       background: THEME.primary,
-      component: <S13_ThankYou sectionOverride="THANK YOU" pageOverride={`${total} / ${total}`} />,
+      component: <S_ThankYouIndia sectionOverride="THANK YOU" pageOverride={`${total} / ${total}`} />,
     })
 
     return built

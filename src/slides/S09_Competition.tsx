@@ -63,11 +63,18 @@ const COMPETITORS: CompetitorRowDef[] = [
   { name: 'Wearables (Whoop, Garmin, Oura)', desc: 'Single-device data', checks: [false, false, false, false] },
 ]
 
+const COMPETITORS_INDIA: CompetitorRowDef[] = [
+  { name: 'Teamworks AMS (Smartabase)', desc: 'Collegiate AMS, global reach, no India federation footprint', checks: ['Partial', false, false, false] },
+  { name: 'Kitman Labs', desc: '₹680 Cr raised, sports intelligence', checks: ['Partial', false, false, 'Partial'] },
+  { name: 'Catapult', desc: 'GPS wearables, used by some national squads, not connected', checks: [false, false, false, false] },
+  { name: 'Hudl', desc: 'Video analysis', checks: [false, false, false, false] },
+  { name: 'TrainingPeaks', desc: 'Endurance coaching', checks: [false, false, false, false] },
+  { name: 'Wearables (Whoop, Garmin, Oura)', desc: 'Single-device data', checks: [false, false, false, false] },
+  { name: 'SAI / state federation systems', desc: 'Internal registers, per-centre, not built to sync', checks: [false, false, false, false] },
+]
+
 export function S09_Competition({ pageOverride, sectionOverride, inr }: { pageOverride?: string; sectionOverride?: string; inr?: boolean }) {
-  // ₹83 / $1 when `inr` is set (India deck).
-  const competitors = inr
-    ? COMPETITORS.map((c) => ({ ...c, desc: c.desc.replace('$82M raised', '₹680 Cr raised') }))
-    : COMPETITORS
+  const competitors = inr ? COMPETITORS_INDIA : COMPETITORS
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden" style={{ background: THEME.light, padding: PAD, color: THEME.textPrimary }}>
       <PaperTexture strength={0.5} tint="rgba(255,255,255,0.92)" />
@@ -81,12 +88,6 @@ export function S09_Competition({ pageOverride, sectionOverride, inr }: { pageOv
         >
           Competition
         </h1>
-        <p
-          className="mt-3 max-w-[44rem] text-[clamp(18px,2.4vw,26px)] font-semibold italic leading-[1.2] tracking-[-0.02em] sm:mt-4"
-          style={{ fontFamily: THEME.fontSerif, color: THEME.textSecondary }}
-        >
-          No one connects it all.
-        </p>
       </header>
 
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden pt-5">
@@ -134,7 +135,7 @@ export function S09_Competition({ pageOverride, sectionOverride, inr }: { pageOv
                     >
                       <td className="align-middle px-4 py-4 sm:px-5 sm:py-[1.125rem]">
                         <div className="flex items-center gap-3">
-                          <img src={SYNTH_LOGO_SRC} alt="" className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10" />
+                          {!inr && <img src={SYNTH_LOGO_SRC} alt="" className="h-9 w-9 shrink-0 object-contain sm:h-10 sm:w-10" />}
                           <div className="min-w-0">
                             <div className="text-[15px] font-bold sm:text-[16px]" style={{ fontFamily: THEME.fontMono, color: THEME.accent }}>
                               synth.

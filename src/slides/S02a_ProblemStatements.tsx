@@ -1,9 +1,10 @@
+import { PaperTexture } from '../components/PaperTexture'
 import { TopNav } from '../components/TopNav'
 import { THEME } from '../lib/theme'
 
 const PAD = 'clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px) clamp(24px, 4vw, 40px)'
 
-type NavOverrides = { pageOverride?: string; sectionOverride?: string }
+type NavOverrides = { pageOverride?: string; sectionOverride?: string; india?: boolean }
 
 function Icon({ name }: { name: 'tools' | 'shield' | 'sliders' | 'alert' }) {
   const common = {
@@ -79,9 +80,10 @@ function Row({
   )
 }
 
-export function S02a_ProblemStatements({ pageOverride, sectionOverride }: NavOverrides) {
+export function S02a_ProblemStatements({ pageOverride, sectionOverride, india }: NavOverrides) {
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden" style={{ background: THEME.light, padding: PAD }}>
+      <PaperTexture strength={0.5} tint="rgba(255,255,255,0.92)" />
       <TopNav section={sectionOverride ?? '01 · PROBLEM'} page={pageOverride ?? '2 / 13'} tone="light" />
 
       <div className="flex min-h-0 flex-1 flex-col justify-center">
@@ -99,7 +101,7 @@ export function S02a_ProblemStatements({ pageOverride, sectionOverride }: NavOve
               icon="tools"
               lead="Data lives in"
               highlight="8+ disconnected tools,"
-              rest=" so no single view tells a coach what's actually happening."
+              rest={india ? " so no single view tells a coach or SAI centre what's actually happening." : " so no single view tells a coach what's actually happening."}
             />
             <Row
               num="02"
@@ -111,7 +113,7 @@ export function S02a_ProblemStatements({ pageOverride, sectionOverride }: NavOve
             <Row
               num="03"
               icon="sliders"
-              lead="Every program runs differently, but the tools are"
+              lead={india ? 'Every academy, state federation, and national camp runs differently, but the tools are' : 'Every program runs differently, but the tools are'}
               highlight="generic and rigid,"
               rest=" not built for their context."
             />

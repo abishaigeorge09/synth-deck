@@ -73,7 +73,7 @@ const MILESTONES: Milestone[] = [
   {
     title: 'India milestones',
     items: [
-      'DPIIT recognition complete',
+      'Core team fully staffed',
       'SAI or federation outreach initiated',
       'Commonwealth 2030 positioning locked',
     ],

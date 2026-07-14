@@ -143,13 +143,6 @@ export function S10_Team({ pageOverride, sectionOverride }: { pageOverride?: str
             ]}
           />
         </div>
-
-        <p
-          className="mt-6 max-w-[720px] text-center text-[15px] italic"
-          style={{ fontFamily: THEME.fontSerif, color: THEME.textMuted }}
-        >
-          We&apos;ve lived the problem. Now we&apos;re building the solution.
-        </p>
       </div>
     </div>
   )

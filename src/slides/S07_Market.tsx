@@ -98,7 +98,15 @@ export function S07_Market({ pageOverride, sectionOverride, inr }: { pageOverrid
                 valueColor={THEME.primaryLight}
                 lineColor={lineSam}
               >
-                <strong style={{ color: THEME.primaryLight, fontWeight: 600 }}>US athletes</strong> reachable through current channels.
+                {inr ? (
+                  <>
+                    <strong style={{ color: THEME.primaryLight, fontWeight: 600 }}>India's Olympic pipeline</strong> — SAI centres, Khelo India academies, and state federations reachable through current channels.
+                  </>
+                ) : (
+                  <>
+                    <strong style={{ color: THEME.primaryLight, fontWeight: 600 }}>US athletes</strong> reachable through current channels.
+                  </>
+                )}
               </MarketTier>
 
               <MarketTier
@@ -107,7 +115,15 @@ export function S07_Market({ pageOverride, sectionOverride, inr }: { pageOverrid
                 valueColor={THEME.accent}
                 lineColor={lineSom}
               >
-                <strong style={{ color: THEME.accent, fontWeight: 600 }}>Obtainable market</strong> within current channel reach.
+                {inr ? (
+                  <>
+                    <strong style={{ color: THEME.accent, fontWeight: 600 }}>Obtainable market</strong> within India's national and Khelo India camp network.
+                  </>
+                ) : (
+                  <>
+                    <strong style={{ color: THEME.accent, fontWeight: 600 }}>Obtainable market</strong> within current channel reach.
+                  </>
+                )}
               </MarketTier>
             </div>
           </div>

@@ -122,14 +122,8 @@ export function S08_BusinessModel({ pageOverride, sectionOverride, inr }: { page
         className="mt-2 max-w-[920px] text-[42px] font-bold leading-[1.05]"
         style={{ fontFamily: THEME.fontMono, letterSpacing: '-0.05em' }}
       >
-        Four tiers. Three revenue layers. One flywheel.
+        Business model
       </div>
-      <p
-        className="mt-3 max-w-[920px] text-[14px] leading-[1.55]"
-        style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}
-      >
-        Consumer-first GTM. Platform-scale outcome. {c.total} total revenue by Year 6.
-      </p>
       <div className="mt-3">
         <DashedRule />
       </div>
@@ -299,7 +293,9 @@ export function S08_BusinessModel({ pageOverride, sectionOverride, inr }: { page
               className="mt-1 text-[11px] leading-[1.4]"
               style={{ fontFamily: THEME.fontSans, color: THEME.textSecondary }}
             >
-              Equipment (Nike, Concept2), governing bodies (NCAA, US Rowing), researchers/universities, insurance + occupational health (Phase 2+).
+              {inr
+                ? 'Equipment manufacturers, governing bodies (SAI, Indian Olympic Association, national federations), researchers/universities, insurance + occupational health (Phase 2+).'
+                : 'Equipment (Nike, Concept2), governing bodies (NCAA, US Rowing), researchers/universities, insurance + occupational health (Phase 2+).'}
             </div>
           </div>
         </div>
@@ -313,13 +309,6 @@ export function S08_BusinessModel({ pageOverride, sectionOverride, inr }: { page
             <ArrMixDonut total={c.total} />
           </div>
         </div>
-      </div>
-
-      <div
-        className="mt-3 text-[12px] italic"
-        style={{ fontFamily: THEME.fontSerif, color: THEME.textMuted }}
-      >
-        SaaS alone caps around {c.saasCap}. Marketplace and data licensing break through to {c.total}.
       </div>
     </div>
   )
