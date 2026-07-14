@@ -13,6 +13,7 @@ Full-screen presentation (React 18, TypeScript, Vite 5, Tailwind, Framer Motion)
 |---|---|
 | `/` | Main pitch deck (full VC deck + appendix tail) |
 | `/#spd` | Simple Pitch Deck — 10-slide main + grouped, clickable appendix |
+| `/#indiappt` | India pitch deck — linear 10-slide INR deck |
 | `/#appendix` | Draft / backup appendix deck |
 | `/#legacy` | Old design reference (passcode `synthrowiq`) |
 | `/#analytics` | Viewer dashboard (local dev only) |
@@ -34,6 +35,7 @@ Pushes to `main` trigger Vercel production builds (GitHub integration).
 
 - **Main deck order:** `src/deck/slideRegistry.tsx`
 - **Simple Pitch Deck (`/#spd`):** `src/spd/SimplePitchDeck.tsx` — edit the `MAIN` / `APPENDIX` arrays; numbering, page counters, index, and jump-nav all derive from array order
+- **India deck (`/#indiappt`):** `src/india/IndiaPitchDeck.tsx` — edit the `CONTENT` array; numbering derives from order
 - **Routing:** `src/App.tsx`
 - **Brand tokens:** `src/lib/theme.ts` · **icons/mascot:** `public/brand/`
 
